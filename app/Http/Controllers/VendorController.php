@@ -12,4 +12,8 @@ class VendorController extends Controller
         $vendors = User::where('role', 'vendor')->get();
         return view('vendor.index', compact('vendors'));
     }
+
+    public function store(){
+        return view('vendor.create');
+    }
 }
