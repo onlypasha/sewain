@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vendor_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('subscription_plan_id')->constrained()->onDelete('cascade');
+            $table->foreignId('vendor_profile_id')->constrained('vendor_profiles')->onDelete('cascade');
+            $table->foreignId('subscription_plan_id')->constrained('subscription_plans')->onDelete('cascade');
             $table->enum('status', ['active', 'inactive', 'canceled'])->default('inactive');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();

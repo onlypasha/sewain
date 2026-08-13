@@ -13,4 +13,9 @@ class Subscription extends Model
         'start_date',
         'end_date',
     ];
+
+    public function vendorProfile()
+    {
+        return $this->belongsTo(VendorProfiles::class, 'vendor_profile_id');
+    }
 }

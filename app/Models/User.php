@@ -32,13 +32,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function subscriptions(): HasMany
+    public function vendorProfiles(): HasOne
     {
-        return $this->hasMany(Subscription::class, 'vendor_id');
-    }
-
-    public function activeSubscription(): HasOne
-    {
-        return $this->hasOne(Subscription::class, 'vendor_id')->where('status', 'active')->latestOfMany();
+        return $this->hasOne(VendorProfiles::class);
     }
 }

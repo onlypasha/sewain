@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vendor_profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->unique();
             $table->string('owner_name');
             $table->string('subscription')->default('starter');
             $table->integer('assets')->default(0);
