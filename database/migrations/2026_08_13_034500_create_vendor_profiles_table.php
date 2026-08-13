@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('owner_name');
             $table->string('subscription')->default('starter');
             $table->integer('assets')->default(0);
-            $table->string('status')->default('inactive');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->text('address')->nullable();
             $table->timestamps();
         });
