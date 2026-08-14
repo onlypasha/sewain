@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subscription extends Model
 {
@@ -17,5 +18,10 @@ class Subscription extends Model
     public function vendorProfile()
     {
         return $this->belongsTo(VendorProfiles::class, 'vendor_profile_id');
+    }
+
+    public function subscriptionPlan(): HasMany
+    {
+        return $this->hasMany(SubscriptionPlan::class);
     }
 }
