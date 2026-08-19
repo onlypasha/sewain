@@ -27,9 +27,7 @@ class CreateVendorRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => ['required', new Enum(UserRoles::class)],
-            'slug' => 'required|string|alpha_dash|unique:users,slug' . $this->user()->id,
+            'slug' => 'required|string|alpha_dash|unique:users,slug',
             'phone' => 'required|string|max:20',
         ];
     }

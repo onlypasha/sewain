@@ -14,7 +14,7 @@
     </div>
 
     <!-- Filter & Search Bar -->
-    <div
+    {{-- <div
         class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-1 overflow-x-auto max-w-full pb-1 sm:pb-0">
             <button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white">Semua Tenant
@@ -31,7 +31,30 @@
             <input type="text" placeholder="Filter nama toko atau domain..."
                 class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-indigo-600">
         </div>
-    </div>
+    </div> --}}
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div role="alert" class="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ $error }}</span>
+            </div>
+        @endforeach
+    @endif
+
+    @if (Session::has('Warning'))
+        <div role="alert" class="alert alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>{{ Session::get('Warning') }}</span>
+        </div>
+    @endif
 
     <!-- TENANTS MASTER TABLE -->
     <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">

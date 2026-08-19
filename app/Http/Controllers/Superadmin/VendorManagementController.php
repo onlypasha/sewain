@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Superadmin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateVendorRequest;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-class VendorController extends Controller
+class VendorManagementController extends Controller
 {
     public function index()
     {
         // get senmua data vendor
         $vendors = User::where('role', 'vendor')->get();
-        return view('vendor.index', compact('vendors'));
+        return view('superadmin.dashboard', compact('vendors'));
     }
 
     public function store(CreateVendorRequest $request)
@@ -32,6 +33,6 @@ class VendorController extends Controller
             'phone' => $data['phone'],
         ]);
 
-        return redirect()->route('vendor.dashboard')->with('success', 'Vendor Berhasil dibuat.');
+        return redirect()->route('superadmin.dashboard')->with('Warning', 'Vendor Berhasil dibuat. Silakan melengkapi profil vendor');
     }
 }

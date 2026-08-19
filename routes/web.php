@@ -1,19 +1,20 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Superadmin\VendorManagementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('landing');
 });
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+});
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::middleware('auth')->group(function () {
+    Route::get('/superadmin/dashboard', [VendorManagementController::class, 'index'])->name('superadmin.dashboard');
 
-Route::get('/vendor/dashboard', function () {
-    return view('vendor.dashboard');
-})->name('vendor.dashboard');
-
-Route::get('/superadmin/dashboard', function () {
-    return view('superadmin.dashboard');
-})->name('superadmin.dashboard');
+    Route::post('/create-vendor', [VendorManagementController::class, 'store'])->name('vendor.create');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
