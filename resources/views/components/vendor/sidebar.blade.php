@@ -24,7 +24,8 @@
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between">
                 <div class="truncate">
                     <div class="text-[10px] text-slate-400 font-mono uppercase font-semibold">TOKO AKTIF:</div>
-                    <div class="text-xs font-bold text-white font-mono truncate">lensamania.sewain.id</div>
+                    <div class="text-xs font-bold text-white font-mono truncate">{{ Auth::user()->slug }}.sewain.id
+                    </div>
                 </div>
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
             </div>
@@ -53,7 +54,8 @@
                     </svg>
                     <span>Katalog & Stok Aset</span>
                 </div>
-                <span class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">48</span>
+                <span
+                    class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->vendorProfiles->assets }}</span>
             </button>
 
             <button onclick="switchAdminTab('bookings')" id="nav-bookings"

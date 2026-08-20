@@ -43,7 +43,7 @@
         <!-- PAGE TAB PANES -->
         <main class="flex-1 p-4 sm:p-6 md:p-8">
             <x-superadmin.overview />
-            <x-superadmin.tenants />
+            <x-superadmin.tenants :vendors="$vendors" />
             <x-superadmin.subscriptions />
             <x-superadmin.system-health />
             <x-superadmin.settings />

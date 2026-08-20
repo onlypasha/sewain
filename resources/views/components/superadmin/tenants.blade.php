@@ -1,3 +1,5 @@
+@props(['vendors'])
+
 <!-- TAB 2: MANAJEMEN TENANT PLATFORM -->
 <div id="super-tab-content-tenants" class="superadmin-tab-pane hidden space-y-6">
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -64,7 +66,7 @@
                     <tr>
                         <th class="py-3 px-4">TENANT ID</th>
                         <th class="py-3 px-4">NAMA TOKO & PEMILIK</th>
-                        <th class="py-3 px-4">SUBDOMAIN / CUSTOM DOMAIN</th>
+                        <th class="py-3 px-4">SUBDOMAIN</th>
                         <th class="py-3 px-4">PAKET SAAS</th>
                         <th class="py-3 px-4 text-center">TOTAL ASET</th>
                         <th class="py-3 px-4 text-center">STATUS AKUN</th>
@@ -73,7 +75,7 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100 font-medium">
                     <!-- Tenant 1 -->
-                    <tr class="hover:bg-slate-50/80 transition-colors">
+                    {{-- <tr class="hover:bg-slate-50/80 transition-colors">
                         <td class="font-mono font-bold text-slate-900">#TNT-841</td>
                         <td>
                             <div class="font-bold text-slate-900 text-sm">LensaMania Studio & Rental</div>
@@ -95,7 +97,42 @@
                                     class="btn btn-ghost btn-xs text-slate-600">Edit Tier</button>
                             </div>
                         </td>
-                    </tr>
+                    </tr> --}}
+                    @foreach ($vendors as $vendor)
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="font-mono font-bold text-slate-900">{{ $vendor->id }}</td>
+                            <td>
+                                <div class="font-bold text-slate-900 text-sm">{{ $vendor->name }}</div>
+                                <div class="text-[11px] text-slate-500">
+                                    {{ $vendor->vendorProfiles->owner_name == '' ? 'Tidak ada nama' : $vendor->vendorProfiles->owner_name }}
+                                    •
+                                    <code class="text-slate-700">{{ $vendor->email }}</code>
+                                </div>
+                            </td>
+                            <td class="font-mono text-emerald-700 font-bold">{{ $vendor->slug }}.sewain.id</td>
+                            <td><span class="badge badge-sm badge-success text-white font-bold font-mono">Pro
+                                    Business</span></td>
+                            <td class="text-center font-mono font-bold">{{ $vendor->vendorProfiles->assets }}</td>
+                            <td class="text-center">
+                                @if ($vendor->vendorProfiles->status == 'active')
+                                    <span
+                                        class="badge badge-sm badge-emerald text-emerald-800 bg-emerald-100 font-bold">Active</span>
+                                @else
+                                    <span
+                                        class="badge badge-sm badge-red text-red-800 bg-red-100 font-bold">InActive</span>
+                                @endif
+
+                            </td>
+                            <td class="text-right">
+                                <div class="flex items-center justify-end gap-1">
+                                    <a href="/admin" target="_blank"
+                                        class="btn btn-ghost btn-xs text-indigo-600 font-bold">Impersonate</a>
+                                    <button onclick="alert('Kelola Lisensi Tenant #TNT-841');"
+                                        class="btn btn-ghost btn-xs text-slate-600">Edit Tier</button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
