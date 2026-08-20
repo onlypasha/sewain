@@ -98,7 +98,7 @@
                             </div>
                         </td>
                     </tr> --}}
-                    @foreach ($vendors as $vendor)
+                    @forelse ($vendors as $vendor)
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <td class="font-mono font-bold text-slate-900">{{ $vendor->id }}</td>
                             <td>
@@ -132,7 +132,11 @@
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <x-util.alert variant="info">
+                            Tidak ada Vendor terdaftar
+                        </x-util.alert>
+                    @endforelse
                 </tbody>
             </table>
         </div>
