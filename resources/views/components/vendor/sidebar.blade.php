@@ -15,7 +15,7 @@
                 </div>
                 <div>
                     <span
-                        class="font-extrabold text-lg tracking-tight text-white font-heading block leading-none">Sewain</span>
+                        class="font-extrabold text-lg tracking-tight text-white font-heading block leading-none">{{ Auth::user()->name }}</span>
                     <span class="text-[10px] text-emerald-400 font-mono">Tenant Operator Console</span>
                 </div>
             </a>
@@ -131,8 +131,8 @@
                     LM
                 </div>
                 <div>
-                    <div class="text-xs font-bold text-white leading-tight">Admin LensaMania</div>
-                    <div class="text-[10px] text-slate-400">Operator Store</div>
+                    <div class="text-xs font-bold text-white leading-tight">{{ Auth::user()->email }}</div>
+                    <div class="text-[10px] text-slate-400">Vendor / Sewain</div>
                 </div>
             </div>
             <form action="{{ route('logout') }}" method="post">

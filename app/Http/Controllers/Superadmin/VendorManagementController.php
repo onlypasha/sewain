@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateVendorRequest;
 use App\Models\User;
+use App\Models\VendorProfiles;
 use Illuminate\Support\Str;
 
 class VendorManagementController extends Controller
@@ -20,17 +21,23 @@ class VendorManagementController extends Controller
     {
         $data = $request->validated();
 
-        // generate slug dari nama vendor
-        $data['slug'] = Str::slug($data['name'], '-');
-
         // simpan data vendor ke database
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt('p@ssword'),
             'role' => 'vendor',
             'slug' => $data['slug'],
             'phone' => $data['phone'],
+        ]);
+
+        VendorProfiles::create([
+            'user_id' => $user->id,
+            'owner_name' => '',
+            'subscription' => '',
+            'status' => 'inactive',
+            'assets' => 0,
+            'address' => '',
         ]);
 
         return redirect()->route('superadmin.dashboard')->with('Warning', 'Vendor Berhasil dibuat. Silakan melengkapi profil vendor');
