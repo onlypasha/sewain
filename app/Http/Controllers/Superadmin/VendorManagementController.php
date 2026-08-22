@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateVendorRequest;
 use App\Models\User;
 use App\Models\VendorProfiles;
-use Illuminate\Support\Str;
 
 class VendorManagementController extends Controller
 {
@@ -14,7 +13,8 @@ class VendorManagementController extends Controller
     {
         // get senmua data vendor
         $vendors = User::where('role', 'vendor')->get();
-        return view('superadmin.dashboard', compact('vendors'));
+
+        return view('superadmin.tenant-management', compact('vendors'));
     }
 
     public function store(CreateVendorRequest $request)

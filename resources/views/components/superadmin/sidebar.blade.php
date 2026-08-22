@@ -1,10 +1,14 @@
+@php
+    use App\Models\User;
+@endphp
+
 <!-- SUPERADMIN SIDEBAR -->
 <aside
     class="w-64 bg-slate-950 text-white flex flex-col justify-between shrink-0 h-screen sticky top-0 border-r border-slate-800 z-30 transition-all">
     <div>
         <!-- MASTER PLATFORM BRAND -->
         <div class="p-5 border-b border-slate-800">
-            <a href="/" class="flex items-center gap-3 group mb-3">
+            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 group mb-3">
                 <div
                     class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,16 +39,16 @@
             <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 px-3 pt-2 pb-1">Platform
                 Control</div>
 
-            <button onclick="switchSuperadminTab('overview')" id="super-nav-overview"
+            <a href="{{ route('superadmin.dashboard') }}" id="super-nav-overview"
                 class="super-nav-btn active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-emerald-400 bg-emerald-500/10 font-bold border border-emerald-500/20 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <span>Master Overview</span>
-            </button>
+            </a>
 
-            <button onclick="switchSuperadminTab('tenants')" id="super-nav-tenants"
+            <a href="{{ route('superadmin-vendor-management.index') }}" id="super-nav-tenants"
                 class="super-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all">
                 <div class="flex items-center gap-3">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,20 +57,32 @@
                     </svg>
                     <span>Manajemen Tenant</span>
                 </div>
-                <span class="badge badge-xs bg-emerald-500 border-none text-white font-mono font-bold">1,428</span>
-            </button>
+                <span
+                    class="badge badge-xs bg-emerald-500 border-none text-white font-mono font-bold">{{ User::where('role', 'vendor')->count() }}</span>
+            </a>
 
-            <button onclick="switchSuperadminTab('subscriptions')" id="super-nav-subscriptions"
+            <a href="{{ route('superadmin.subscription') }}" id="super-nav-subscriptions"
                 class="super-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all">
                 <div class="flex items-center gap-3">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    <span>Langganan & Tagihan MRR</span>
+                    <span>Langganan</span>
                 </div>
-                <span class="badge badge-xs bg-indigo-500 text-white font-mono font-bold">Rp 482M</span>
-            </button>
+                {{-- <span class="badge badge-xs bg-indigo-500 text-white font-mono font-bold">Rp 482M</span> --}}
+            </a>
+            <a href="{{ route('superadmin.subscription-plan') }}" id="super-nav-subscription-plan"
+                class="super-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all">
+                <div class="flex items-center gap-3">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span>Paket</span>
+                </div>
+                {{-- <span class="badge badge-xs bg-indigo-500 text-white font-mono font-bold">Rp 482M</span> --}}
+            </a>
 
             <button onclick="switchSuperadminTab('system-health')" id="super-nav-system-health"
                 class="super-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all">

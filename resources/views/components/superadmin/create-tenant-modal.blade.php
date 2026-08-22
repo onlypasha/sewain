@@ -10,7 +10,7 @@
         <p class="text-xs text-slate-500 mb-6">Daftarkan toko rental baru secara manual dan alokasikan subdomain
             eksklusif.</p>
 
-        <form action="{{ route('vendor.create') }}" method="POST" class="space-y-4 text-xs">
+        <form action="{{ route('superadmin-vendor-management.create') }}" method="POST" class="space-y-4 text-xs">
             @csrf
 
             <div>
