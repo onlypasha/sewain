@@ -4,10 +4,15 @@
     <div id="super-tab-content-subscriptions" class="space-y-6 p-5">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-extrabold text-slate-900 font-heading">Tagihan & Billing MRR Platform</h1>
-                <p class="text-slate-500 text-xs mt-0.5">Rekapitulasi transaksi berlangganan SaaS tenant, pembayaran
-                    otomatis, dan invoice.</p>
+                <h1 class="text-2xl font-extrabold text-slate-900 font-heading">Direktori & Manajemen Seluruh Tenant</h1>
+                <p class="text-slate-500 text-xs mt-0.5">Kelola akses 1,428+ toko sewa terdaftar, alokasi subdomain, dan
+                    lisensi langganan.</p>
             </div>
+
+            <button onclick="openCreateTenantModal()"
+                class="btn btn-primary btn-sm font-bold text-white shadow-md bg-indigo-600 border-none">
+                + Provision Tenant Baru
+            </button>
         </div>
 
         <!-- SUBSCRIPTION BILLING TABLE -->
@@ -16,49 +21,16 @@
                 <table class="table w-full text-xs">
                     <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-mono">
                         <tr>
-                            <th class="py-3 px-4">INVOICE NO.</th>
-                            <th class="py-3 px-4">TENANT & DOMAIN</th>
-                            <th class="py-3 px-4">PAKET SAAS</th>
-                            <th class="py-3 px-4">SIKLUS TAGIHAN</th>
-                            <th class="py-3 px-4">NOMINAL DITAGIH</th>
-                            <th class="py-3 px-4">METODE BAYAR</th>
-                            <th class="py-3 px-4 text-center">STATUS BAYAR</th>
-                            <th class="py-3 px-4 text-right">AKSI INVOICE</th>
+                            <th class="py-3 px-4">No</th>
+                            <th class="py-3 px-4">Nama</th>
+                            <th class="py-3 px-4">Kategori</th>
+                            <th class="py-3 px-4">Harga</th>
+                            <th class="py-3 px-4">Siklus Tagihan</th>
+                            <th class="py-3 px-4">Fitur</th>
+                            <th class="py-3 px-4 text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 font-medium">
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="font-mono font-bold text-indigo-700">#INV-2026-0801</td>
-                            <td>
-                                <div class="font-bold text-slate-900 text-sm">LensaMania Studio</div>
-                                <div class="text-[11px] text-slate-500 font-mono">lensamania.sewain.id</div>
-                            </td>
-                            <td><span class="badge badge-sm badge-success text-white font-mono">Pro Business</span></td>
-                            <td class="font-mono text-slate-700">Tahunan (Disc 20%)</td>
-                            <td class="font-extrabold text-slate-900">Rp 3.348.000</td>
-                            <td><span class="badge badge-sm badge-outline font-mono">QRIS Midtrans</span></td>
-                            <td class="text-center"><span
-                                    class="badge badge-sm badge-emerald text-emerald-800 bg-emerald-100 font-bold">PAID
-                                    SETTLED</span></td>
-                            <td class="text-right"><button onclick="alert('Unduh PDF Invoice #INV-2026-0801');"
-                                    class="btn btn-xs btn-ghost text-indigo-600 font-bold">PDF Invoice</button></td>
-                        </tr>
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="font-mono font-bold text-indigo-700">#INV-2026-0802</td>
-                            <td>
-                                <div class="font-bold text-slate-900 text-sm">TransJava Auto Fleet</div>
-                                <div class="text-[11px] text-slate-500 font-mono">www.transjavafleet.com</div>
-                            </td>
-                            <td><span class="badge badge-sm bg-slate-900 text-white font-mono">Enterprise</span></td>
-                            <td class="font-mono text-slate-700">Bulanan</td>
-                            <td class="font-extrabold text-slate-900">Rp 799.000</td>
-                            <td><span class="badge badge-sm badge-outline font-mono">Virtual Account BCA</span></td>
-                            <td class="text-center"><span
-                                    class="badge badge-sm badge-emerald text-emerald-800 bg-emerald-100 font-bold">PAID
-                                    SETTLED</span></td>
-                            <td class="text-right"><button onclick="alert('Unduh PDF Invoice #INV-2026-0802');"
-                                    class="btn btn-xs btn-ghost text-indigo-600 font-bold">PDF Invoice</button> summer</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
