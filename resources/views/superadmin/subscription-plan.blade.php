@@ -84,7 +84,8 @@
                                 <td class="text-center">
                                     <x-util.button variant="warning" size="sm"
                                         onclick="update_plan_modal{{ $plan->id }}.showModal()">Ubah</x-util.button>
-                                    <x-util.button variant="error" size="sm">Hapus</x-util.button>
+                                    <x-util.button variant="error" size="sm"
+                                        onclick="delete_plan_modal{{ $plan->id }}.showModal()">Hapus</x-util.button>
                                 </td>
                             </tr>
                             @empty
@@ -274,6 +275,40 @@
                             <x-util.button variant="primary" type="submit" size="sm">
                                 Simpan Perubahan
                             </x-util.button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+        @endforeach
+
+        @foreach ($plans as $plan)
+            <dialog id="delete_plan_modal{{ $plan->id }}" class="modal">
+                <div class="modal-box bg-white rounded-3xl max-w-lg p-6 sm:p-8">
+                    <form method="dialog">
+                        <button
+                            class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-slate-400 hover:text-slate-600">✕</button>
+                    </form>
+
+                    <h3 class="font-extrabold text-xl text-slate-900 font-heading mb-1">Perhatian!</h3>
+                    <p class="text-xs text-slate-500 mb-6">Apakah anda yakin ingin menghapus paket berikut:</p>
+                    <ul>
+                        <li>Nama paket: {{ $plan->name }}</li>
+                        <li>Kategori: {{ $plan->slug }}</li>
+                        <li>Harga Paket: {{ 'Rp ' . number_format($plan->price, 2, ',', '.') }}</li>
+                        <li>Siklus tagihan: {{ $plan->billing_cycle }}</li>
+                    </ul>
+                    <form action="{{ route('superadmin.subscription-plan.destroy', $plan->id) }}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                            <button type="button" onclick="delete_plan_modal{{ $plan->id }}.close()"
+                                class="btn btn-ghost btn-sm text-slate-600">Batal</button>
+                            {{-- <x-util.button variant="error" type="submit" size="sm">
+                                Hapus paket ini
+                            </x-util.button> --}}
+                            <button class="btn btn-error" type="submit">
+                                Hapus paket ini
+                            </button>
                         </div>
                     </form>
                 </div>

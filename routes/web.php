@@ -28,6 +28,8 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/subscription-plan', [SubscriptionPlanController::class, 'index'])->name('superadmin.subscription-plan');
     Route::post('/superadmin/subscription-plan', [SubscriptionPlanController::class, 'store'])->name('superadmin.subscription-plan.store');
     Route::put('/superadmin/subscription-plan/{id}', [SubscriptionPlanController::class, 'update'])->name('superadmin.subscription-plan.update');
+    Route::delete('/superadmin/subscription-plan/{id}', [SubscriptionPlanController::class, 'destroy'])->name('superadmin.subscription-plan.destroy');
+
 
 
 
