@@ -1,6 +1,5 @@
 @extends('superadmin.layout')
 @section('content')
-    <!-- TAB 3: LANGGANAN & TAGIHAN SAAS MRR -->
     <div id="super-tab-content-subscriptions" class="space-y-6 p-5">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -17,6 +16,18 @@
             </x-util.button>
         </div>
 
+        @if ($errors->any())
+            <x-util.alert variant="error">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </x-util.alert>
+        @endif
+        @session('success')
+            <x-util.alert>
+                {{ $value }}
+            </x-util.alert>
+        @endsession
         <!-- SUBSCRIPTION BILLING TABLE -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
             <div class="overflow-x-auto">
@@ -71,7 +82,8 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <x-util.button variant="warning" size="sm">Ubah</x-util.button>
+                                    <x-util.button variant="warning" size="sm"
+                                        onclick="update_plan_modal{{ $plan->id }}.showModal()">Ubah</x-util.button>
                                     <x-util.button variant="error" size="sm">Hapus</x-util.button>
                                 </td>
                             </tr>
@@ -82,6 +94,7 @@
                 </div>
             </div>
         </div>
+
         <dialog id="add_plan_modal" class="modal">
             <div class="modal-box bg-white rounded-3xl max-w-lg p-6 sm:p-8">
                 <form method="dialog">
@@ -172,4 +185,100 @@
                 </form>
             </div>
         </dialog>
+
+        @foreach ($plans as $plan)
+            <dialog id="update_plan_modal{{ $plan->id }}" class="modal">
+                <div class="modal-box bg-white rounded-3xl max-w-lg p-6 sm:p-8">
+                    <form method="dialog">
+                        <button
+                            class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-slate-400 hover:text-slate-600">✕</button>
+                    </form>
+
+                    <h3 class="font-extrabold text-xl text-slate-900 font-heading mb-1">Update Paket Langganan</h3>
+                    <p class="text-xs text-slate-500 mb-6">Perbarui detail paket langganan.</p>
+
+                    <form action="{{ route('superadmin.subscription-plan.update', $plan->id) }}" method="POST"
+                        class="space-y-4 text-xs">
+                        @csrf
+                        @method('PUT')
+
+                        {{-- Nama Langganan --}}
+                        <div>
+                            <label for="plan-name" class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Nama
+                                Langganan</label>
+                            <input type="text" id="plan-name" name="name" required value="{{ $plan->name }}"
+                                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-medium text-sm">
+                            @error('name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Kategori --}}
+                        <div>
+                            <label for="plan-slug"
+                                class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori</label>
+                            <input type="text" id="plan-slug" name="slug" required value="{{ $plan->slug }}"
+                                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-medium text-sm">
+                            @error('slug')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Harga --}}
+                        <div>
+                            <label for="plan-price"
+                                class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Harga</label>
+                            <input type="number" id="plan-price" name="price" required min="0" step="0.01"
+                                value="{{ $plan->price }}"
+                                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-mono font-medium text-sm">
+                            @error('price')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Siklus Tagihan --}}
+                        <div>
+                            <label for="plan-billing-cycle"
+                                class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Siklus Tagihan</label>
+                            <select id="plan-billing-cycle" name="billing_cycle" required
+                                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                                <option value="monthly" {{ $plan->billing_cycle === 'monthly' ? 'selected' : '' }}>Bulanan
+                                </option>
+                                <option value="yearly" {{ $plan->billing_cycle === 'yearly' ? 'selected' : '' }}>Tahunan
+                                </option>
+                            </select>
+                            @error('billing_cycle')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Apakah Aktif --}}
+                        <div>
+                            <label for="plan-is-active"
+                                class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Apakah
+                                Aktif</label>
+                            <select id="plan-is-active" name="is_active" required
+                                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                                <option value="1" {{ old('is_active', '1') === '1' ? 'selected' : '' }}>True</option>
+                                <option value="0" {{ old('is_active') === '0' ? 'selected' : '' }}>False</option>
+                            </select>
+                            @error('is_active')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Actions --}}
+                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                            <button type="button" onclick="update_plan_modal{{ $plan->id }}.close()"
+                                class="btn btn-ghost btn-sm text-slate-600">Batal</button>
+                            <x-util.button variant="primary" type="submit" size="sm">
+                                Simpan Perubahan
+                            </x-util.button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+        @endforeach
+
+        </div>
     @endsection

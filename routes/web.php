@@ -22,8 +22,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard');
     Route::get('/superadmin/subscription', [SubscriptionController::class, 'index'])->name('superadmin.subscription');
+
+
+
     Route::get('/superadmin/subscription-plan', [SubscriptionPlanController::class, 'index'])->name('superadmin.subscription-plan');
     Route::post('/superadmin/subscription-plan', [SubscriptionPlanController::class, 'store'])->name('superadmin.subscription-plan.store');
+    Route::put('/superadmin/subscription-plan/{id}', [SubscriptionPlanController::class, 'update'])->name('superadmin.subscription-plan.update');
+
+
+
     Route::get('/superadmin/vendor', [VendorManagementController::class, 'index'])->name('superadmin-vendor-management.index');
     Route::post('/superadmin/vendor', [VendorManagementController::class, 'store'])->name('superadmin-vendor-management.create');
 });
