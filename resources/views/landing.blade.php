@@ -82,7 +82,7 @@
         <x-landing.features />
         <x-landing.comparison />
         {{-- <x-landing.roi-calculator /> --}}
-        <x-landing.pricing />
+        <x-landing.pricing :plans="$plans" />
         {{-- <x-landing.testimonials /> --}}
         <x-landing.faq />
         <x-landing.cta-banner />
@@ -182,47 +182,7 @@
             document.getElementById('roi-res-revenue').innerText = '+ Rp ' + extraRevenue.toLocaleString('id-ID');
         }
 
-        // 4. PRICING TOGGLE LOGIC
-        let billingCycle = 'monthly';
-        function toggleBilling(cycle) {
-            billingCycle = cycle;
-            const btnM = document.getElementById('btn-billing-monthly');
-            const btnY = document.getElementById('btn-billing-yearly');
 
-            if (cycle === 'yearly') {
-                btnY.classList.add('bg-white', 'text-slate-900', 'shadow-xs');
-                btnY.classList.remove('text-slate-600');
-                btnM.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
-                btnM.classList.add('text-slate-600');
-
-                document.getElementById('price-starter').innerText = 'Rp 119.000';
-                document.getElementById('subtext-starter').innerText = 'Ditagih tahunan (Rp 1.428.000/thn)';
-
-                document.getElementById('price-pro').innerText = 'Rp 279.000';
-                document.getElementById('subtext-pro').innerText = 'Ditagih tahunan (Rp 3.348.000/thn)';
-
-                document.getElementById('price-enterprise').innerText = 'Rp 639.000';
-                document.getElementById('subtext-enterprise').innerText = 'Ditagih tahunan (Rp 7.668.000/thn)';
-            } else {
-                btnM.classList.add('bg-white', 'text-slate-900', 'shadow-xs');
-                btnM.classList.remove('text-slate-600');
-                btnY.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
-                btnY.classList.add('text-slate-600');
-
-                document.getElementById('price-starter').innerText = 'Rp 149.000';
-                document.getElementById('subtext-starter').innerText = 'Ditagih bulanan';
-
-                document.getElementById('price-pro').innerText = 'Rp 349.000';
-                document.getElementById('subtext-pro').innerText = 'Ditagih bulanan';
-
-                document.getElementById('price-enterprise').innerText = 'Rp 799.000';
-                document.getElementById('subtext-enterprise').innerText = 'Ditagih bulanan';
-            }
-        }
-
-        function selectPlan(planName) {
-            alert('🎉 Anda memilih Paket ' + planName + ' (' + (billingCycle === 'yearly' ? 'Tahunan' : 'Bulanan') + '). Membuka pendaftaran Trial 14 Hari...');
-        }
 
         // 5. LIVE ACTIVITY TICKER SIMULATOR
         const tickerEvents = [
