@@ -33,7 +33,7 @@ class SubscriptionPlanController extends Controller
     {
         $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255', 'unique:subscription_plans,slug,' . $id],
+            'slug' => ['required', 'string', 'max:255', 'unique:subscription_plans,slug,'.$id],
             'price' => ['required', 'numeric', 'min:0'],
             'billing_cycle' => ['required', 'in:monthly,yearly'],
             'is_active' => ['required', 'boolean'],
@@ -44,9 +44,31 @@ class SubscriptionPlanController extends Controller
         return redirect()->route('superadmin.subscription-plan')->with('success', 'Paket berhasil diperbarui');
     }
 
+    public function index_features(int $id)
+    {
+        $plan = SubscriptionPlan::findOrFail($id);
+
+        return view('superadmin.features', compact('plan'));
+    }
+
+    public function store_features(int $id)
+    {
+        $validated = request()->validate([
+            'features' => ['nullable', 'array'],
+            'features.*.name' => ['required', 'string', 'max:255'],
+            'features.*.value' => ['required', 'string', 'max:255'],
+        ]);
+
+        $plan = SubscriptionPlan::findOrFail($id);
+        $plan->update(['features' => $validated['features'] ?? []]);
+
+        return redirect()->route('superadmin.subscription.features', $id)->with('success', 'Fitur berhasil disimpan.');
+    }
+
     public function destroy(int $id)
     {
         SubscriptionPlan::find($id)->delete();
+
         return redirect()->route('superadmin.subscription-plan')->with('success', 'Paket berhasil di hapus');
     }
 }

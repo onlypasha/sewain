@@ -16,6 +16,17 @@ class SubscriptionPlan extends Model
         'is_active',
     ];
 
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'features' => 'array',
+            'is_active' => 'boolean',
+        ];
+    }
+
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);

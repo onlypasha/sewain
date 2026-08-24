@@ -67,7 +67,11 @@
                                 <td class="font-extrabold text-slate-900">
                                     {{ $plan->billing_cycle === 'monthly' ? 'bulanan' : 'tahunan' }}</td>
                                 <td>
-                                    <x-util.button variant="primary" size="sm">Lihat Fitur</x-util.button>
+                                    <form action="{{ route('superadmin.subscription.features', $plan->id) }}">
+                                        <x-util.button variant="primary" size="sm" type="submit">
+                                            Lihat fitur
+                                        </x-util.button>
+                                    </form>
                                 </td>
                                 <td class="text-center">
                                     @if ($plan->is_active)
