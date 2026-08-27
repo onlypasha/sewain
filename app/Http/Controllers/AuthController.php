@@ -20,12 +20,12 @@ class AuthController extends Controller
 
             if ($user->role === 'superadmin') {
                 return redirect()->route('superadmin.dashboard');
-            } elseif ($user->role === 'vendor') {
+            } elseif ($user->role === 'vendor' && $user->vendorProfiles->status === 'active') {
                 return redirect()->route('vendor.dashboard');
             }
         }
 
-        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
+        return redirect()->back()->withErrors(['email' => 'Email, password salah atau akun tidak aktif']);
     }
 
     public function logout(Request $request)

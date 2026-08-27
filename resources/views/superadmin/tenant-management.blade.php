@@ -66,10 +66,10 @@
                 <table class="table w-full text-xs">
                     <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-mono">
                         <tr>
-                            <th class="py-3 px-4">TENANT ID</th>
+                            <th class="py-3 px-4">NO. </th>
                             <th class="py-3 px-4">NAMA TOKO & PEMILIK</th>
                             <th class="py-3 px-4">SUBDOMAIN</th>
-                            <th class="py-3 px-4">PAKET SAAS</th>
+                            <th class="py-3 px-4">PAKET Langganan</th>
                             <th class="py-3 px-4 text-center">TOTAL ASET</th>
                             <th class="py-3 px-4 text-center">STATUS AKUN</th>
                             <th class="py-3 px-4 text-right">AKSI SUPERADMIN</th>
@@ -102,7 +102,7 @@
                     </tr> --}}
                         @forelse ($vendors as $vendor)
                             <tr class="hover:bg-slate-50/80 transition-colors">
-                                <td class="font-mono font-bold text-slate-900">{{ $vendor->id }}</td>
+                                <td class="font-mono font-bold text-slate-900">{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="font-bold text-slate-900 text-sm">{{ $vendor->name }}</div>
                                     <div class="text-[11px] text-slate-500">
@@ -112,8 +112,9 @@
                                     </div>
                                 </td>
                                 <td class="font-mono text-emerald-700 font-bold">{{ $vendor->slug }}.sewain.id</td>
-                                <td><span class="badge badge-sm badge-success text-white font-bold font-mono">Pro
-                                        Business</span></td>
+                                <td>
+                                    {{ $vendor->vendorProfiles?->subscriptions->first()?->subscriptionPlan?->name ?? 'Tidak berlangganan' }}
+                                </td>
                                 <td class="text-center font-mono font-bold">{{ $vendor->vendorProfiles->assets }}</td>
                                 <td class="text-center">
                                     @if ($vendor->vendorProfiles->status == 'active')

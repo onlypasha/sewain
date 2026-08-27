@@ -20,8 +20,8 @@ class Subscription extends Model
         return $this->belongsTo(VendorProfiles::class, 'vendor_profile_id');
     }
 
-    public function subscriptionPlan(): HasMany
+    public function subscriptionPlan()
     {
-        return $this->hasMany(SubscriptionPlan::class);
+        return $this->belongsTo(SubscriptionPlan::class);
     }
 }
