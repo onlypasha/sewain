@@ -1,4 +1,10 @@
 <!-- TAB 1: MASTER OVERVIEW SUPERADMIN -->
+@php
+    use App\Models\Subscription;
+    use App\Models\User;
+    use App\Models\SubscriptionPlan;
+@endphp
+
 <div id="super-tab-content-overview" class="superadmin-tab-pane space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -22,7 +28,6 @@
 
     <!-- STAT CARDS GRID -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tenant Platform</span>
@@ -33,9 +38,42 @@
             </div>
             <div>
                 <div class="text-2xl font-extrabold text-slate-900 font-heading">
-                    {{ $vendors->count() }} Tenant</div>
+                    {{ User::where('role', 'vendor')->count() }} Tenant</div>
                 <div class="flex items-center gap-1.5 text-xs text-indigo-600 font-semibold mt-1">
-                    <span>{{ $vendors->where('status', 'active')->count() }} tenan aktif</span>
+                    <span>{{ User::where('role', 'vendor')->get()->where('status', 'active')->count() }} tenan
+                        aktif</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">jumlah Berlangganan</span>
+                <div
+                    class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
+                    🏬
+                </div>
+            </div>
+            <div>
+                <div class="text-2xl font-extrabold text-slate-900 font-heading">
+                    {{ Subscription::count() }} berlangganan</div>
+                <div class="flex items-center gap-1.5 text-xs text-indigo-600 font-semibold mt-1">
+                    <span>{{ Subscription::where('status', 'active')->count() }} langganan aktif</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">jumlah plan langganan</span>
+                <div
+                    class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
+                    🏬
+                </div>
+            </div>
+            <div>
+                <div class="text-2xl font-extrabold text-slate-900 font-heading">
+                    {{ SubscriptionPlan::count() }} paket</div>
+                <div class="flex items-center gap-1.5 text-xs text-indigo-600 font-semibold mt-1">
+                    <span>{{ SubscriptionPlan::where('is_active', '1')->count() }} paket aktif</span>
                 </div>
             </div>
         </div>
@@ -92,47 +130,36 @@
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                     <span class="text-xs font-mono text-indigo-400 font-bold uppercase tracking-wider">Distribusi Paket
                         Langganan</span>
-                    <span class="badge badge-xs badge-info text-white font-mono">DISTRIBUTION</span>
                 </div>
 
                 <div class="space-y-4 text-xs">
                     <div class="space-y-1">
                         <div class="flex justify-between font-bold text-slate-200">
-                            <span>Pro Business Plan (Rp 349k/bln)</span>
-                            <span class="text-emerald-400 font-mono">1,240 Tenant (86.8%)</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                            <div class="bg-emerald-500 h-full w-[86%] rounded-full"></div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <div class="flex justify-between font-bold text-slate-200">
-                            <span>Starter Plan (Rp 149k/bln)</span>
-                            <span class="text-amber-400 font-mono">150 Tenant (10.5%)</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                            <div class="bg-amber-500 h-full w-[10%] rounded-full"></div>
+                            <span>Paket PRO</span>
+                            <span
+                                class="text-emerald-400 font-mono">{{ Subscription::whereHas('subscriptionPlan', fn($q) => $q->where('slug', 'like', '%basic%'))->count() }}
+                                Tenant</span>
                         </div>
                     </div>
 
                     <div class="space-y-1">
                         <div class="flex justify-between font-bold text-slate-200">
-                            <span>Enterprise Multi-Branch (Rp 799k/bln)</span>
-                            <span class="text-indigo-400 font-mono">38 Tenant (2.7%)</span>
+                            <span>Paket PRO</span>
+                            <span
+                                class="text-amber-400 font-mono">{{ Subscription::whereHas('subscriptionPlan', fn($q) => $q->where('slug', 'like', '%pro%'))->count() }}
+                                Tenant</span>
                         </div>
-                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                            <div class="bg-indigo-500 h-full w-[2.7%] rounded-full"></div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between font-bold text-slate-200">
+                            <span>Paket ENTERPRISE</span>
+                            <span
+                                class="text-indigo-400 font-mono">{{ Subscription::whereHas('subscriptionPlan', fn($q) => $q->where('slug', 'like', '%enterprise%'))->count() }}
+                                Tenant</span>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div
-                class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-                <span>Billing Gateway: Midtrans / Xendit Sync</span>
-                <a href="#subscriptions" onclick="switchSuperadminTab('subscriptions')"
-                    class="text-indigo-400 hover:underline">Kelola Billing</a>
             </div>
         </div>
     </div>
