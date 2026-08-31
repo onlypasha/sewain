@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
 use App\Models\VendorProfiles;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
@@ -43,5 +44,43 @@ class SubscriptionController extends Controller
         ]);
 
         return redirect()->route('superadmin.subscription')->with('success', 'Langganan Berhasil');
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $subscription = Subscription::findOrFail($id);
+
+        $validated = $request->validate([
+            'subscription_plan_id' => ['required', 'exists:subscription_plans,id'],
+            'status' => ['required', 'in:active,inactive,canceled'],
+        ]);
+
+        $plan = SubscriptionPlan::findOrFail($validated['subscription_plan_id']);
+
+        if ($subscription->subscription_plan_id != $plan->id) {
+            $startDate = $subscription->start_date;
+            $endDate = $plan->billing_cycle === 'yearly'
+                ? Carbon::parse($startDate)->addYear()
+                : Carbon::parse($startDate)->addMonth();
+
+            $subscription->update([
+                'subscription_plan_id' => $plan->id,
+                'status' => $validated['status'],
+                'end_date' => $endDate,
+            ]);
+        } else {
+            $subscription->update([
+                'status' => $validated['status'],
+            ]);
+        }
+
+        return redirect()->route('superadmin.subscription')->with('success', 'Langganan berhasil diperbarui');
+    }
+
+    public function destroy(int $id)
+    {
+        Subscription::findOrFail($id)->delete();
+
+        return redirect()->route('superadmin.subscription')->with('success', 'Langganan berhasil dihapus');
     }
 }
