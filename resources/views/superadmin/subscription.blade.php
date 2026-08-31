@@ -2,7 +2,13 @@
 @section('content')
     <!-- TAB 3: LANGGANAN & TAGIHAN SAAS MRR -->
     <div id="super-tab-content-subscriptions" class="space-y-6 p-5">
+        @if (session()->has('success'))
+            <x-util.alert variant="success">
+                Langganan berhasil!
+            </x-util.alert>
+        @endif
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-900 font-heading">Langganan</h1>
                 <p class="text-slate-500 text-xs mt-0.5">Rekapitulasi transaksi berlangganan SaaS tenant, pembayaran
@@ -30,13 +36,33 @@
                             <tr class="hover:bg-slate-50/80 transition-colors">
                                 <td class="font-mono font-bold text-indigo-700">{{ $loop->iteration }}</td>
                                 <td>
-                                    <div class="font-bold text-slate-900 text-sm">$subscription->vendorProfile()</div>
-                                    <div class="text-[11px] text-slate-500 font-mono">lensamania.sewain.id</div>
+                                    <div class="font-bold text-slate-900 text-sm">
+                                        {{ $subscription->vendorProfile?->user?->name ?? 'Tidak diketahui' }}</div>
+                                    <div class="text-[11px] text-slate-500 font-mono">
+                                        {{ $subscription->vendorProfile?->user?->slug }}.sewain.id</div>
                                 </td>
-                                <td><span class="badge badge-sm badge-success text-white font-mono">Pro Business</span></td>
-                                <td class="font-mono text-slate-700">Tahunan (Disc 20%)</td>
-                                <td class="font-extrabold text-slate-900">Rp 3.348.000</td>
-                                <td><span class="badge badge-sm badge-outline font-mono">QRIS Midtrans</span></td>
+                                <td>
+                                    <span class="text-lg">
+                                        {{ $subscription->subscriptionPlan?->billing_cycle === 'monthly' ? 'Bulanan' : 'Tahunan' }}
+                                    </span>
+                                </td>
+                                <td class="font-mono text-slate-700">
+                                    @if ($subscription->status === 'active')
+                                        <x-util.badge variant="success">
+                                            Aktif
+                                        </x-util.badge>
+                                    @elseif($subscription->status === 'inactive')
+                                        <x-util.badge variant="error">
+                                            Tidak Aktif
+                                        </x-util.badge>
+                                    @else
+                                        <x-util.badge variant="neutral">
+                                            Dibatalkan
+                                        </x-util.badge>
+                                    @endif
+                                </td>
+                                <td class="font-extrabold text-slate-900">{{ $subscription->start_date }}</td>
+                                <td class="font-extrabold text-slate-900">{{ $subscription->end_date }}</td>
                             </tr>
                         @empty
                             <x-util.alert variant="info">Tidak ada yang berlangganan</x-util.alert>
@@ -57,17 +83,17 @@
             <h3 class="font-extrabold text-xl text-slate-900 font-heading mb-1">Daftarkan langganan baru</h3>
             <p class="text-xs text-slate-500 mb-6">Pastikan tidak salah memilih vendor dan paket langganan yang sesuai.</p>
 
-            <form action="#" method="POST" class="space-y-4 text-xs">
+            <form action="{{ route('superadmin.subscription.store') }}" method="POST" class="space-y-4 text-xs">
                 @csrf
 
                 <div>
-                    <label for="vendor_id"
+                    <label for="vendor_profile_id"
                         class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Vendor</label>
-                    <select id="vendor_id" name="vendor_id" required
+                    <select id="vendor_profile_id" name="vendor_profile_id" required
                         class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
-                        <option value="1" disabled selected>Pilih Vendor</option>
+                        <option value="" disabled selected>Pilih Vendor</option>
                         @forelse ($vendors as $vendor)
-                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                            <option value="{{ $vendor->id }}">{{ $vendor->user?->name ?? 'Tanpa Nama' }}</option>
                         @empty
                             <option value="" disabled>Tidak ada vendor terdaftar</option>
                         @endforelse
@@ -79,7 +105,7 @@
                         class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Paket Langganan</label>
                     <select id="subscription_plan_id" name="subscription_plan_id" required
                         class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
-                        <option value="1" disabled selected>Pilih Paket</option>
+                        <option value="" disabled selected>Pilih Paket</option>
                         @forelse($plans as $plan)
                             <option value="{{ $plan->id }}">{{ $plan->name }}</option>
                         @empty

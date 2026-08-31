@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subscription extends Model
 {
     protected $fillable = [
-        'vendor_id',
+        'vendor_profile_id',
         'subscription_plan_id',
         'status',
         'start_date',

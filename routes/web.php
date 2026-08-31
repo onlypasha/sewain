@@ -24,7 +24,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard');
+
     Route::get('/superadmin/subscription', [SubscriptionController::class, 'index'])->name('superadmin.subscription');
+    Route::post('/superadmin/subscription', [SubscriptionController::class, 'store'])->name('superadmin.subscription.store');
 
     Route::get('/superadmin/subscription-plan', [SubscriptionPlanController::class, 'index'])->name('superadmin.subscription-plan');
     Route::post('/superadmin/subscription-plan', [SubscriptionPlanController::class, 'store'])->name('superadmin.subscription-plan.store');
