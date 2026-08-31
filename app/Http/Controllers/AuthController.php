@@ -9,8 +9,9 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view("login");
+        return view('login');
     }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -20,12 +21,22 @@ class AuthController extends Controller
 
             if ($user->role === 'superadmin') {
                 return redirect()->route('superadmin.dashboard');
-            } elseif ($user->role === 'vendor' && $user->vendorProfiles->status === 'active') {
-                return redirect()->route('vendor.dashboard');
+            }
+
+            if ($user->role === 'vendor') {
+                if ($user->vendorProfiles?->status === 'active') {
+                    return redirect()->route('vendor.dashboard');
+                }
+
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect()->back()->withErrors(['email' => 'Akun vendor Anda belum diaktivasi oleh admin.']);
             }
         }
 
-        return redirect()->back()->withErrors(['email' => 'Email, password salah atau akun tidak aktif']);
+        return redirect()->back()->withErrors(['email' => 'Email atau password salah.']);
     }
 
     public function logout(Request $request)
@@ -33,6 +44,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
 }
