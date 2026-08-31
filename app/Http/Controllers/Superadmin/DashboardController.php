@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function index()
     {
         $vendors = User::where('role', 'vendor')->get();
-
-        return view('superadmin.dashboard', compact('vendors'));
+        $latestVendors = User::where('role', 'vendor')->latest('id')->get();
+        return view('superadmin.dashboard', compact('vendors', 'latestVendors'));
     }
 }
