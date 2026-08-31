@@ -72,7 +72,7 @@
                             <th class="py-3 px-4">PAKET Langganan</th>
                             <th class="py-3 px-4 text-center">TOTAL ASET</th>
                             <th class="py-3 px-4 text-center">STATUS AKUN</th>
-                            <th class="py-3 px-4 text-right">AKSI SUPERADMIN</th>
+                            <th class="py-3 px-4 text-center">AKSI</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 font-medium">
@@ -128,10 +128,14 @@
                                 </td>
                                 <td class="text-right">
                                     <div class="flex items-center justify-end gap-1">
-                                        <a href="/admin" target="_blank"
-                                            class="btn btn-ghost btn-xs text-indigo-600 font-bold">Impersonate</a>
-                                        <button onclick="alert('Kelola Lisensi Tenant #TNT-841');"
-                                            class="btn btn-ghost btn-xs text-slate-600">Edit Tier</button>
+                                        <x-util.button variant="warning" size="xs"
+                                            onclick="edit_vendor_{{ $vendor->id }}.showModal()">
+                                            Perbarui
+                                        </x-util.button>
+                                        <x-util.button variant="error" size="xs"
+                                            onclick="delete_vendor_{{ $vendor->id }}.showModal()">
+                                            Hapus
+                                        </x-util.button>
                                     </div>
                                 </td>
                             </tr>
@@ -145,5 +149,112 @@
             </div>
         </div>
     </div>
+
+    @foreach ($vendors as $vendor)
+        <!-- Modal Edit -->
+        <dialog id="edit_vendor_{{ $vendor->id }}" class="modal">
+            <div class="modal-box bg-white rounded-3xl max-w-lg p-6 sm:p-8">
+                <form method="dialog">
+                    <button
+                        class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-slate-400 hover:text-slate-600">✕</button>
+                </form>
+
+                <h3 class="font-extrabold text-xl text-slate-900 font-heading mb-1">Perbarui Tenant</h3>
+                <p class="text-xs text-slate-500 mb-6">Ubah data informasi toko dan pemilik.</p>
+
+                <form action="{{ route('superadmin-vendor-management.update', $vendor->id) }}" method="POST"
+                    class="space-y-4 text-xs">
+                    @csrf
+                    @method('PUT')
+
+                    <div>
+                        <label for="name_{{ $vendor->id }}"
+                            class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Nama Toko</label>
+                        <input type="text" id="name_{{ $vendor->id }}" name="name" required
+                            value="{{ $vendor->name }}"
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                    </div>
+
+                    <div>
+                        <label for="owner_name_{{ $vendor->id }}"
+                            class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Nama Pemilik</label>
+                        <input type="text" id="owner_name_{{ $vendor->id }}" name="owner_name"
+                            value="{{ $vendor->vendorProfiles->owner_name ?? '' }}"
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                    </div>
+
+                    <div>
+                        <label for="email_{{ $vendor->id }}"
+                            class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Email</label>
+                        <input type="email" id="email_{{ $vendor->id }}" name="email" required
+                            value="{{ $vendor->email }}"
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                    </div>
+
+                    <div>
+                        <label for="slug_{{ $vendor->id }}"
+                            class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Subdomain (Slug)</label>
+                        <input type="text" id="slug_{{ $vendor->id }}" name="slug" required
+                            value="{{ $vendor->slug }}"
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                    </div>
+
+                    <div>
+                        <label for="status_{{ $vendor->id }}"
+                            class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Status Akun</label>
+                        <select id="status_{{ $vendor->id }}" name="status" required
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
+                            <option value="active" {{ $vendor->vendorProfiles->status === 'active' ? 'selected' : '' }}>
+                                Active</option>
+                            <option value="inactive"
+                                {{ $vendor->vendorProfiles->status === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                        <button type="button" onclick="edit_vendor_{{ $vendor->id }}.close()"
+                            class="btn btn-ghost btn-sm text-slate-600">Batal</button>
+                        <x-util.button variant="warning" type="submit" size="sm">
+                            Perbarui Tenant
+                        </x-util.button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+
+        <!-- Modal Hapus -->
+        <dialog id="delete_vendor_{{ $vendor->id }}" class="modal">
+            <div class="modal-box bg-white rounded-3xl max-w-md p-6 text-center">
+                <form method="dialog">
+                    <button
+                        class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-slate-400 hover:text-slate-600">✕</button>
+                </form>
+
+                <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4 text-red-500">
+                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </div>
+
+                <h3 class="font-extrabold text-xl text-slate-900 font-heading mb-2">Hapus Tenant?</h3>
+                <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin ingin menghapus tenant <strong
+                        class="text-slate-700">{{ $vendor->name }}</strong>? Seluruh data terkait tenant ini akan hilang.
+                </p>
+
+                <form action="{{ route('superadmin-vendor-management.destroy', $vendor->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="flex items-center justify-center gap-3">
+                        <button type="button" onclick="delete_vendor_{{ $vendor->id }}.close()"
+                            class="btn btn-ghost text-slate-600">Batal</button>
+                        <x-util.button variant="error" type="submit">
+                            Ya, Hapus
+                        </x-util.button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+    @endforeach
 
 @endsection

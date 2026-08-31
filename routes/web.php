@@ -39,6 +39,8 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
     Route::get('/superadmin/vendor', [VendorManagementController::class, 'index'])->name('superadmin-vendor-management.index');
     Route::post('/superadmin/vendor', [VendorManagementController::class, 'store'])->name('superadmin-vendor-management.create');
+    Route::put('/superadmin/vendor/{id}', [VendorManagementController::class, 'update'])->name('superadmin-vendor-management.update');
+    Route::delete('/superadmin/vendor/{id}', [VendorManagementController::class, 'destroy'])->name('superadmin-vendor-management.destroy');
 });
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
