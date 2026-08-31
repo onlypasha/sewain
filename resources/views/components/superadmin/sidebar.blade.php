@@ -1,5 +1,7 @@
 @php
     use App\Models\User;
+    use App\Models\Subscription;
+    use App\Models\SubscriptionPlan;
 @endphp
 
 <!-- SUPERADMIN SIDEBAR -->
@@ -70,7 +72,8 @@
                     </svg>
                     <span>Langganan</span>
                 </div>
-                {{-- <span class="badge badge-xs bg-indigo-500 text-white font-mono font-bold">Rp 482M</span> --}}
+                <span
+                    class="badge badge-xs bg-emerald-500 border-none text-white font-mono font-bold">{{ Subscription::count() }}</span>
             </a>
             <a href="{{ route('superadmin.subscription-plan') }}" id="super-nav-subscription-plan"
                 class="super-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all">
@@ -81,7 +84,8 @@
                     </svg>
                     <span>Paket</span>
                 </div>
-                {{-- <span class="badge badge-xs bg-indigo-500 text-white font-mono font-bold">Rp 482M</span> --}}
+                <span
+                    class="badge badge-xs bg-emerald-500 border-none text-white font-mono font-bold">{{ SubscriptionPlan::count() }}</span>
             </a>
         </nav>
     </div>
