@@ -39,23 +39,4 @@ class SettingsController extends Controller
 
         return redirect()->route('vendor.settings')->with('success', 'Pengaturan berhasil disimpan');
     }
-
-    public function changepassword()
-    {
-        return view('vendor.changepassword');
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $validated = $request->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        $user = Auth::user();
-        $user->update([
-            'password' => bcrypt($validated['password']),
-        ]);
-
-        return redirect()->route('vendor.changepassword')->with('success', 'Password berhasil diubah');
-    }
 }
