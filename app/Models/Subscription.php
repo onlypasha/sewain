@@ -14,6 +14,20 @@ class Subscription extends Model
         'end_date',
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+
+    public function getRemainingDaysAttribute(): int
+    {
+        if (! $this->end_date || now()->startOfDay()->gt($this->end_date)) {
+            return 0;
+        }
+
+        return (int) now()->startOfDay()->diffInDays($this->end_date);
+    }
+
     public function vendorProfile()
     {
         return $this->belongsTo(VendorProfiles::class, 'vendor_profile_id');

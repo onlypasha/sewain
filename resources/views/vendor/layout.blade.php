@@ -48,7 +48,7 @@
     <!-- MAIN CONTENT AREA -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         <!-- VENDOR TOPBAR -->
-        <x-vendor.topbar />
+        {{-- <x-vendor.topbar /> --}}
 
         <!-- PAGE TAB PANES -->
         <main class="flex-1 p-4 sm:p-6 md:p-8">
