@@ -6,6 +6,7 @@ use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\SubscriptionController;
 use App\Http\Controllers\Superadmin\SubscriptionPlanController;
 use App\Http\Controllers\Superadmin\VendorManagementController;
+use App\Http\Controllers\Vendor\SettingsController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,4 +46,10 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorDashboardController::class, 'index'])->name('vendor.dashboard');
+
+    Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
+    Route::post('/vendor/settings', [SettingsController::class, 'update'])->name('vendor.settings.update');
+
+    Route::get('/vendor/changepassword', [SettingsController::class, 'changepassword'])->name('vendor.changepassword');
+    Route::post('/vendor/changepassword', [SettingsController::class, 'updatePassword'])->name('vendor.changepassword.update');
 });
