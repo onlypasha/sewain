@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('sweetalert2::index')
 
     <style>
         body {
@@ -107,10 +109,10 @@
         function claimDomainNow() {
             const inputVal = document.getElementById('tenant-domain-input').value;
             if(!inputVal) {
-                alert('Silakan masukkan nama calon toko rental Anda!');
+                Swal.fire({ title: 'Peringatan', text: 'Silakan masukkan nama calon toko rental Anda!', icon: 'warning' });
                 return;
             }
-            alert('🎉 Selamat! Subdomain "' + inputVal + '.sewain.id" tersedia. Anda akan diarahkan ke formulir pendaftaran 14 Hari Trial.');
+            Swal.fire({ title: 'Subdomain Tersedia', text: '🎉 Selamat! Subdomain "' + inputVal + '.sewain.id" tersedia. Anda akan diarahkan ke formulir pendaftaran 14 Hari Trial.', icon: 'success' });
         }
 
         // 2. SIMULATOR TENANT SWITCHER
@@ -160,7 +162,7 @@
             const itemName = document.getElementById('sim-item-name').innerText;
             const days = document.getElementById('sim-days-range').value;
             const totalPrice = document.getElementById('sim-total-price').innerText;
-            alert('📱 Simulasi WhatsApp Notification sent to Tenant Admin:\n\n"Halo Admin LensaMania! Saya bermaksud sewa ' + itemName + ' untuk ' + days + ' hari. Total Estimasi: ' + totalPrice + '. E-KTP telah terverifikasi."');
+            Swal.fire({ title: 'Simulasi WA Notification', text: 'Halo Admin LensaMania! Saya bermaksud sewa ' + itemName + ' untuk ' + days + ' hari. Total Estimasi: ' + totalPrice + '. E-KTP telah terverifikasi.', icon: 'info' });
         }
 
         // 3. ROI CALCULATOR LOGIC

@@ -60,7 +60,7 @@
                         Kata Sandi
                     </label>
                     <a href="#"
-                        onclick="alert('Instruksi Reset Password telah disimulasikan ke email tenant Anda.')"
+                        onclick="Swal.fire({ title: 'Reset Password', text: 'Instruksi Reset Password telah disimulasikan ke email tenant Anda.', icon: 'info' })"
                         class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
                         Lupa Kata Sandi?
                     </a>

@@ -144,6 +144,10 @@
 
     function selectPlan(planName, cycle) {
         const cycleText = cycle === 'yearly' ? 'Tahunan' : 'Bulanan';
-        alert(`🎉 Anda memilih Paket ${planName} (${cycleText}). Membuka pendaftaran Trial 14 Hari...`);
+        Swal.fire({
+            title: 'Pendaftaran Trial',
+            text: `🎉 Anda memilih Paket ${planName} (${cycleText}). Membuka pendaftaran Trial 14 Hari...`,
+            icon: 'success'
+        });
     }
 </script>

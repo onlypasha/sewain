@@ -76,9 +76,9 @@
                             </td>
                             <td class="text-right">
                                 <div class="flex items-center justify-end gap-1">
-                                    <button onclick="alert('Edit Aset Sony A7 IV');"
+                                    <button onclick="Swal.fire({ title: 'Edit Aset', text: 'Edit Aset Sony A7 IV', icon: 'info' });"
                                         class="btn btn-ghost btn-xs text-slate-600">Edit</button>
-                                    <button onclick="alert('Jadwal Kalender Stok');"
+                                    <button onclick="Swal.fire({ title: 'Kalender Stok', text: 'Jadwal Kalender Stok', icon: 'info' });"
                                         class="btn btn-ghost btn-xs text-emerald-600">Kalender</button>
                                 </div>
                             </td>
@@ -103,9 +103,9 @@
                             </td>
                             <td class="text-right">
                                 <div class="flex items-center justify-end gap-1">
-                                    <button onclick="alert('Edit Aset Lensa');"
+                                    <button onclick="Swal.fire({ title: 'Edit Aset', text: 'Edit Aset Lensa', icon: 'info' });"
                                         class="btn btn-ghost btn-xs text-slate-600">Edit</button>
-                                    <button onclick="alert('Jadwal Kalender Stok');"
+                                    <button onclick="Swal.fire({ title: 'Kalender Stok', text: 'Jadwal Kalender Stok', icon: 'info' });"
                                         class="btn btn-ghost btn-xs text-emerald-600">Kalender</button>
                                 </div>
                             </td>
@@ -128,9 +128,9 @@
                             </td>
                             <td class="text-right">
                                 <div class="flex items-center justify-end gap-1">
-                                    <button onclick="alert('Edit Aset Lighting');"
+                                    <button onclick="Swal.fire({ title: 'Edit Aset', text: 'Edit Aset Lighting', icon: 'info' });"
                                         class="btn btn-ghost btn-xs text-slate-600">Edit</button>
-                                    <button onclick="alert('Jadwal Kalender Stok');"
+                                    <button onclick="Swal.fire({ title: 'Kalender Stok', text: 'Jadwal Kalender Stok', icon: 'info' });"
                                         class="btn btn-ghost btn-xs text-emerald-600">Kalender</button>
                                 </div>
                             </td>

@@ -26,7 +26,7 @@
 
         <!-- Notification Bell -->
         <button
-            onclick="alert('🔔 System Alerts:\n1. New Enterprise Tenant Provisioned: AutoFleet Bali\n2. Monthly Billing Cycle Processed: Rp 482.5M Captured\n3. Database Migration Completed for v2.4')"
+            onclick="Swal.fire({ title: 'System Alerts', html: '1. New Enterprise Tenant Provisioned: AutoFleet Bali<br>2. Monthly Billing Cycle Processed: Rp 482.5M Captured<br>3. Database Migration Completed for v2.4', icon: 'info' })"
             class="btn btn-ghost btn-circle btn-sm text-slate-600 hover:text-slate-900 relative">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

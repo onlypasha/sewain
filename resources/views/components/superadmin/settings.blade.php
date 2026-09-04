@@ -5,7 +5,7 @@
             <h1 class="text-2xl font-extrabold text-slate-900 font-heading">Pengaturan Global Platform Engine</h1>
             <p class="text-slate-500 text-xs mt-0.5">Konfigurasi parameter global multi-tenant, durasi trial, dan integrasi payment gateway utama.</p>
         </div>
-        <button onclick="alert('Pengaturan Global Platform Berhasil Disimpan!');" class="btn btn-primary btn-sm font-bold shadow-md bg-indigo-600 border-none">Simpan Pengaturan Platform</button>
+        <button onclick="Swal.fire({ title: 'Berhasil', text: 'Pengaturan Global Platform Berhasil Disimpan!', icon: 'success' });" class="btn btn-primary btn-sm font-bold shadow-md bg-indigo-600 border-none">Simpan Pengaturan Platform</button>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

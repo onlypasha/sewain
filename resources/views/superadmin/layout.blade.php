@@ -17,6 +17,8 @@
         rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('sweetalert2::index')
 
     <style>
         body {
@@ -97,8 +99,11 @@
         function handleCreateTenantSubmit() {
             const name = document.getElementById('new-tenant-name').value;
             const sub = document.getElementById('new-tenant-subdomain').value;
-            alert('🚀 Berhasil Provisioning Tenant Baru:\n\nNama Toko: ' + name + '\nSubdomain: ' + sub +
-                '.sewain.id\nDatabase SSL Isolated!');
+            Swal.fire({
+                title: 'Provisioning Berhasil',
+                text: '🚀 Berhasil Provisioning Tenant Baru:\nNama Toko: ' + name + '\nSubdomain: ' + sub + '.sewain.id\nDatabase SSL Isolated!',
+                icon: 'success'
+            });
             closeCreateTenantModal();
         }
     </script>

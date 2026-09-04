@@ -1,7 +1,20 @@
 @extends('vendor.layout')
 @section('content')
-    <!-- TAB 1: OVERVIEW DASHBOARD -->
-    <div id="tab-content-overview" class="admin-tab-pane space-y-6">
+    <div class="space-y-6">
+        @if (session('Warning'))
+            <x-util.alert variant="warning">
+                {{ session('Warning') }}
+            </x-util.alert>
+        @endif
+
+        @if (!Auth::user()?->isSubscriptionActive())
+            <x-util.alert variant="warning">
+                <strong>Status Langganan Tidak Aktif:</strong> Paket langganan toko Anda saat ini sedang tidak aktif atau kadaluarsa. Semua menu pada sidebar terkunci dan hanya halaman Dashboard yang dapat diakses. Silakan hubungi Superadmin untuk mengaktifkan kembali langganan Anda.
+            </x-util.alert>
+        @endif
+
+        <!-- TAB 1: OVERVIEW DASHBOARD -->
+        <div id="tab-content-overview" class="admin-tab-pane space-y-6">
         <!-- Header Section -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -129,11 +142,11 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
-                            <button onclick="alert('PDF Kontrak Digital #SEW-94812 berhasil diterbitkan!');"
+                            <button onclick="Swal.fire({ title: 'PDF Kontrak', text: 'PDF Kontrak Digital #SEW-94812 berhasil diterbitkan!', icon: 'success' });"
                                 class="btn btn-xs btn-outline border-slate-300 font-semibold text-slate-700">📄 PDF
                                 Kontrak</button>
                             <button
-                                onclick="alert('Serah terima barang dikonfirmasi! Notifikasi WA terkirim ke pelanggan.');"
+                                onclick="Swal.fire({ title: 'Serah Terima Unit', text: 'Serah terima barang dikonfirmasi! Notifikasi WA terkirim ke pelanggan.', icon: 'success' });"
                                 class="btn btn-xs btn-emerald btn-primary font-bold">Serahkan Unit</button>
                         </div>
                     </div>
@@ -209,6 +222,7 @@
                     <span>Versi Engine: v2.4 Multi-Tenant</span>
                     <a href="/#faq" class="text-emerald-400 hover:underline">Bantuan CS</a>
                 </div>
+            </div>
             </div>
         </div>
     </div>

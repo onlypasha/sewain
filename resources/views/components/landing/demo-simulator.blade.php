@@ -244,7 +244,7 @@
                                     <p class="text-xs text-slate-500">Transmisi Matic, Full AC, Kapasitas 7 Seat</p>
                                     <div class="font-extrabold text-emerald-700 text-lg mt-2">Rp 750.000 <span class="text-xs text-slate-500 font-normal">/24 Jam</span></div>
                                 </div>
-                                <button onclick="alert('Demo: Fitur Sewa Mobil dengan Opsi Driver Terpilih!')" class="btn btn-sm btn-primary btn-emerald">Booking Mobil</button>
+                                <button onclick="Swal.fire({ title: 'Demo Simulator', text: 'Demo: Fitur Sewa Mobil dengan Opsi Driver Terpilih!', icon: 'info' })" class="btn btn-sm btn-primary btn-emerald">Booking Mobil</button>
                             </div>
 
                             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
@@ -254,7 +254,7 @@
                                     <p class="text-xs text-slate-500">Free 2 Helm + Jas Hujan + Holder HP</p>
                                     <div class="font-extrabold text-emerald-700 text-lg mt-2">Rp 175.000 <span class="text-xs text-slate-500 font-normal">/24 Jam</span></div>
                                 </div>
-                                <button onclick="alert('Demo: Fitur Sewa Motor Terpilih!')" class="btn btn-sm btn-outline border-slate-300">Booking Motor</button>
+                                <button onclick="Swal.fire({ title: 'Demo Simulator', text: 'Demo: Fitur Sewa Motor Terpilih!', icon: 'info' })" class="btn btn-sm btn-outline border-slate-300">Booking Motor</button>
                             </div>
                         </div>
                     </div>
@@ -295,7 +295,7 @@
                                     <p class="text-xs text-slate-500">Termasuk 4 Matras + 2 Sleeping Bag + Kompor Propan</p>
                                     <div class="font-extrabold text-emerald-700 text-lg mt-2">Rp 120.000 <span class="text-xs text-slate-500 font-normal">/malam</span></div>
                                 </div>
-                                <button onclick="alert('Demo: Paket Camping Terpilih!')" class="btn btn-sm btn-primary btn-emerald">Sewa Alat</button>
+                                <button onclick="Swal.fire({ title: 'Demo Simulator', text: 'Demo: Paket Camping Terpilih!', icon: 'info' })" class="btn btn-sm btn-primary btn-emerald">Sewa Alat</button>
                             </div>
 
                             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
@@ -305,7 +305,7 @@
                                     <p class="text-xs text-slate-500">Bensin Penuh + Kabel Roll 50 Meter</p>
                                     <div class="font-extrabold text-emerald-700 text-lg mt-2">Rp 450.000 <span class="text-xs text-slate-500 font-normal">/hari</span></div>
                                 </div>
-                                <button onclick="alert('Demo: Genset Terpilih!')" class="btn btn-sm btn-outline border-slate-300">Sewa Genset</button>
+                                <button onclick="Swal.fire({ title: 'Demo Simulator', text: 'Demo: Genset Terpilih!', icon: 'info' })" class="btn btn-sm btn-outline border-slate-300">Sewa Genset</button>
                             </div>
                         </div>
                     </div>

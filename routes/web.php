@@ -48,11 +48,13 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorDashboardController::class, 'index'])->name('vendor.dashboard');
 
-    Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
-    Route::post('/vendor/settings', [SettingsController::class, 'update'])->name('vendor.settings.update');
+    Route::middleware(['subscription.active'])->group(function () {
+        Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
+        Route::post('/vendor/settings', [SettingsController::class, 'update'])->name('vendor.settings.update');
 
-    Route::get('/vendor/subscription/', [VendorSubscriptionController::class, 'index'])->name('vendor.subscription');
+        Route::get('/vendor/subscription/', [VendorSubscriptionController::class, 'index'])->name('vendor.subscription');
 
-    Route::get('/vendor/changepassword', [ChangePasswordController::class, 'index'])->name('vendor.changepassword');
-    Route::post('/vendor/changepassword', [ChangePasswordController::class, 'updatePassword'])->name('vendor.changepassword.update');
+        Route::get('/vendor/changepassword', [ChangePasswordController::class, 'index'])->name('vendor.changepassword');
+        Route::post('/vendor/changepassword', [ChangePasswordController::class, 'updatePassword'])->name('vendor.changepassword.update');
+    });
 });

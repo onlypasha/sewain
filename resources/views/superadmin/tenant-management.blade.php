@@ -95,7 +95,7 @@
                             <div class="flex items-center justify-end gap-1">
                                 <a href="/admin" target="_blank"
                                     class="btn btn-ghost btn-xs text-indigo-600 font-bold">Impersonate</a>
-                                <button onclick="alert('Kelola Lisensi Tenant #TNT-841');"
+                                <button onclick="Swal.fire({ title: 'Lisensi Tenant', text: 'Kelola Lisensi Tenant #TNT-841', icon: 'info' });"
                                     class="btn btn-ghost btn-xs text-slate-600">Edit Tier</button>
                             </div>
                         </td>

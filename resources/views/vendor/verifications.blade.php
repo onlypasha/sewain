@@ -44,11 +44,11 @@
                 </div>
 
                 <div class="flex items-center justify-between pt-2">
-                    <button onclick="alert('Verifikasi KTP Siti Rahmawati Ditolak');"
+                    <button onclick="Swal.fire({ title: 'Verifikasi Ditolak', text: 'Verifikasi KTP Siti Rahmawati Ditolak', icon: 'error' });"
                         class="btn btn-xs btn-outline border-rose-300 text-rose-600 hover:bg-rose-50">Tolak
                         Identitas</button>
                     <button
-                        onclick="alert('Verifikasi KTP Siti Rahmawati DISETUJUI! Notifikasi WA disimulasikan ke penyewa.');"
+                        onclick="Swal.fire({ title: 'Verifikasi Disetujui', text: 'Verifikasi KTP Siti Rahmawati DISETUJUI! Notifikasi WA disimulasikan ke penyewa.', icon: 'success' });"
                         class="btn btn-xs btn-emerald btn-primary font-bold">Setujui & Terbitkan PDF Kontrak</button>
                 </div>
             </div>

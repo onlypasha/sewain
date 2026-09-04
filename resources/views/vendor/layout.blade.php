@@ -17,6 +17,8 @@
         rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('sweetalert2::index')
 
     <style>
         body {
@@ -98,7 +100,7 @@
 
         function handleAddAssetSubmit() {
             const name = document.getElementById('new-asset-name').value;
-            alert('🎉 Aset Baru "' + name + '" berhasil ditambahkan ke katalog toko!');
+            Swal.fire({ title: 'Tambah Aset', text: '🎉 Aset Baru "' + name + '" berhasil ditambahkan ke katalog toko!', icon: 'success' });
             closeAddAssetModal();
         }
     </script>
