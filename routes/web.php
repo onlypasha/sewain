@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Superadmin\DashboardController;
+use App\Http\Controllers\Superadmin\PaymentsController;
 use App\Http\Controllers\Superadmin\SubscriptionController;
 use App\Http\Controllers\Superadmin\SubscriptionPlanController;
 use App\Http\Controllers\Superadmin\VendorManagementController;
@@ -44,6 +45,10 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::post('/superadmin/vendor', [VendorManagementController::class, 'store'])->name('superadmin-vendor-management.create');
     Route::put('/superadmin/vendor/{id}', [VendorManagementController::class, 'update'])->name('superadmin-vendor-management.update');
     Route::delete('/superadmin/vendor/{id}', [VendorManagementController::class, 'destroy'])->name('superadmin-vendor-management.destroy');
+
+    Route::get('/superadmin/payments', [PaymentsController::class, 'index'])->name('superadmin.payments');
+    Route::post('/superadmin/payments/{id}/approve', [PaymentsController::class, 'approve'])->name('superadmin.payments.approve');
+    Route::post('/superadmin/payments/{id}/reject', [PaymentsController::class, 'reject'])->name('superadmin.payments.reject');
 });
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {

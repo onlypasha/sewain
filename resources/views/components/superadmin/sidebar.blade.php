@@ -2,6 +2,7 @@
     use App\Models\User;
     use App\Models\Subscription;
     use App\Models\SubscriptionPlan;
+    use App\Models\SubscriptionPurchase;
 @endphp
 
 <!-- SUPERADMIN SIDEBAR -->
@@ -86,6 +87,18 @@
                 </div>
                 <span
                     class="badge badge-xs bg-emerald-500 border-none text-white font-mono font-bold">{{ SubscriptionPlan::count() }}</span>
+            </a>
+            <a href="{{ route('superadmin.payments') }}" id="super-nav-subscription-plan"
+                class="super-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all">
+                <div class="flex items-center gap-3">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span>Pembayaran</span>
+                </div>
+                <span
+                    class="badge badge-xs bg-emerald-500 border-none text-white font-mono font-bold">{{ SubscriptionPurchase::where('status', 'pending')->count() }}</span>
             </a>
         </nav>
     </div>

@@ -41,12 +41,6 @@ class SubscriptionPurchaseController extends Controller
             ]
         );
 
-        if ($subscription->subscription_plan_id !== $plan->id) {
-            $subscription->update([
-                'subscription_plan_id' => $plan->id,
-            ]);
-        }
-
         $proofPath = null;
         if ($request->hasFile('payment_proof')) {
             $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
@@ -54,6 +48,7 @@ class SubscriptionPurchaseController extends Controller
 
         SubscriptionPurchase::create([
             'subscription_id' => $subscription->id,
+            'subscription_plan_id' => $plan->id,
             'amount' => $plan->price,
             'payment_proof_path' => $proofPath,
             'status' => 'pending',
@@ -62,7 +57,7 @@ class SubscriptionPurchaseController extends Controller
 
         Swal::success([
             'title' => 'Pembayaran Terkirim',
-            'text' => 'Bukti pembayaran berhasil diunggah dan sedang menunggu verifikasi.',
+            'text' => 'Bukti pembayaran berhasil diunggah dan sedang menunggu verifikasi Superadmin.',
         ]);
 
         return redirect()->back();

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('subscription_purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subscription_id')->constrained()->restrictOnDelete();
+            $table->foreignId('subscription_plan_id')->nullable()->constrained('subscription_plans')->nullOnDelete();
             $table->decimal('amount', 12, 2)->default(0);
             $table->string('payment_proof_path')->nullable();
             $table->string('status')->default('pending');

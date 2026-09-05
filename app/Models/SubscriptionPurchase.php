@@ -9,6 +9,7 @@ class SubscriptionPurchase extends Model
 {
     protected $fillable = [
         'subscription_id',
+        'subscription_plan_id',
         'amount',
         'payment_proof_path',
         'status',
@@ -26,6 +27,11 @@ class SubscriptionPurchase extends Model
     public function subscription(): BelongsTo
     {
         return $this->belongsTo(Subscription::class);
+    }
+
+    public function subscriptionPlan(): BelongsTo
+    {
+        return $this->belongsTo(SubscriptionPlan::class);
     }
 
     public function verifiedBy(): BelongsTo
