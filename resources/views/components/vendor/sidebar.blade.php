@@ -138,7 +138,7 @@
 
             <li>
                 <details
-                    {{ (request()->routeIs('vendor.settings') || request()->routeIs('vendor.changepassword') || request()->routeIs('vendor.subscription')) && $isSubActive ? 'open' : '' }}>
+                    {{ (request()->routeIs('vendor.settings') || request()->routeIs('vendor.dangerzone') || request()->routeIs('vendor.subscription')) && $isSubActive ? 'open' : '' }}>
                     <summary
                         class="admin-nav-btn flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all {{ !$isSubActive ? 'opacity-50' : '' }}">
                         <div class="flex items-center gap-3">
@@ -183,13 +183,13 @@
                         </li>
                         <li>
                             @if ($isSubActive)
-                                <a href="{{ route('vendor.changepassword') }}" class="text-slate-400 hover:text-white">
-                                    Ubah Password
+                                <a href="{{ route('vendor.dangerzone') }}" class="text-rose-400 hover:text-rose-300 font-semibold">
+                                    Zona Merah
                                 </a>
                             @else
                                 <a href="javascript:void(0)" onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                                     class="text-slate-600 opacity-50 cursor-not-allowed flex items-center justify-between">
-                                    <span>Ubah Password</span>
+                                    <span>Zona Merah</span>
                                     <span>🔒</span>
                                 </a>
                             @endif

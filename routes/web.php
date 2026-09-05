@@ -6,9 +6,10 @@ use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\SubscriptionController;
 use App\Http\Controllers\Superadmin\SubscriptionPlanController;
 use App\Http\Controllers\Superadmin\VendorManagementController;
-use App\Http\Controllers\Vendor\ChangePasswordController;
+use App\Http\Controllers\Vendor\DangerZoneController;
 use App\Http\Controllers\Vendor\SettingsController;
 use App\Http\Controllers\Vendor\SubscriptionController as VendorSubscriptionController;
+use App\Http\Controllers\Vendor\SubscriptionPurchaseController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 
 // Route::get('/', function () {
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorDashboardController::class, 'index'])->name('vendor.dashboard');
+    Route::post('/vendor/subscription-purchases', [SubscriptionPurchaseController::class, 'store'])->name('vendor.subscription-purchases.store');
 
     Route::middleware(['subscription.active'])->group(function () {
         Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
@@ -54,7 +56,8 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
 
         Route::get('/vendor/subscription/', [VendorSubscriptionController::class, 'index'])->name('vendor.subscription');
 
-        Route::get('/vendor/changepassword', [ChangePasswordController::class, 'index'])->name('vendor.changepassword');
-        Route::post('/vendor/changepassword', [ChangePasswordController::class, 'updatePassword'])->name('vendor.changepassword.update');
+        Route::get('/vendor/dangerzone', [DangerZoneController::class, 'index'])->name('vendor.dangerzone');
+        Route::post('/vendor/dangerzone/password', [DangerZoneController::class, 'updatePassword'])->name('vendor.dangerzone.password');
+        Route::post('/vendor/dangerzone/cancel-subscription', [DangerZoneController::class, 'cancelSubscription'])->name('vendor.dangerzone.cancel-subscription');
     });
 });
