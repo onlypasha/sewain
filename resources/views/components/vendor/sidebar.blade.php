@@ -1,4 +1,3 @@
-<!-- ADMIN SIDEBAR -->
 <aside
     class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0 h-screen sticky top-0 border-r border-slate-800 z-30 transition-all">
     <div>
@@ -6,12 +5,9 @@
         <div class="p-5 border-b border-slate-800">
             <a href="/" class="flex items-center gap-3 group mb-3">
                 <div
-                    class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0V8a2 2 0 012-2h2a2 2 0 012 2v3m-6 0h6">
-                        </path>
-                    </svg>
+                    class="w-18 h-14 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                    <img src="{{ Storage::url(Auth::user()->vendorProfiles->profiles_picture) }}" alt="Foto Profil Vendor"
+                        class="w-full h-full object-cover">
                 </div>
                 <div>
                     <span
@@ -66,7 +62,8 @@
                             class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->vendorProfiles->assets ?? 0 }}</span>
                     </button>
                 @else
-                    <button onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <button
+                        onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +90,8 @@
                         </div>
                     </button>
                 @else
-                    <button onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <button
+                        onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +118,8 @@
                         </div>
                     </button>
                 @else
-                    <button onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <button
+                        onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,7 +160,8 @@
                                     Profil Toko
                                 </a>
                             @else
-                                <a href="javascript:void(0)" onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                                <a href="javascript:void(0)"
+                                    onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                                     class="text-slate-600 opacity-50 cursor-not-allowed flex items-center justify-between">
                                     <span>Profil Toko</span>
                                     <span>🔒</span>
@@ -174,7 +174,8 @@
                                     Langganan toko
                                 </a>
                             @else
-                                <a href="javascript:void(0)" onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                                <a href="javascript:void(0)"
+                                    onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                                     class="text-slate-600 opacity-50 cursor-not-allowed flex items-center justify-between">
                                     <span>Langganan toko</span>
                                     <span>🔒</span>
@@ -183,11 +184,13 @@
                         </li>
                         <li>
                             @if ($isSubActive)
-                                <a href="{{ route('vendor.dangerzone') }}" class="text-rose-400 hover:text-rose-300 font-semibold">
+                                <a href="{{ route('vendor.dangerzone') }}"
+                                    class="text-rose-400 hover:text-rose-300 font-semibold">
                                     Zona Merah
                                 </a>
                             @else
-                                <a href="javascript:void(0)" onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                                <a href="javascript:void(0)"
+                                    onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                                     class="text-slate-600 opacity-50 cursor-not-allowed flex items-center justify-between">
                                     <span>Zona Merah</span>
                                     <span>🔒</span>
@@ -206,7 +209,8 @@
             <div class="flex items-center gap-2.5">
                 <div
                     class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center font-heading text-xs">
-                    LM
+                    <img src="{{ Storage::url(Auth::user()->vendorProfiles->profiles_picture) }}"
+                        alt="Foto Profil Vendor" class="w-full h-full object-cover rounded-full">
                 </div>
                 <div>
                     <div class="text-xs font-bold text-white leading-tight">{{ Auth::user()->email }}</div>

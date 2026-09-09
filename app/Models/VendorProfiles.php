@@ -14,6 +14,7 @@ class VendorProfiles extends Model
         'assets',
         'status',
         'address',
+        'profiles_picture',
     ];
 
     public function user()
