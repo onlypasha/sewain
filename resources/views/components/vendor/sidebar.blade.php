@@ -49,7 +49,7 @@
 
             <li>
                 @if ($isSubActive)
-                    <button onclick="switchAdminTab('inventory')" id="nav-inventory"
+                    <a href="{{ route('vendor.items') }}" id="nav-inventory"
                         class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,10 +60,9 @@
                         </div>
                         <span
                             class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->vendorProfiles->assets ?? 0 }}</span>
-                    </button>
+                    </a>
                 @else
-                    <button
-                        onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,7 +72,35 @@
                             <span>Katalog & Stok Aset</span>
                         </div>
                         <span>🔒</span>
-                    </button>
+                    </a>
+                @endif
+            </li>
+
+            <li>
+                @if ($isSubActive)
+                    <a href="{{ route('vendor.category') }}" id="nav-category"
+                        class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h10M7 12h10m-8 5h8" />
+                            </svg>
+                            <span>Kategori Aset</span>
+                        </div>
+                        <span class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->itemsCategories->count() }}</span>
+                    </a>
+                @else
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                        class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h10M7 12h10m-8 5h8" />
+                            </svg>
+                            <span>Kategori Aset</span>
+                        </div>
+                        <span>🔒</span>
+                    </a>
                 @endif
             </li>
 

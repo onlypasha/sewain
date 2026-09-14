@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -34,6 +35,16 @@ class User extends Authenticatable
     public function vendorProfiles(): HasOne
     {
         return $this->hasOne(VendorProfiles::class);
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(Items::class, 'vendor_id');
+    }
+
+    public function itemsCategories(): HasMany
+    {
+        return $this->hasMany(ItemsCategory::class, 'vendor_id');
     }
 
     public function isSubscriptionActive(): bool
