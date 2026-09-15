@@ -170,7 +170,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
-                            <button onclick="switchAdminTab('verifications')"
+                            <button onclick="window.location.href = '{{ route('vendor.verifications') }}'"
                                 class="btn btn-xs btn-warning font-bold text-slate-950">Verifikasi E-KTP</button>
                         </div>
                     </div>

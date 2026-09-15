@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImageProxyController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Superadmin\DashboardController;
+use App\Http\Controllers\Superadmin\FeatureController;
 use App\Http\Controllers\Superadmin\PaymentsController;
 use App\Http\Controllers\Superadmin\SubscriptionController;
 use App\Http\Controllers\Superadmin\SubscriptionPlanController;
@@ -54,6 +55,12 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/payments', [PaymentsController::class, 'index'])->name('superadmin.payments');
     Route::post('/superadmin/payments/{id}/approve', [PaymentsController::class, 'approve'])->name('superadmin.payments.approve');
     Route::post('/superadmin/payments/{id}/reject', [PaymentsController::class, 'reject'])->name('superadmin.payments.reject');
+
+    Route::get('/superadmin/features', [FeatureController::class, 'index'])->name('superadmin.features.index');
+    Route::post('/superadmin/features', [FeatureController::class, 'store'])->name('superadmin.features.store');
+    Route::put('/superadmin/features/{id}', [FeatureController::class, 'update'])->name('superadmin.features.update');
+    Route::put('/superadmin/features/{id}/maintenance', [FeatureController::class, 'toggleMaintenance'])->name('superadmin.features.maintenance');
+    Route::delete('/superadmin/features/{id}', [FeatureController::class, 'destroy'])->name('superadmin.features.destroy');
 });
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
@@ -64,16 +71,27 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
         Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
         Route::post('/vendor/settings', [SettingsController::class, 'update'])->name('vendor.settings.update');
 
-        Route::get('/vendor/bookings/', [BookingsController::class, 'index'])->name('vendor.bookings');
-        Route::get('/vendor/items', [ItemsController::class, 'index'])->name('vendor.items');
-        Route::post('/vendor/items', [ItemsController::class, 'store'])->name('vendor.items.store');
-        Route::put('/vendor/items/{id}', [ItemsController::class, 'update'])->name('vendor.items.update');
-        Route::delete('/vendor/items/{id}', [ItemsController::class, 'destroy'])->name('vendor.items.destroy');
+        Route::get('/vendor/bookings/', [BookingsController::class, 'index'])
+            ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
+            ->name('vendor.bookings');
 
-        Route::get('/vendor/category', [ItemsCategoryController::class, 'index'])->name('vendor.category');
-        Route::post('/vendor/category', [ItemsCategoryController::class, 'store'])->name('vendor.category.store');
-        Route::put('/vendor/category/{id}', [ItemsCategoryController::class, 'update'])->name('vendor.category.update');
-        Route::delete('/vendor/category/{id}', [ItemsCategoryController::class, 'destroy'])->name('vendor.category.destroy');
+        Route::get('/vendor/verifications', [\App\Http\Controllers\Vendor\VerificationsController::class, 'index'])
+            ->middleware(['feature.access:verifikasi_ktp', 'feature.maintenance:verifikasi_ktp'])
+            ->name('vendor.verifications');
+
+        Route::middleware(['feature.access:asset_management', 'feature.maintenance:asset_management'])->group(function () {
+            Route::get('/vendor/items', [ItemsController::class, 'index'])->name('vendor.items');
+            Route::post('/vendor/items', [ItemsController::class, 'store'])->name('vendor.items.store');
+            Route::put('/vendor/items/{id}', [ItemsController::class, 'update'])->name('vendor.items.update');
+            Route::delete('/vendor/items/{id}', [ItemsController::class, 'destroy'])->name('vendor.items.destroy');
+        });
+
+        Route::middleware(['feature.access:category_management', 'feature.maintenance:category_management'])->group(function () {
+            Route::get('/vendor/category', [ItemsCategoryController::class, 'index'])->name('vendor.category');
+            Route::post('/vendor/category', [ItemsCategoryController::class, 'store'])->name('vendor.category.store');
+            Route::put('/vendor/category/{id}', [ItemsCategoryController::class, 'update'])->name('vendor.category.update');
+            Route::delete('/vendor/category/{id}', [ItemsCategoryController::class, 'destroy'])->name('vendor.category.destroy');
+        });
 
         Route::get('/vendor/subscription/', [VendorSubscriptionController::class, 'index'])->name('vendor.subscription');
 

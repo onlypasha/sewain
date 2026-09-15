@@ -30,6 +30,18 @@
         <!-- NAVIGATION MENU -->
         @php
             $isSubActive = Auth::user()?->isSubscriptionActive() ?? false;
+            
+            $hasAssetAccess = $isSubActive && Auth::user()?->hasFeatureAccess('asset_management');
+            $assetErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Katalog Aset.';
+
+            $hasCategoryAccess = $isSubActive && Auth::user()?->hasFeatureAccess('category_management');
+            $categoryErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Kategori Aset.';
+
+            $hasBookingAccess = $isSubActive && Auth::user()?->hasFeatureAccess('booking_system');
+            $bookingErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Transaksi & Booking.';
+
+            $hasVerifikasiAccess = $isSubActive && Auth::user()?->hasFeatureAccess('verifikasi_ktp');
+            $verifikasiErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Verifikasi KTP.';
         @endphp
 
         <ul class="menu bg-slate-900 rounded-box w-56 p-4 space-y-1 text-xs font-medium">
@@ -48,7 +60,7 @@
             </li>
 
             <li>
-                @if ($isSubActive)
+                @if ($hasAssetAccess)
                     <a href="{{ route('vendor.items') }}" id="nav-inventory"
                         class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
                         <div class="flex items-center gap-3">
@@ -62,7 +74,7 @@
                             class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->vendorProfiles->assets ?? 0 }}</span>
                     </a>
                 @else
-                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $assetErrorMsg }}' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,7 +89,7 @@
             </li>
 
             <li>
-                @if ($isSubActive)
+                @if ($hasCategoryAccess)
                     <a href="{{ route('vendor.category') }}" id="nav-category"
                         class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
                         <div class="flex items-center gap-3">
@@ -91,7 +103,7 @@
                             class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->itemsCategories->count() }}</span>
                     </a>
                 @else
-                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $categoryErrorMsg }}' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,7 +118,7 @@
             </li>
 
             <li>
-                @if ($isSubActive)
+                @if ($hasBookingAccess)
                     <a href="{{ route('vendor.bookings') }}" id="nav-bookings"
                         class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
                         <div class="flex items-center gap-3">
@@ -118,7 +130,7 @@
                         </div>
                     </a>
                 @else
-                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $bookingErrorMsg }}' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,8 +145,8 @@
             </li>
 
             <li>
-                @if ($isSubActive)
-                    <button onclick="switchAdminTab('verifications')" id="nav-verifications"
+                @if ($hasVerifikasiAccess)
+                    <a href="{{ route('vendor.verifications') }}" id="nav-verifications"
                         class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,10 +155,9 @@
                             </svg>
                             <span>Verifikasi E-KTP</span>
                         </div>
-                    </button>
+                    </a>
                 @else
-                    <button
-                        onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $verifikasiErrorMsg }}' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +167,7 @@
                             <span>Verifikasi E-KTP</span>
                         </div>
                         <span>🔒</span>
-                    </button>
+                    </a>
                 @endif
             </li>
             <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 px-3 pt-4 pb-1">

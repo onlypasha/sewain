@@ -58,4 +58,33 @@ class User extends Authenticatable
 
         return $subscription && $subscription->status === 'active';
     }
+
+    public function hasFeatureAccess(string $featureKey): bool
+    {
+        if ($this->role !== 'vendor') {
+            return true; // Superadmins might not need this check, but just in case
+        }
+
+        $profile = $this->vendorProfiles;
+        if (! $profile) {
+            return false;
+        }
+
+        $subscription = $profile->subscriptions()->latest()->first();
+        if (! $subscription || $subscription->status !== 'active') {
+            return false;
+        }
+
+        $plan = $subscription->subscriptionPlan;
+        if (! $plan) {
+            return false;
+        }
+
+        // Load features list if not already loaded to avoid N+1 queries when checked multiple times
+        if (! $plan->relationLoaded('featuresList')) {
+            $plan->load('featuresList');
+        }
+
+        return $plan->featuresList->contains('key', $featureKey);
+    }
 }
