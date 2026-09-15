@@ -87,7 +87,8 @@
                             </svg>
                             <span>Kategori Aset</span>
                         </div>
-                        <span class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->itemsCategories->count() }}</span>
+                        <span
+                            class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->itemsCategories->count() }}</span>
                     </a>
                 @else
                     <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
@@ -106,7 +107,7 @@
 
             <li>
                 @if ($isSubActive)
-                    <button onclick="switchAdminTab('bookings')" id="nav-bookings"
+                    <a href="{{ route('vendor.bookings') }}" id="nav-bookings"
                         class="admin-nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,10 +116,9 @@
                             </svg>
                             <span>Transaksi & Booking</span>
                         </div>
-                    </button>
+                    </a>
                 @else
-                    <button
-                        onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
+                    <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: 'Langganan Anda tidak aktif. Menu ini terkunci.' });"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 opacity-50 cursor-not-allowed">
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,7 +128,7 @@
                             <span>Transaksi & Booking</span>
                         </div>
                         <span>🔒</span>
-                    </button>
+                    </a>
                 @endif
             </li>
 

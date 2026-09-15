@@ -8,6 +8,7 @@ use App\Http\Controllers\Superadmin\PaymentsController;
 use App\Http\Controllers\Superadmin\SubscriptionController;
 use App\Http\Controllers\Superadmin\SubscriptionPlanController;
 use App\Http\Controllers\Superadmin\VendorManagementController;
+use App\Http\Controllers\Vendor\BookingsController;
 use App\Http\Controllers\Vendor\DangerZoneController;
 use App\Http\Controllers\Vendor\ItemsCategoryController;
 use App\Http\Controllers\Vendor\ItemsController;
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
         Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
         Route::post('/vendor/settings', [SettingsController::class, 'update'])->name('vendor.settings.update');
 
+        Route::get('/vendor/bookings/', [BookingsController::class, 'index'])->name('vendor.bookings');
         Route::get('/vendor/items', [ItemsController::class, 'index'])->name('vendor.items');
         Route::post('/vendor/items', [ItemsController::class, 'store'])->name('vendor.items.store');
         Route::put('/vendor/items/{id}', [ItemsController::class, 'update'])->name('vendor.items.update');
