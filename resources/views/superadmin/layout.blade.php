@@ -101,7 +101,8 @@
             const sub = document.getElementById('new-tenant-subdomain').value;
             Swal.fire({
                 title: 'Provisioning Berhasil',
-                text: '🚀 Berhasil Provisioning Tenant Baru:\nNama Toko: ' + name + '\nSubdomain: ' + sub + '.sewain.id\nDatabase SSL Isolated!',
+                text: '🚀 Berhasil Provisioning Tenant Baru:\nNama Toko: ' + name + '\nSubdomain: ' + sub +
+                    '.sewain.id\nDatabase SSL Isolated!',
                 icon: 'success'
             });
             closeCreateTenantModal();

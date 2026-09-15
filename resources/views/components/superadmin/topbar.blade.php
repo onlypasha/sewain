@@ -1,44 +1,59 @@
 <!-- SUPERADMIN TOPBAR -->
+@php
+    $currentDate = \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y');
+    $dbStatus = 'Terhubung';
+    $dbColor = 'bg-emerald-500';
+    $dbBg = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+    } catch (\Exception $e) {
+        $dbStatus = 'Terputus';
+        $dbColor = 'bg-rose-500';
+        $dbBg = 'bg-rose-50 text-rose-700 border-rose-200';
+    }
+@endphp
+
 <header
     class="bg-white border-b border-slate-200/90 py-3.5 px-6 sticky top-0 z-20 shadow-xs flex items-center justify-between">
-    <!-- Global Platform Search Bar -->
-    <div class="flex items-center gap-3 flex-1 max-w-md">
-        <div class="relative w-full">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </div>
-            <input type="text" placeholder="Cari nama tenant, subdomain (.sewain.id), atau email pemilik..."
-                class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 font-medium">
+
+    <!-- Left Section: Date & Time -->
+    <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 text-slate-700 text-sm font-semibold font-heading">
+            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {{ $currentDate }}
         </div>
     </div>
 
-    <!-- Right Header Controls -->
+    <!-- Right Section: Database Status -->
     <div class="flex items-center gap-3">
-        <!-- Live System Status Badge -->
-        <div
-            class="hidden sm:flex items-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-800 text-[11px] font-mono font-semibold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            <span>Cluster Response: 14ms • All Nodes Healthy</span>
-        </div>
-
-        <!-- Notification Bell -->
-        <button
-            onclick="Swal.fire({ title: 'System Alerts', html: '1. New Enterprise Tenant Provisioned: AutoFleet Bali<br>2. Monthly Billing Cycle Processed: Rp 482.5M Captured<br>3. Database Migration Completed for v2.4', icon: 'info' })"
-            class="btn btn-ghost btn-circle btn-sm text-slate-600 hover:text-slate-900 relative">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-1.5 text-slate-600 text-lg font-bold font-mono px-2.5 py-1">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9" />
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span class="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white"></span>
-        </button>
-
-        <!-- Primary Action: Create Tenant -->
-        {{-- <button onclick="openCreateTenantModal()" class="btn btn-primary btn-sm font-bold text-white shadow-md shadow-indigo-500/20 gap-1.5 bg-indigo-600 hover:bg-indigo-700 border-none">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            <span>Provision Tenant Baru</span>
-        </button> --}}
+            <span id="superadmin-live-clock">{{ \Carbon\Carbon::now()->format('H:i:s') }}</span>
+            <span class="text-[10px] text-slate-400 font-sans ml-0.5">WIB</span>
+        </div>
+        <div
+            class="flex items-center gap-2 {{ $dbBg }} border text-xs font-mono font-bold px-3 py-1.5 rounded-full shadow-sm">
+            <span class="w-2 h-2 rounded-full {{ $dbColor }} animate-pulse shadow-sm"></span>
+            <span>DB Status: {{ strtoupper($dbStatus) }}</span>
+        </div>
     </div>
 </header>
+
+<script>
+    setInterval(function() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const clockElement = document.getElementById('superadmin-live-clock');
+        if (clockElement) {
+            clockElement.textContent = hours + ':' + minutes + ':' + seconds;
+        }
+    }, 1000);
+</script>
