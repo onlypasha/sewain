@@ -109,7 +109,7 @@
                             <th class="py-3.5 px-4 text-left">Kategori</th>
                             <th class="py-3.5 px-4 text-right">Sewa / Hari</th>
                             <th class="py-3.5 px-4 text-center">Status</th>
-                            <th class="py-3.5 px-4 text-left">Dibuat Pada</th>
+                            <th class="py-3.5 px-4 text-left">Ditambahkan Pada</th>
                             <th class="py-3.5 px-6 text-center">Aksi</th>
                         </tr>
                     </thead>

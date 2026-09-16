@@ -116,7 +116,6 @@
         </nav>
     </div>
 
-    <!-- SIDEBAR FOOTER & USER PROFILE -->
     <div class="p-4 border-t border-slate-800 bg-slate-900/80">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">

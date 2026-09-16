@@ -30,18 +30,26 @@
         <!-- NAVIGATION MENU -->
         @php
             $isSubActive = Auth::user()?->isSubscriptionActive() ?? false;
-            
+
             $hasAssetAccess = $isSubActive && Auth::user()?->hasFeatureAccess('asset_management');
-            $assetErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Katalog Aset.';
+            $assetErrorMsg = !$isSubActive
+                ? 'Langganan Anda tidak aktif. Menu ini terkunci.'
+                : 'Paket langganan Anda tidak mencakup fitur Katalog Aset.';
 
             $hasCategoryAccess = $isSubActive && Auth::user()?->hasFeatureAccess('category_management');
-            $categoryErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Kategori Aset.';
+            $categoryErrorMsg = !$isSubActive
+                ? 'Langganan Anda tidak aktif. Menu ini terkunci.'
+                : 'Paket langganan Anda tidak mencakup fitur Kategori Aset.';
 
             $hasBookingAccess = $isSubActive && Auth::user()?->hasFeatureAccess('booking_system');
-            $bookingErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Transaksi & Booking.';
+            $bookingErrorMsg = !$isSubActive
+                ? 'Langganan Anda tidak aktif. Menu ini terkunci.'
+                : 'Paket langganan Anda tidak mencakup fitur Transaksi & Booking.';
 
             $hasVerifikasiAccess = $isSubActive && Auth::user()?->hasFeatureAccess('verifikasi_ktp');
-            $verifikasiErrorMsg = !$isSubActive ? 'Langganan Anda tidak aktif. Menu ini terkunci.' : 'Paket langganan Anda tidak mencakup fitur Verifikasi KTP.';
+            $verifikasiErrorMsg = !$isSubActive
+                ? 'Langganan Anda tidak aktif. Menu ini terkunci.'
+                : 'Paket langganan Anda tidak mencakup fitur Verifikasi KTP.';
         @endphp
 
         <ul class="menu bg-slate-900 rounded-box w-56 p-4 space-y-1 text-xs font-medium">
@@ -71,7 +79,7 @@
                             <span>Katalog & Stok Aset</span>
                         </div>
                         <span
-                            class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->vendorProfiles->assets ?? 0 }}</span>
+                            class="badge badge-xs bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ Auth::user()->items->count() }}</span>
                     </a>
                 @else
                     <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $assetErrorMsg }}' });"
