@@ -64,26 +64,24 @@
                     @forelse ($plan->features ?? [] as $index => $feature)
                         <div class="feature-row grid grid-cols-12 gap-3 items-center bg-slate-50 rounded-xl p-3 border border-slate-200"
                             data-index="{{ $index }}">
-                            <div class="col-span-1 text-xs font-mono font-bold text-slate-400 feature-number">
+                            <div class="col-span-1 text-xs font-mono font-bold text-slate-400 feature-number text-center">
                                 {{ $index + 1 }}</div>
-                            <div class="col-span-5">
-                                <input type="text" name="features[{{ $index }}][name]"
-                                    value="{{ $feature['name'] ?? '' }}" required placeholder="Contoh: Maksimal Aset"
+                            <div class="col-span-8">
+                                <input type="text" name="features[{{ $index }}][text]"
+                                    value="{{ $feature['text'] ?? '' }}" required placeholder="Contoh: Total Aset hingga 50 unit"
                                     class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-indigo-600 font-medium">
-                                @error("features.{$index}.name")
+                                @error("features.{$index}.text")
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-span-4">
-                                <input type="text" name="features[{{ $index }}][value]"
-                                    value="{{ $feature['value'] ?? '' }}" required
-                                    placeholder="Contoh: 50 Unit / Ya / Tidak"
-                                    class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-indigo-600 font-medium">
-                                @error("features.{$index}.value")
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                            <div class="col-span-2 flex flex-col items-center justify-center gap-1">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">Aktif?</span>
+                                <input type="hidden" name="features[{{ $index }}][is_included]" value="0">
+                                <input type="checkbox" name="features[{{ $index }}][is_included]" value="1"
+                                    {{ !empty($feature['is_included']) ? 'checked' : '' }}
+                                    class="toggle toggle-sm toggle-success">
                             </div>
-                            <div class="col-span-2 text-center">
+                            <div class="col-span-1 text-center">
                                 <button type="button" onclick="removeFeatureRow(this)"
                                     class="btn btn-ghost btn-sm text-red-500 hover:text-red-700 hover:bg-red-50">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,22 +129,21 @@
                 'feature-row grid grid-cols-12 gap-3 items-center bg-slate-50 rounded-xl p-3 border border-slate-200';
             row.dataset.index = featureIndex;
             row.innerHTML = `
-                <div class="col-span-1 text-xs font-mono font-bold text-slate-400 feature-number">${featureIndex + 1}</div>
-                <div class="col-span-5">
+                <div class="col-span-1 text-xs font-mono font-bold text-slate-400 feature-number text-center">${featureIndex + 1}</div>
+                <div class="col-span-8">
                     <input type="text"
-                           name="features[${featureIndex}][name]"
+                           name="features[${featureIndex}][text]"
                            required
-                           placeholder="Contoh: Maksimal Aset"
+                           placeholder="Contoh: Total Aset hingga 50 unit"
                            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-indigo-600 font-medium">
                 </div>
-                <div class="col-span-4">
-                    <input type="text"
-                           name="features[${featureIndex}][value]"
-                           required
-                           placeholder="Contoh: 50 Unit / Ya / Tidak"
-                           class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-indigo-600 font-medium">
+                <div class="col-span-2 flex flex-col items-center justify-center gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Aktif?</span>
+                    <input type="hidden" name="features[${featureIndex}][is_included]" value="0">
+                    <input type="checkbox" name="features[${featureIndex}][is_included]" value="1" checked
+                           class="toggle toggle-sm toggle-success">
                 </div>
-                <div class="col-span-2 text-center">
+                <div class="col-span-1 text-center">
                     <button type="button" onclick="removeFeatureRow(this)"
                             class="btn btn-ghost btn-sm text-red-500 hover:text-red-700 hover:bg-red-50">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

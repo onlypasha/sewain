@@ -55,8 +55,8 @@ class SubscriptionPlanController extends Controller
     {
         $validated = request()->validate([
             'features' => ['nullable', 'array'],
-            'features.*.name' => ['required', 'string', 'max:255'],
-            'features.*.value' => ['required', 'string', 'max:255'],
+            'features.*.text' => ['required', 'string', 'max:255'],
+            'features.*.is_included' => ['required', 'boolean'],
         ]);
 
         $plan = SubscriptionPlan::findOrFail($id);

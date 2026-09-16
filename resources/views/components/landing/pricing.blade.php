@@ -48,11 +48,17 @@
 
                         <ul class="space-y-3 text-xs text-slate-700 mb-8 border-t border-slate-200/80 pt-6">
                             @forelse ($plan->features ?? [] as $feature)
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span><strong>{{ $feature['name'] }}</strong>: {{ $feature['value'] }}</span>
+                                <li class="flex items-center gap-2 {{ empty($feature['is_included']) ? 'opacity-50 line-through' : '' }}">
+                                    @if(!empty($feature['is_included']))
+                                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    @else
+                                        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    @endif
+                                    <span>{{ $feature['text'] ?? '' }}</span>
                                 </li>
                             @empty
                                 <li class="text-slate-500 italic">Belum ada fitur tercantum</li>
@@ -90,11 +96,17 @@
 
                         <ul class="space-y-3 text-xs text-slate-700 mb-8 border-t border-slate-200/80 pt-6">
                             @forelse ($plan->features ?? [] as $feature)
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span><strong>{{ $feature['name'] }}</strong>: {{ $feature['value'] }}</span>
+                                <li class="flex items-center gap-2 {{ empty($feature['is_included']) ? 'opacity-50 line-through' : '' }}">
+                                    @if(!empty($feature['is_included']))
+                                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    @else
+                                        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    @endif
+                                    <span>{{ $feature['text'] ?? '' }}</span>
                                 </li>
                             @empty
                                 <li class="text-slate-500 italic">Belum ada fitur tercantum</li>
