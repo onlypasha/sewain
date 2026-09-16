@@ -31,10 +31,6 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tenant Platform</span>
-                <div
-                    class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
-                    🏬
-                </div>
             </div>
             <div>
                 <div class="text-2xl font-extrabold text-slate-900 font-heading">
@@ -48,10 +44,6 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">jumlah Berlangganan</span>
-                <div
-                    class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
-                    🏬
-                </div>
             </div>
             <div>
                 <div class="text-2xl font-extrabold text-slate-900 font-heading">
@@ -64,10 +56,6 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">jumlah plan langganan</span>
-                <div
-                    class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
-                    🏬
-                </div>
             </div>
             <div>
                 <div class="text-2xl font-extrabold text-slate-900 font-heading">

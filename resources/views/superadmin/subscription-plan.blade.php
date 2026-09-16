@@ -60,6 +60,10 @@
                                         @case('pro')
                                             <span class="badge badge-sm badge-primary text-white">{{ $plan->slug }}</span>
                                         @break
+
+                                        @default
+                                            <span class="badge badge-sm badge-warning text-white">{{ $plan->slug }}</span>
+                                        @break
                                     @endswitch
                                 </td>
                                 <td class="font-mono text-slate-700">{{ 'Rp ' . number_format($plan->price, 2, ',', '.') }}

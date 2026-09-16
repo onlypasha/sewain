@@ -30,7 +30,7 @@
             <!-- FIELD: EMAIL TENANT -->
             <div>
                 <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                    Email Admin Tenant
+                    Email Vendor
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -59,11 +59,6 @@
                     <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                         Kata Sandi
                     </label>
-                    <a href="#"
-                        onclick="Swal.fire({ title: 'Reset Password', text: 'Instruksi Reset Password telah disimulasikan ke email tenant Anda.', icon: 'info' })"
-                        class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
-                        Lupa Kata Sandi?
-                    </a>
                 </div>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -88,14 +83,6 @@
                 </div>
             </div>
 
-            <!-- OPTIONS: REMEMBER ME -->
-            <div class="flex items-center justify-between text-xs pt-1">
-                <label class="flex items-center gap-2 text-slate-600 font-medium cursor-pointer">
-                    <input type="checkbox" class="checkbox checkbox-emerald checkbox-xs rounded border-slate-300">
-                    <span>Ingat Sesi Login di Perangkat Ini</span>
-                </label>
-            </div>
-
             <!-- PRIMARY EMERALD CTA BUTTON -->
             <button type="submit" id="btn-login-submit"
                 class="btn btn-emerald btn-primary w-full py-3.5 font-bold text-white text-sm rounded-xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 transition-all group">
@@ -110,13 +97,5 @@
 
         <!-- QUICK DEMO PRESET BUTTONS -->
 
-    </div>
-
-    <!-- BOTTOM REGISTER FOOTER -->
-    <div class="mt-8 text-center text-xs text-slate-500 pt-4 border-t border-slate-100">
-        <span>Belum mendaftarkan toko sewa Anda?</span>
-        <a href="/#subdomain-checker" class="font-bold text-emerald-600 hover:text-emerald-700 hover:underline ml-1">
-            Cek Subdomain & Mulai Trial 14 Hari &rarr;
-        </a>
     </div>
 </div>
