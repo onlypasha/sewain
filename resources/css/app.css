@@ -6,3 +6,160 @@
 @source "../../storage/framework/views/*.php";
 
 @plugin "daisyui";
+
+@theme {
+  /* ColorHunt palette 091540 / 1B2CC1 / 7692FF / ABD2FA */
+  --color-navy: #091540;
+  --color-royal: #1b2cc1;
+  --color-royal-deep: #141e9e;
+  --color-langit: #7692ff;
+  --color-langit-soft: #abd2fa;
+
+  --color-brand-50: #eef3fe;
+  --color-brand-300: #7692ff;
+  --color-brand-500: #1b2cc1;
+  --color-brand-900: #091540;
+
+  --color-paper: #f1f6fd;
+  --color-paper-deep: #abd2fa;
+  --color-ink: #091540;
+  --color-ink-soft: #3c466b;
+  --color-ink-faint: #525e85;
+  --color-stempel: #1b2cc1;
+  --color-stempel-deep: #141e9e;
+  --color-stempel-soft: #dfe9fc;
+  --color-booked: #c14b33;
+  --color-booked-soft: #f7e7e1;
+  --color-lunas: #2e7d5b;
+  --color-lunas-soft: #e3efe9;
+  --color-lunas-bright: #8fd6b0;
+
+  --font-display: "Bricolage Grotesque", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* Rubber stamp (stempel) accent */
+.stempel {
+  display: inline-block;
+  border: 2px solid currentColor;
+  border-radius: 5px;
+  padding: 3px 9px 2px;
+  font-family: var(--font-data);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  transform: rotate(-8deg);
+  white-space: nowrap;
+}
+
+.stempel--solid {
+  color: var(--color-paper);
+  background: var(--color-stempel);
+  border-color: var(--color-stempel);
+}
+
+/* Calendar grid */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-data);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px;
+  position: relative;
+}
+
+.cal-cell--muted {
+  color: var(--color-ink-faint);
+}
+
+.cal-cell--free {
+  color: var(--color-ink);
+}
+
+.cal-cell--today {
+  outline: 2px solid var(--color-stempel);
+  outline-offset: -1px;
+  font-weight: 600;
+}
+
+.cal-cell--locked {
+  color: var(--color-booked);
+  background-image: linear-gradient(
+    135deg,
+    transparent 47%,
+    var(--color-booked) 49%,
+    var(--color-booked) 51%,
+    transparent 53%
+  );
+}
+
+/* Perforated receipt edge */
+.receipt-edge {
+  --perf-color: var(--color-ink-faint);
+  border-top: 2px dashed var(--perf-color);
+}
+
+/* Reveal-on-load orchestration */
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: scale(1.55) rotate(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+.js .reveal-stamp {
+  opacity: 0;
+}
+
+.js .reveal-stamp.is-in {
+  animation: stamp-in 420ms cubic-bezier(0.16, 0.8, 0.3, 1.1) forwards;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.js .reveal-rise {
+  opacity: 0;
+}
+
+.js .reveal-rise.is-in {
+  animation: rise-in 520ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal-stamp,
+  .js .reveal-rise {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* Keyboard focus (landing scope) */
+.landing :where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-stempel);
+  outline-offset: 2px;
+  border-radius: 3px;
+}

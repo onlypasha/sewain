@@ -5,71 +5,65 @@
     $yearlyPlans = $plans->where('billing_cycle', 'yearly');
 @endphp
 
-<!-- PRICING SECTION -->
-<section id="harga" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <h2 class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-600 mb-3">PAKET SUBSCRIPTION
-                TRANSPARAN</h2>
-            <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">Investasi Kecil
-                untuk Efisiensi Bisnis Maksimal</h3>
-            <p class="text-slate-600 mt-2 text-base">Tanpa potongan komisi per transaksi sewa. Semua keuntungan milik
-                toko Anda 100%.</p>
+<section id="harga" class="border-b border-ink/10 py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+            <div class="max-w-xl">
+                <h2 class="font-display font-bold tracking-tight text-3xl sm:text-4xl">Harga tetap, tanpa potongan komisi
+                </h2>
+                <p class="text-ink-soft mt-3 text-base sm:text-lg">Bayar langganan, bukan potongan transaksi. Seluruh
+                    hasil sewa jadi milik toko Anda 100%.</p>
+            </div>
 
-            <!-- Billing Cycle Toggle -->
-            <div class="mt-8 inline-flex items-center gap-3 bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+            <div class="inline-flex items-center gap-1 bg-paper-deep border border-ink/10 p-1 rounded-md">
                 <button onclick="switchBillingCycle('monthly')" id="btn-billing-monthly"
-                    class="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white text-slate-900 shadow-xs">
-                    Ditagih Bulanan
-                </button>
+                    class="px-4 py-1.5 rounded text-sm font-semibold bg-white text-ink shadow-sm transition-colors duration-200">Bulanan</button>
                 <button onclick="switchBillingCycle('yearly')" id="btn-billing-yearly"
-                    class="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
-                    <span>Tahunan</span>
-                    <span class="badge badge-success text-[10px] text-white font-bold">HEMAT 20%</span>
+                    class="px-4 py-1.5 rounded text-sm font-semibold text-ink-soft hover:text-ink flex items-center gap-1.5 transition-colors duration-200">
+                    Tahunan
+                    <span class="text-[10px] font-data bg-lunas-soft text-lunas px-1.5 py-0.5 rounded">-20%</span>
                 </button>
             </div>
         </div>
 
-        <!-- MONTHLY PLANS -->
-        <div id="plans-monthly" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+        <div id="plans-monthly" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($monthlyPlans as $plan)
-                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
-                    <div>
-                        <div class="text-xs font-bold font-mono text-slate-500 uppercase tracking-wider mb-2">
-                            {{ $plan->name }}
-                        </div>
-                        <div class="mb-6">
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading">{{ 'Rp ' . number_format($plan->price, 0, ',', '.') }}</span>
-                                <span class="text-xs text-slate-500 font-medium">/bulan</span>
-                            </div>
-                            <span class="text-[11px] text-slate-400 font-mono block mt-1">Ditagih Bulanan</span>
-                        </div>
-
-                        <ul class="space-y-3 text-xs text-slate-700 mb-8 border-t border-slate-200/80 pt-6">
-                            @forelse ($plan->features ?? [] as $feature)
-                                <li class="flex items-center gap-2 {{ empty($feature['is_included']) ? 'opacity-50 line-through' : '' }}">
-                                    @if(!empty($feature['is_included']))
-                                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    @else
-                                        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    @endif
-                                    <span>{{ $feature['text'] ?? '' }}</span>
-                                </li>
-                            @empty
-                                <li class="text-slate-500 italic">Belum ada fitur tercantum</li>
-                            @endforelse
-                        </ul>
+                <div class="bg-white border border-ink/10 rounded-md p-7 flex flex-col">
+                    <div class="font-data text-sm font-semibold text-ink">{{ $plan->name }}</div>
+                    <div class="flex items-baseline gap-1 mt-3">
+                        <span class="font-display font-bold text-4xl tracking-tight text-ink">Rp
+                            {{ number_format($plan->price, 0, ',', '.') }}</span>
+                        <span class="text-ink-soft text-sm">/bulan</span>
                     </div>
 
-                    <button onclick="selectPlan('{{ $plan->name }}', '{{ $plan->billing_cycle }}')"
-                        class="btn btn-outline border-slate-300 hover:bg-slate-900 hover:text-white w-full text-slate-800 font-bold">
-                        Coba 14 Hari Gratis
-                    </button>
+                    <ul class="mt-6 space-y-2.5 text-sm text-ink-soft border-t border-ink/10 pt-6 flex-1">
+                        @forelse ($plan->features ?? [] as $feature)
+                            <li
+                                class="flex items-center gap-2 {{ empty($feature['is_included']) ? 'opacity-50 line-through' : '' }}">
+                                @if (!empty($feature['is_included']))
+                                    <svg class="w-4 h-4 text-lunas shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                @else
+                                    <svg class="w-4 h-4 text-ink-faint shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                @endif
+                                <span>{{ $feature['text'] ?? '' }}</span>
+                            </li>
+                        @empty
+                            <li class="text-ink-faint">Belum ada fitur tercantum</li>
+                        @endforelse
+                    </ul>
+
+                    <a href="http://wa.me/085695118600/?text=Saya%20memilih%20paket%20 {{ $plan->name }}"
+                        class="mt-7 w-full border border-ink/20 text-center text-ink font-semibold py-3 rounded-md hover:border-stempel hover:text-stempel transition-all duration-200 active:scale-[0.98]">
+                        Pilih paket ini
+                    </a>
                 </div>
             @empty
                 <div class="col-span-full">
@@ -78,45 +72,43 @@
             @endforelse
         </div>
 
-        <!-- YEARLY PLANS -->
-        <div id="plans-yearly" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch hidden">
+        <div id="plans-yearly" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
             @forelse($yearlyPlans as $plan)
-                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
-                    <div>
-                        <div class="text-xs font-bold font-mono text-slate-500 uppercase tracking-wider mb-2">
-                            {{ $plan->name }}
-                        </div>
-                        <div class="mb-6">
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading">{{ 'Rp ' . number_format($plan->price, 0, ',', '.') }}</span>
-                                <span class="text-xs text-slate-500 font-medium">/tahun</span>
-                            </div>
-                            <span class="text-[11px] text-slate-400 font-mono block mt-1">Ditagih Tahunan</span>
-                        </div>
-
-                        <ul class="space-y-3 text-xs text-slate-700 mb-8 border-t border-slate-200/80 pt-6">
-                            @forelse ($plan->features ?? [] as $feature)
-                                <li class="flex items-center gap-2 {{ empty($feature['is_included']) ? 'opacity-50 line-through' : '' }}">
-                                    @if(!empty($feature['is_included']))
-                                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    @else
-                                        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    @endif
-                                    <span>{{ $feature['text'] ?? '' }}</span>
-                                </li>
-                            @empty
-                                <li class="text-slate-500 italic">Belum ada fitur tercantum</li>
-                            @endforelse
-                        </ul>
+                <div class="bg-white border border-ink/10 rounded-md p-7 flex flex-col">
+                    <div class="font-data text-sm font-semibold text-ink">{{ $plan->name }}</div>
+                    <div class="flex items-baseline gap-1 mt-3">
+                        <span class="font-display font-bold text-4xl tracking-tight text-ink">Rp
+                            {{ number_format($plan->price, 0, ',', '.') }}</span>
+                        <span class="text-ink-soft text-sm">/tahun</span>
                     </div>
 
-                    <button onclick="selectPlan('{{ $plan->name }}', '{{ $plan->billing_cycle }}')"
-                        class="btn btn-outline border-slate-300 hover:bg-slate-900 hover:text-white w-full text-slate-800 font-bold">
-                        Coba 14 Hari Gratis
+                    <ul class="mt-6 space-y-2.5 text-sm text-ink-soft border-t border-ink/10 pt-6 flex-1">
+                        @forelse ($plan->features ?? [] as $feature)
+                            <li
+                                class="flex items-center gap-2 {{ empty($feature['is_included']) ? 'opacity-50 line-through' : '' }}">
+                                @if (!empty($feature['is_included']))
+                                    <svg class="w-4 h-4 text-lunas shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                @else
+                                    <svg class="w-4 h-4 text-ink-faint shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                @endif
+                                <span>{{ $feature['text'] ?? '' }}</span>
+                            </li>
+                        @empty
+                            <li class="text-ink-faint">Belum ada fitur tercantum</li>
+                        @endforelse
+                    </ul>
+
+                    <button onclick="selectPlan('{{ $plan->name }}', 'yearly')"
+                        class="mt-7 w-full border border-ink/20 text-ink font-semibold py-3 rounded-md hover:border-stempel hover:text-stempel transition-all duration-200 active:scale-[0.98]">
+                        Pilih paket ini
                     </button>
                 </div>
             @empty
@@ -127,39 +119,3 @@
         </div>
     </div>
 </section>
-
-<script>
-    function switchBillingCycle(cycle) {
-        const btnM = document.getElementById('btn-billing-monthly');
-        const btnY = document.getElementById('btn-billing-yearly');
-        const plansM = document.getElementById('plans-monthly');
-        const plansY = document.getElementById('plans-yearly');
-
-        if (cycle === 'yearly') {
-            btnY.classList.add('bg-white', 'text-slate-900', 'shadow-xs');
-            btnY.classList.remove('text-slate-600');
-            btnM.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
-            btnM.classList.add('text-slate-600');
-
-            plansY.classList.remove('hidden');
-            plansM.classList.add('hidden');
-        } else {
-            btnM.classList.add('bg-white', 'text-slate-900', 'shadow-xs');
-            btnM.classList.remove('text-slate-600');
-            btnY.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
-            btnY.classList.add('text-slate-600');
-
-            plansM.classList.remove('hidden');
-            plansY.classList.add('hidden');
-        }
-    }
-
-    function selectPlan(planName, cycle) {
-        const cycleText = cycle === 'yearly' ? 'Tahunan' : 'Bulanan';
-        Swal.fire({
-            title: 'Pendaftaran Trial',
-            text: `🎉 Anda memilih Paket ${planName} (${cycleText}). Membuka pendaftaran Trial 14 Hari...`,
-            icon: 'success'
-        });
-    }
-</script>

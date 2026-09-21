@@ -18,7 +18,7 @@
 @php
     $tag = $href ? 'a' : $tag;
 
-    $classes = collect(['btn']);
+    $classes = collect(['btn', 'transition-transform', 'duration-150', 'ease-out', 'active:scale-[0.97]']);
 
     // Variant: primary, secondary, accent, neutral, info, success, warning, error, ghost, link
     if ($variant) {

@@ -1,54 +1,101 @@
-<!-- HERO SECTION -->
-<section class="relative pt-12 pb-20 md:pt-20 md:pb-32 bg-hero-light overflow-hidden">
-    <!-- Background Decorative Circles -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-200/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-4xl mx-auto">
-            <!-- Headline -->
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15] mb-6">
-                Ubah Bisnis Rental Manual Jadi <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 bg-clip-text text-transparent">Storefront Digital Multi-Tenant</span>
-            </h1>
+@php
+    $offset = 1;
+    $locked = [4, 5, 8, 15, 16, 22, 25, 26];
+    $today = 21;
+    $days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+@endphp
 
-            <!-- Subheadline -->
-            <p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-8 max-w-3xl mx-auto font-normal">
-                Miliki domain toko eksklusif <code class="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded text-emerald-700 font-mono text-sm font-semibold">namatoko.sewain.id</code>. Otomatiskan kalender stok, verifikasi identitas e-KTP penyewa, buat PDF kontrak digital, dan terima pembayaran 24/7 tanpa bentrok jadwal.
-            </p>
+<section class="relative border-b border-ink/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div class="lg:col-span-6">
+                <div class="reveal-rise">
+                    <span class="inline-flex items-center gap-2 text-sm text-ink-soft font-data">
+                        <span class="inline-block w-2 h-2 rounded-full bg-lunas"></span>
+                        Untuk usaha rental barang, kendaraan, dan alat
+                    </span>
+                </div>
 
-            <!-- CTAs -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-                <a href="#harga" class="btn btn-primary btn-lg shadow-lg shadow-emerald-500/25 px-8 font-bold text-white bg-emerald-600 hover:bg-emerald-700 border-none w-full sm:w-auto">
-                    <span>Mulai Trial 14 Hari Gratis</span>
-                    <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                </a>
-                <a href="#demo-simulator" class="btn btn-outline border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900 btn-lg w-full sm:w-auto font-semibold">
-                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span>Lihat Live Demo Tenant</span>
-                </a>
+                <h1 class="reveal-rise font-display font-bold tracking-tight leading-[1.05] text-4xl sm:text-5xl md:text-6xl mt-6">
+                    Toko sewa online.<br>Jadwal tak pernah bentrok.
+                </h1>
+
+                <p class="reveal-rise text-base sm:text-lg text-ink-soft leading-relaxed mt-6 max-w-lg">
+                    Halaman toko sendiri di <span class="font-data text-ink bg-paper-deep px-1.5 py-0.5 rounded">namatoko.sewain.id</span>, kalender stok yang mengunci tanggal terpakai, verifikasi e-KTP, dan kontrak digital.
+                </p>
+
+                <div class="reveal-rise flex flex-col sm:flex-row gap-3 mt-8">
+                    <a href="#harga" class="inline-flex items-center justify-center gap-2 bg-stempel text-paper font-semibold px-6 py-3.5 rounded-md hover:bg-stempel-deep transition-colors active:scale-[0.98]">
+                        Buka toko gratis
+                    </a>
+                    <a href="#demo" class="inline-flex items-center justify-center gap-2 border border-ink/20 text-ink font-semibold px-6 py-3.5 rounded-md hover:border-ink/50 transition-colors active:scale-[0.98]">
+                        Lihat demo
+                    </a>
+                </div>
+
+                <div class="reveal-rise mt-10 grid grid-cols-3 divide-x divide-ink/10 border-t border-ink/10 pt-6">
+                    <div class="pr-4">
+                        <div class="font-data text-2xl sm:text-3xl font-semibold tracking-tight">{{ $stats['vendors'] ?? 0 }}</div>
+                        <div class="text-sm text-ink-soft mt-1">toko terdaftar</div>
+                    </div>
+                    <div class="px-4">
+                        <div class="font-data text-2xl sm:text-3xl font-semibold tracking-tight">{{ $stats['active_subscriptions'] ?? 0 }}</div>
+                        <div class="text-sm text-ink-soft mt-1">langganan aktif</div>
+                    </div>
+                    <div class="pl-4">
+                        <div class="font-data text-2xl sm:text-3xl font-semibold tracking-tight">{{ $stats['total_items'] ?? 0 }}</div>
+                        <div class="text-sm text-ink-soft mt-1">aset terdaftar</div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Social Proof Stats -->
-            {{-- <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-white/70 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-xs max-w-4xl mx-auto text-left">
-                <div class="p-3 border-r border-slate-200/60 last:border-r-0">
-                    <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">1,400+</div>
-                    <div class="text-xs sm:text-sm text-slate-500 font-medium">Tenant Aktif Bergabung</div>
-                </div>
-                <div class="p-3 border-r border-slate-200/60 last:border-r-0">
-                    <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">Rp 68 M+</div>
-                    <div class="text-xs sm:text-sm text-slate-500 font-medium">Nilai Sewa Diproses</div>
-                </div>
-                <div class="p-3 border-r border-slate-200/60 last:border-r-0">
-                    <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">99.9%</div>
-                    <div class="text-xs sm:text-sm text-slate-500 font-medium">Akurasi Stok Realtime</div>
-                </div>
-                <div class="p-3">
-                    <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 font-heading flex items-center gap-1">
-                        <span>4.9/5</span>
-                        <svg class="w-5 h-5 fill-emerald-500 text-emerald-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <div class="lg:col-span-6">
+                <div class="relative">
+                    <div class="bg-white border border-ink/10 rounded-lg shadow-[0_24px_60px_-30px_rgba(9,21,64,0.35)] p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-5">
+                            <div>
+                                <div class="font-data text-xs text-ink-faint">Kalender stok</div>
+                                <div class="font-display font-bold text-lg mt-0.5">September 2026</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-data text-xs text-ink-faint">Sony A7 IV</div>
+                                <div class="font-data text-sm font-semibold text-lunas">12 hari tersedia</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-7 gap-1.5 mb-1.5">
+                            @foreach ($days as $d)
+                                <div class="text-center font-data text-[11px] text-ink-faint py-1">{{ $d }}</div>
+                            @endforeach
+                        </div>
+
+                        <div class="grid grid-cols-7 gap-1.5">
+                            @for ($i = 0; $i < $offset; $i++)
+                                <span></span>
+                            @endfor
+                            @for ($day = 1; $day <= 30; $day++)
+                                @php
+                                    $col = ($offset + $day - 1) % 7;
+                                    $isWeekend = $col >= 5;
+                                    $isLocked = in_array($day, $locked);
+                                    $isToday = $day === $today;
+                                @endphp
+                                <span class="cal-cell {{ $isLocked ? 'cal-cell--locked' : ($isToday ? 'cal-cell--today' : 'cal-cell--free') }} {{ $isWeekend && !$isLocked && !$isToday ? 'cal-cell--muted' : '' }}">{{ $day }}</span>
+                            @endfor
+                        </div>
+
+                        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-ink-soft border-t border-ink/10 pt-4">
+                            <span class="inline-flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-paper border border-ink/20"></span>Bisa dipesan</span>
+                            <span class="inline-flex items-center gap-2"><span class="w-3 h-3 relative"><span class="absolute inset-0" style="background-image: linear-gradient(135deg, transparent 45%, #c14b33 48%, #c14b33 52%, transparent 55%);"></span></span>Terpakai</span>
+                            <span class="inline-flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm outline outline-2 outline-stempel"></span>Hari ini</span>
+                        </div>
                     </div>
-                    <div class="text-xs sm:text-sm text-slate-500 font-medium">Rating Kepuasan Pemilik</div>
+
+                    <div class="reveal-stamp stempel stempel--solid absolute -top-4 -right-2 sm:-right-4 text-base sm:text-lg py-2 px-3 shadow-sm">
+                        Anti&nbsp;bentrok
+                    </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </div>
 </section>

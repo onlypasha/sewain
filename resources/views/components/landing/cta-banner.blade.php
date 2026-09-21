@@ -1,28 +1,31 @@
-<!-- FINAL CALL TO ACTION BANNER -->
-<section class="py-16 bg-mesh-pattern text-white relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div class="max-w-3xl mx-auto">
-            <span class="inline-block text-emerald-400 font-mono text-xs uppercase tracking-widest font-bold mb-3">Siap Modernisasi Bisnis Rental Anda?</span>
-            <h2 class="text-3xl sm:text-5xl font-extrabold font-heading text-white tracking-tight mb-6">
-                Buka Toko Sewa Digital Anda Dalam 3 Menit
-            </h2>
-            <p class="text-slate-300 text-base sm:text-lg mb-8">
-                Bergabunglah bersama kami dan pemilik bisnis rental profesional di seluruh Indonesia. Coba gratis 14 hari penuh tanpa perlu kartu kredit.
-            </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#subdomain-checker" class="btn btn-primary btn-emerald btn-lg px-8 font-bold text-white shadow-xl shadow-emerald-500/30 w-full sm:w-auto">
-                    <span>Mulai Cek Subdomain Gratis</span>
-                    <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
-                <a href="https://wa.me/6281234567890?text=Halo%20Tim%20Sewain,%20saya%20ingin%20konsultasi%20bisnis%20rental" target="_blank" class="btn btn-outline text-white border-slate-700 hover:bg-slate-800 btn-lg w-full sm:w-auto font-semibold gap-2">
-                    <span>💬 Konsultasi via WA</span>
-                </a>
-            </div>
-            <div class="mt-6 flex items-center justify-center gap-6 text-xs text-slate-400 font-mono">
-                <span>✓ Tanpa Kartu Kredit</span>
-                <span>✓ Cancel Kapan Saja</span>
-                <span>✓ Setup Bantuan Gratis</span>
-            </div>
+<section class="bg-ink text-paper py-20 md:py-28 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+        <h2 class="font-display font-bold tracking-tight text-3xl sm:text-5xl leading-tight">
+            Buka toko Anda hari ini.<br>Berhenti balas chat sepanjang hari.
+        </h2>
+        <p class="text-paper/70 text-base sm:text-lg mt-5 max-w-xl mx-auto">
+            Gratis 14 hari, tanpa kartu kredit.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-9">
+            <a href="#harga" class="inline-flex items-center justify-center bg-stempel text-paper font-semibold px-7 py-3.5 rounded-md hover:bg-stempel-deep transition-all duration-200 active:scale-[0.98]">
+                Buka toko gratis
+            </a>
+            <a href="https://wa.me/6281234567890?text=Halo%20Tim%20Sewain,%20saya%20ingin%20konsultasi%20bisnis%20rental" target="_blank" class="inline-flex items-center justify-center border border-paper/30 text-paper font-semibold px-7 py-3.5 rounded-md hover:border-paper hover:text-paper hover:bg-paper/10 transition-all duration-200 active:scale-[0.98]">
+                Konsultasi via WhatsApp
+            </a>
+        </div>
+
+        <div class="mt-8 flex items-center justify-center gap-3 text-xs font-data text-paper/60">
+            <span>Tanpa kartu kredit</span>
+            <span>·</span>
+            <span>Batalkan kapan saja</span>
+            <span>·</span>
+            <span>Bantuan setup gratis</span>
+        </div>
+
+        <div class="stempel absolute top-8 right-4 sm:right-10 text-paper/90 text-base hidden sm:block">
+            Gratis 14 hari
         </div>
     </div>
 </section>

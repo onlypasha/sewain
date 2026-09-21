@@ -1,44 +1,31 @@
-<!-- FAQ ACCORDION SECTION -->
-<section id="faq" class="py-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-14">
-            <span class="badge badge-outline text-slate-500 text-xs font-mono mb-2">PERTANYAAN UMUM</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">Sering Ditanyakan Tentang Sewain</h2>
+<section id="faq" class="border-b border-ink/10 py-16 md:py-24">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-xl">
+            <h2 class="font-display font-bold tracking-tight text-3xl sm:text-4xl">Pertanyaan yang sering ditanyakan</h2>
         </div>
 
-        <div class="space-y-4">
-            <!-- FAQ Item 1 -->
-            <div class="collapse collapse-arrow bg-slate-50 border border-slate-200 rounded-2xl">
-                <input type="radio" name="faq-accordion" checked="checked" /> 
-                <div class="collapse-title text-base sm:text-lg font-bold text-slate-900">
-                    Bagaimana cara kerja arsitektur Multi-Tenant di Sewain?
-                </div>
-                <div class="collapse-content text-slate-600 text-sm leading-relaxed">
-                    <p>Setiap pemilik bisnis rental (tenant) yang mendaftar langsung mendapatkan database terisolasi, ruang penyimpanan media terpisah, dan alamat situs eksklusif (seperti <code class="text-emerald-700 font-mono bg-emerald-50 px-1">namatoko.sewain.id</code>. Data inventaris dan pelanggan Anda 100% aman dan tidak tercampur dengan tenant lain.</p>
-                </div>
-            </div>
+        <div class="mt-10 divide-y divide-ink/10 border-y border-ink/10">
+            @php
+                $faqs = [
+                    ['q' => 'Bagaimana cara kerja toko multi-tenant Sewain?', 'a' => 'Setiap toko punya data, penyimpanan, dan alamat sendiri (namatoko.sewain.id). Data toko Anda terpisah sepenuhnya dan tidak tercampur dengan toko lain.'],
+                    ['q' => 'Apakah ada potongan komisi dari setiap transaksi?', 'a' => 'Tidak. Sewain memakai biaya langganan tetap, bukan potongan per transaksi. Seluruh hasil sewa 100% milik toko Anda.'],
+                    ['q' => 'Bagaimana keamanan e-KTP dan kontrak digital?', 'a' => 'Foto e-KTP dicocokkan dengan swafoto penyewa secara otomatis. Kontrak digital diterbitkan sebagai PDF dengan cap waktu dan enkripsi, berstandar hukum Indonesia.'],
+                    ['q' => 'Berapa lama proses pendaftaran?', 'a' => 'Kurang dari lima menit. Anda bisa mencoba 14 hari gratis tanpa kartu kredit, lalu berhenti kapan saja.'],
+                    ['q' => 'Bisakah memakai domain sendiri?', 'a' => 'Bisa. Anda bebas memakai subdomain sewain.id atau menghubungkan nama domain milik Anda sendiri.'],
+                ];
+            @endphp
 
-            <!-- FAQ Item 3 -->
-            <div class="collapse collapse-arrow bg-slate-50 border border-slate-200 rounded-2xl">
-                <input type="radio" name="faq-accordion" /> 
-                <div class="collapse-title text-base sm:text-lg font-bold text-slate-900">
-                    Apakah ada potongan komisi dari setiap hasil sewa barang saya?
-                </div>
-                <div class="collapse-content text-slate-600 text-sm leading-relaxed">
-                    <p>Tidak ada komisi per transaksi sewa! Sewain menggunakan model berlangganan tetap (subscription flat rate). Semua keuntungan dari persewaan barang Anda 100% menjadi hak toko Anda.</p>
-                </div>
-            </div>
-
-            <!-- FAQ Item 4 -->
-            <div class="collapse collapse-arrow bg-slate-50 border border-slate-200 rounded-2xl">
-                <input type="radio" name="faq-accordion" /> 
-                <div class="collapse-title text-base sm:text-lg font-bold text-slate-900">
-                    Bagaimana keamanan verifikasi E-KTP dan Kontrak Digital?
-                </div>
-                <div class="collapse-content text-slate-600 text-sm leading-relaxed">
-                    <p>Sistem verifikasi E-KTP kami menggunakan teknologi AI matching photo untuk mencocokkan wajah penyewa dengan dokumen fisik. Kontrak digital diterbitkan secara otomatis dalam format PDF berstandar legal Indonesia dengan cap waktu (timestamp) dan enkripsi dokumen.</p>
-                </div>
-            </div>
+            @foreach ($faqs as $faq)
+                <details class="group">
+                    <summary class="flex items-center justify-between gap-4 py-4 cursor-pointer list-none font-semibold text-ink hover:text-stempel transition-colors">
+                        {{ $faq['q'] }}
+                        <span class="shrink-0 text-ink-faint group-open:rotate-45 transition-transform duration-200" aria-hidden="true">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </span>
+                    </summary>
+                    <p class="pb-4 text-ink-soft leading-relaxed -mt-1 max-w-xl">{{ $faq['a'] }}</p>
+                </details>
+            @endforeach
         </div>
     </div>
 </section>

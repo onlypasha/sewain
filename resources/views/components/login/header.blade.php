@@ -14,7 +14,7 @@
 
     <div class="flex items-center gap-3">
         <span class="text-xs text-slate-500 hidden sm:inline">Belum punya toko sewa?</span>
-        <a href="/#subdomain-checker" class="btn btn-outline btn-emerald btn-xs sm:btn-sm font-semibold border-slate-300">
+        <a href="/#subdomain" class="btn btn-outline btn-emerald btn-xs sm:btn-sm font-semibold border-slate-300">
             Buka Toko Gratis
         </a>
     </div>
