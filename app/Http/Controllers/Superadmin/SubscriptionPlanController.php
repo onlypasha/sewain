@@ -21,8 +21,11 @@ class SubscriptionPlanController extends Controller
             'slug' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'billing_cycle' => ['required', 'in:monthly,yearly'],
+            'max_assets' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', 'boolean'],
         ]);
+
+        $validated['max_assets'] = (int) ($validated['max_assets'] ?? 0);
 
         SubscriptionPlan::create($validated);
 
@@ -36,8 +39,11 @@ class SubscriptionPlanController extends Controller
             'slug' => ['required', 'string', 'max:255', 'unique:subscription_plans,slug,'.$id],
             'price' => ['required', 'numeric', 'min:0'],
             'billing_cycle' => ['required', 'in:monthly,yearly'],
+            'max_assets' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', 'boolean'],
         ]);
+
+        $validated['max_assets'] = (int) ($validated['max_assets'] ?? 0);
 
         SubscriptionPlan::find($id)->update($validated);
 

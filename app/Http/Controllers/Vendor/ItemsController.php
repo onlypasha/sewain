@@ -19,23 +19,7 @@ class ItemsController extends Controller
         $profile = $user->vendorProfiles;
         $subscription = $profile ? Subscription::where('vendor_profile_id', $profile->id)->latest()->first() : null;
 
-        $maxAsset = 0;
-        if ($subscription && $subscription->subscriptionPlan && is_array($subscription->subscriptionPlan->features)) {
-            foreach ($subscription->subscriptionPlan->features as $feature) {
-                if (is_array($feature)) {
-                    $name = $feature['name'] ?? '';
-                    if (stripos($name, 'aset') !== false || stripos($name, 'asset') !== false) {
-                        $maxAsset = $feature['value'] ?? 0;
-                        break;
-                    }
-                } elseif (is_string($feature)) {
-                    if (stripos($feature, 'aset') !== false || stripos($feature, 'asset') !== false) {
-                        $maxAsset = $feature;
-                        break;
-                    }
-                }
-            }
-        }
+        $maxAsset = $subscription?->subscriptionPlan?->getMaxAssets() ?? 0;
 
         $categories = ItemsCategory::where('vendor_id', $user->id)->orderBy('name')->get();
         $items = Items::with('category')->where('vendor_id', $user->id)->latest()->get();

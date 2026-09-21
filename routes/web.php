@@ -10,6 +10,7 @@ use App\Http\Controllers\Superadmin\SubscriptionController;
 use App\Http\Controllers\Superadmin\SubscriptionPlanController;
 use App\Http\Controllers\Superadmin\VendorManagementController;
 use App\Http\Controllers\Vendor\BookingsController;
+use App\Http\Controllers\Vendor\CalendarController;
 use App\Http\Controllers\Vendor\DangerZoneController;
 use App\Http\Controllers\Vendor\ItemsCategoryController;
 use App\Http\Controllers\Vendor\ItemsController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Vendor\SettingsController;
 use App\Http\Controllers\Vendor\SubscriptionController as VendorSubscriptionController;
 use App\Http\Controllers\Vendor\SubscriptionPurchaseController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
+use App\Http\Controllers\Vendor\VerificationsController;
 
 // Route::get('/', function () {
 //     return view('landing');
@@ -75,7 +77,11 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
             ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
             ->name('vendor.bookings');
 
-        Route::get('/vendor/verifications', [\App\Http\Controllers\Vendor\VerificationsController::class, 'index'])
+        Route::get('/vendor/calendar', [CalendarController::class, 'index'])
+            ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
+            ->name('vendor.calendar');
+
+        Route::get('/vendor/verifications', [VerificationsController::class, 'index'])
             ->middleware(['feature.access:verifikasi_ktp', 'feature.maintenance:verifikasi_ktp'])
             ->name('vendor.verifications');
 

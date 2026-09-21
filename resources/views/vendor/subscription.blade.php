@@ -101,7 +101,7 @@
                     <span class="text-slate-400 font-medium text-sm">/ {{ $maxAsset ?? 0 }}</span>
                 </div>
                 <div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-indigo-500 h-full rounded-full" style="width: {{ $maxAsset > 0 ? min(100, round(((Auth::user()->vendorProfiles->assets ?? 0) / $maxAsset) * 100)) : 0 }}%"></div>
+                    <div class="bg-indigo-500 h-full rounded-full" style="width: {{ is_numeric($maxAsset) && $maxAsset > 0 ? min(100, round(((Auth::user()->vendorProfiles->assets ?? 0) / $maxAsset) * 100)) : 0 }}%"></div>
                 </div>
                 <div class="text-[11px] text-slate-400 mt-1.5 font-mono">Slot Kuota: {{ $maxAsset ?? 0 }}</div>
             </div>

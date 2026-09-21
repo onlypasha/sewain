@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(ItemsCategory::class, 'vendor_id');
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'vendor_id');
+    }
+
     public function isSubscriptionActive(): bool
     {
         $profile = $this->vendorProfiles;

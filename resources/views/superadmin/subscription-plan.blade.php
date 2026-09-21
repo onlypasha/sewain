@@ -39,6 +39,7 @@
                             <th class="py-3 px-4">Kategori</th>
                             <th class="py-3 px-4">Harga</th>
                             <th class="py-3 px-4">Siklus Tagihan</th>
+                            <th class="py-3 px-4 text-center">Batas Aset</th>
                             <th class="py-3 px-4">Fitur</th>
                             <th class="py-3 px-4 text-center">Status</th>
                             <th class="py-3 px-4 text-center">Aksi</th>
@@ -70,6 +71,9 @@
                                 </td>
                                 <td class="font-extrabold text-slate-900">
                                     {{ $plan->billing_cycle === 'monthly' ? 'bulanan' : 'tahunan' }}</td>
+                                <td class="font-mono font-bold text-center text-indigo-600">
+                                    {{ $plan->max_assets > 0 ? $plan->max_assets . ' unit' : ($plan->getMaxAssets() . ' unit') }}
+                                </td>
                                 <td>
                                     <form action="{{ route('superadmin.subscription.features', $plan->id) }}">
                                         <x-util.button variant="primary" size="sm" type="submit">
@@ -169,6 +173,20 @@
                         @enderror
                     </div>
 
+                    {{-- Batas Kuota Aset --}}
+                    <div>
+                        <label for="plan-max-assets" class="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Batas Kuota Aset (Unit)
+                        </label>
+                        <input type="number" id="plan-max-assets" name="max_assets" min="0" placeholder="Contoh: 50"
+                            value="{{ old('max_assets', 0) }}"
+                            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-mono font-medium text-sm">
+                        <span class="text-[10px] text-slate-400 mt-1 block">Tentukan batas maksimal aset yang dapat didaftarkan tenant (0 = gunakan bawaan paket).</span>
+                        @error('max_assets')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- Apakah Aktif --}}
                     <div>
                         <label for="plan-is-active" class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Apakah
@@ -257,6 +275,21 @@
                                 </option>
                             </select>
                             @error('billing_cycle')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Batas Kuota Aset --}}
+                        <div>
+                            <label for="plan-max-assets-{{ $plan->id }}"
+                                class="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                Batas Kuota Aset (Unit)
+                            </label>
+                            <input type="number" id="plan-max-assets-{{ $plan->id }}" name="max_assets" min="0" placeholder="Contoh: 50"
+                                value="{{ old('max_assets', $plan->max_assets ?? 0) }}"
+                                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-mono font-medium text-sm">
+                            <span class="text-[10px] text-slate-400 mt-1 block">Tentukan batas maksimal aset yang dapat didaftarkan tenant (0 = gunakan bawaan paket).</span>
+                            @error('max_assets')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>

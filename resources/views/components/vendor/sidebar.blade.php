@@ -108,6 +108,29 @@
             @endif
 
             @if ($hasBookingAccess)
+                <a href="{{ route('vendor.calendar') }}" id="nav-calendar"
+                    class="admin-nav-btn {{ request()->routeIs('vendor.calendar') ? 'active text-white bg-brand-500/30 border-brand-500/40' : 'text-brand-300 hover:text-white hover:bg-brand-500/15 border-transparent' }} w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition-all active:scale-[0.98]">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Kalender Stok</span>
+                    </div>
+                </a>
+            @else
+                <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $bookingErrorMsg }}' });"
+                    class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-brand-300/50 cursor-not-allowed">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Kalender Stok</span>
+                    </div>
+                    <span>🔒</span>
+                </a>
+            @endif
+
+            @if ($hasBookingAccess)
                 <a href="{{ route('vendor.bookings') }}" id="nav-bookings"
                     class="admin-nav-btn {{ request()->routeIs('vendor.bookings') ? 'active text-white bg-brand-500/30 border-brand-500/40' : 'text-brand-300 hover:text-white hover:bg-brand-500/15 border-transparent' }} w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition-all active:scale-[0.98]">
                     <div class="flex items-center gap-3">
