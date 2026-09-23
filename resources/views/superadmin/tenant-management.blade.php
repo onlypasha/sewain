@@ -60,6 +60,23 @@
             </div>
         @endif
 
+        @if (Session::has('reset_password'))
+            @php $rp = Session::get('reset_password'); @endphp
+            <div role="alert" class="alert border border-emerald-300 bg-emerald-50 text-emerald-800 flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                    <svg class="w-6 h-6 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <div>
+                        <div class="font-bold text-sm">Password {{ $rp['name'] }} berhasil direset.</div>
+                        <div class="text-xs mt-1">Password baru (tampil sekali, salin segera): <code id="reset-pw-value" class="font-mono font-bold bg-white border border-emerald-300 rounded px-2 py-1 text-slate-900">{{ $rp['password'] }}</code></div>
+                        <div class="text-[11px] text-emerald-700 mt-1">Vendor wajib ganti password saat login pertama. Sesi lama vendor sudah diputus.</div>
+                    </div>
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('reset-pw-value').textContent); this.textContent='Tersalin'; setTimeout(()=>this.textContent='Salin',1500);" class="btn btn-sm bg-emerald-600 text-white border-none hover:bg-emerald-700 shrink-0">Salin</button>
+            </div>
+        @endif
+
         <!-- TENANTS MASTER TABLE -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
             <div class="overflow-x-auto">
@@ -128,6 +145,10 @@
                                 </td>
                                 <td class="text-right">
                                     <div class="flex items-center justify-end gap-1">
+                                        <x-util.button variant="ghost" size="xs"
+                                            onclick="reset_vendor_{{ $vendor->id }}.showModal()">
+                                            Reset Password
+                                        </x-util.button>
                                         <x-util.button variant="warning" size="xs"
                                             onclick="edit_vendor_{{ $vendor->id }}.showModal()">
                                             Perbarui
@@ -251,6 +272,33 @@
                         <x-util.button variant="error" type="submit">
                             Ya, Hapus
                         </x-util.button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+
+        <!-- Modal Reset Password -->
+        <dialog id="reset_vendor_{{ $vendor->id }}" class="modal">
+            <div class="modal-box bg-white rounded-3xl max-w-md p-6 text-center">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-slate-400 hover:text-slate-600">✕</button>
+                </form>
+
+                <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4 text-amber-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+
+                <h3 class="font-extrabold text-xl text-slate-900 font-heading mb-2">Reset Password?</h3>
+                <p class="text-sm text-slate-500 mb-6">Password <strong class="text-slate-700">{{ $vendor->name }}</strong> akan diganti acak 12 karakter. Vendor wajib ganti saat login pertama. Sesi lama vendor diputus. Password baru tampil sekali.
+                </p>
+
+                <form action="{{ route('superadmin-vendor-management.reset-password', $vendor->id) }}" method="POST">
+                    @csrf
+                    <div class="flex items-center justify-center gap-3">
+                        <button type="button" onclick="reset_vendor_{{ $vendor->id }}.close()" class="btn btn-ghost text-slate-600">Batal</button>
+                        <x-util.button variant="warning" type="submit" size="sm">Ya, Reset Password</x-util.button>
                     </div>
                 </form>
             </div>

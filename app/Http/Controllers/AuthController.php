@@ -24,6 +24,10 @@ class AuthController extends Controller
             }
 
             if ($user->role === 'vendor') {
+                if ($user->must_change_password) {
+                    return redirect()->route('vendor.force-password');
+                }
+
                 if ($user->vendorProfiles?->status === 'active') {
                     return redirect()->route('vendor.dashboard');
                 }

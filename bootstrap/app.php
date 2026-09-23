@@ -4,6 +4,7 @@ use App\Http\Middleware\CheckFeatureAccess;
 use App\Http\Middleware\CheckFeatureMaintenance;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\CheckStatus;
+use App\Http\Middleware\EnsurePasswordChanged;
 use App\Http\Middleware\EnsureSubscriptionActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'subscription.active' => EnsureSubscriptionActive::class,
             'feature.maintenance' => CheckFeatureMaintenance::class,
             'feature.access' => CheckFeatureAccess::class,
+            'password.changed' => EnsurePasswordChanged::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

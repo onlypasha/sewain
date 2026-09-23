@@ -7,6 +7,8 @@ use App\Http\Requests\CreateVendorRequest;
 use App\Models\User;
 use App\Models\VendorProfiles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class VendorManagementController extends Controller
 {
@@ -80,5 +82,27 @@ class VendorManagementController extends Controller
         $user->delete();
 
         return redirect()->route('superadmin-vendor-management.index')->with('Warning', 'Tenant berhasil dihapus');
+    }
+
+    public function resetPassword(int $id)
+    {
+        $user = User::where('role', 'vendor')->findOrFail($id);
+
+        $plainPassword = Str::password(12);
+
+        $user->update([
+            'password' => $plainPassword,
+            'must_change_password' => true,
+            'remember_token' => Str::random(60),
+        ]);
+
+        DB::table('sessions')->where('user_id', $user->id)->delete();
+
+        return redirect()
+            ->route('superadmin-vendor-management.index')
+            ->with('reset_password', [
+                'name' => $user->name,
+                'password' => $plainPassword,
+            ]);
     }
 }
