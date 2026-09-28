@@ -81,10 +81,13 @@ test('vendor can update forced password with current password', function () {
         'password' => $plain,
     ]);
 
+    // Password unik & tidak ada di data leak (rule uncompromised).
+    $newPassword = 'XyzVendor!2026#' . strtolower(bin2hex(random_bytes(4)));
+
     $response = $this->post(route('vendor.force-password.update'), [
         'current_password' => $plain,
-        'password' => 'newSecurePass123',
-        'password_confirmation' => 'newSecurePass123',
+        'password' => $newPassword,
+        'password_confirmation' => $newPassword,
     ]);
 
     $response->assertRedirect(route('vendor.dashboard'));
@@ -93,7 +96,6 @@ test('vendor can update forced password with current password', function () {
 });
 
 test('reset invalidates old vendor sessions', function () {
-    // create a fake session row for vendor
     DB::table('sessions')->insert([
         'id' => 'test-session-id',
         'user_id' => $this->vendor->id,

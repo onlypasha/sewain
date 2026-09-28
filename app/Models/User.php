@@ -11,13 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable(['name', 'email', 'password', 'role', 'slug', 'phone', 'must_change_password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * Get the attributes that should be cast.
@@ -53,6 +54,14 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'vendor_id');
     }
 
+    /**
+     * Booking di mana user ini adalah customer (penyewa).
+     */
+    public function customerBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'customer_id');
+    }
+
     public function isSubscriptionActive(): bool
     {
         $profile = $this->vendorProfiles;
@@ -81,16 +90,6 @@ class User extends Authenticatable
             return false;
         }
 
-        $plan = $subscription->subscriptionPlan;
-        if (! $plan) {
-            return false;
-        }
-
-        // Load features list if not already loaded to avoid N+1 queries when checked multiple times
-        if (! $plan->relationLoaded('featuresList')) {
-            $plan->load('featuresList');
-        }
-
-        return $plan->featuresList->contains('key', $featureKey);
+        return $subscription->subscriptionPlan->featuresList()->where('key', $featureKey)->exists();
     }
 }

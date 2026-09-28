@@ -51,13 +51,14 @@
                 </div>
 
                 <div class="flex items-center justify-between gap-3 pt-4 border-t border-slate-100">
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-ghost btn-sm text-slate-600">Logout</button>
-                    </form>
                     <x-util.button variant="primary" type="submit" size="sm">Simpan & Lanjut</x-util.button>
                 </div>
             </div>
+        </form>
+
+        <form action="{{ route('logout') }}" method="POST" class="text-center pt-2">
+            @csrf
+            <button type="submit" class="btn btn-ghost btn-sm text-slate-600">Logout</button>
         </form>
     </div>
 

@@ -33,7 +33,8 @@
             <div class="space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Xendit Secret Server Key (Production):</label>
-                    <input type="password" value="xnd_production_master_894812398" class="input input-bordered input-sm font-mono w-full">
+                    <input type="password" value="" placeholder="Diisi dari .env (XENDIT_SECRET_KEY)" class="input input-bordered input-sm font-mono w-full">
+                    <p class="text-slate-500 text-xs mt-1">Kosongkan jika tidak ingin mengubah. Diambil dari config <code>services.xendit.secret_key</code> / <code>.env XENDIT_SECRET_KEY</code>.</p>
                 </div>
 
                 <div class="flex items-center justify-between pt-2">

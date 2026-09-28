@@ -77,8 +77,9 @@ class CalendarController extends Controller
         // Query seluruh aset milik vendor
         $selectedCategoryId = $request->input('category_id');
 
-        $itemsQuery = Items::with(['category', 'bookings' => function ($q) use ($startDate, $endDate) {
-            $q->where('rental_start', '<=', $endDate->toDateString())
+        $itemsQuery = Items::with(['category:id,name', 'bookings' => function ($q) use ($startDate, $endDate) {
+            $q->select('id', 'item_id', 'rental_start', 'rental_end', 'status', 'customer_name')
+                ->where('rental_start', '<=', $endDate->toDateString())
                 ->where('rental_end', '>=', $startDate->toDateString())
                 ->where('status', '!=', 'cancelled')
                 ->orderBy('rental_start');

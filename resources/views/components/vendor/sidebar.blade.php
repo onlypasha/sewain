@@ -29,7 +29,7 @@
         <div class="p-6 border-b border-brand-500/20 space-y-4">
             <a href="/" class="flex items-center gap-3 active:scale-95 transition-transform">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-300 to-brand-500 p-0 shadow-lg shadow-brand-500/20 flex items-center justify-center overflow-hidden">
-                    <img src="{{ Storage::url(Auth::user()->vendorProfiles->profiles_picture) }}" alt="Foto Profil Vendor" class="w-full h-full object-cover">
+                    <img src="{{ (Auth::user()->vendorProfiles?->profiles_picture ? Storage::url(Auth::user()->vendorProfiles->profiles_picture) : '#') }}" alt="Foto Profil Vendor" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <span class="font-extrabold text-lg tracking-tight text-white font-heading block leading-none truncate w-32">{{ Auth::user()->name }}</span>
@@ -68,7 +68,7 @@
                         </svg>
                         <span>Katalog & Stok Aset</span>
                     </div>
-                    <span class="badge badge-xs bg-brand-500 border-none text-white font-mono font-bold">{{ Auth::user()->items->count() }}</span>
+                    <span class="badge badge-xs bg-brand-500 border-none text-white font-mono font-bold">{{ Auth::user()->items()->count() }}</span>
                 </a>
             @else
                 <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $assetErrorMsg }}' });"
@@ -92,7 +92,7 @@
                         </svg>
                         <span>Kategori Aset</span>
                     </div>
-                    <span class="badge badge-xs bg-brand-500 border-none text-white font-mono font-bold">{{ Auth::user()->itemsCategories->count() }}</span>
+                    <span class="badge badge-xs bg-brand-500 border-none text-white font-mono font-bold">{{ Auth::user()->itemsCategories()->count() }}</span>
                 </a>
             @else
                 <a onclick="Swal.fire({ icon: 'error', title: 'Akses Dibatasi', text: '{{ $categoryErrorMsg }}' });"
@@ -234,7 +234,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-full bg-brand-500 text-white font-bold flex items-center justify-center font-heading text-xs">
-                    <img src="{{ Storage::url(Auth::user()->vendorProfiles->profiles_picture) }}" alt="Foto Profil Vendor" class="w-full h-full object-cover rounded-full">
+                    <img src="{{ (Auth::user()->vendorProfiles?->profiles_picture ? Storage::url(Auth::user()->vendorProfiles->profiles_picture) : '#') }}" alt="Foto Profil Vendor" class="w-full h-full object-cover rounded-full">
                 </div>
                 <div class="truncate w-32">
                     <div class="text-xs font-bold text-white leading-tight truncate">{{ Auth::user()->email }}</div>

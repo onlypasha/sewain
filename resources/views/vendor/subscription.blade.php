@@ -252,7 +252,7 @@
                                 </td>
                                 <td class="py-3 px-4 text-slate-500">
                                     @if ($purchase->payment_proof_path)
-                                        <a href="{{ Storage::url($purchase->payment_proof_path) }}" target="_blank" class="text-emerald-600 hover:underline font-mono">Lihat Bukti</a>
+                                        <a href="{{ route('vendor.subscription-purchases.proof', $purchase->id) }}" target="_blank" class="text-emerald-600 hover:underline font-mono">Lihat Bukti</a>
                                     @else
                                         <span class="text-slate-400 font-mono">-</span>
                                     @endif

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VendorProfiles extends Model
@@ -10,14 +11,12 @@ class VendorProfiles extends Model
     public $fillable = [
         'user_id',
         'owner_name',
-        'subscription',
-        'assets',
-        'status',
         'address',
         'profiles_picture',
+        'status',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

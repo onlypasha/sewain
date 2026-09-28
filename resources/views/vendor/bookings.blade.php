@@ -2,6 +2,22 @@
 @section('content')
     <div class="space-y-6">
 
+        @if (session('success'))
+            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-sm text-emerald-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="p-4 bg-red-50 border border-red-200 rounded-2xl text-sm text-red-700">
+                <ul class="list-disc list-inside space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         {{-- Page Header --}}
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -232,11 +248,81 @@
 
                                 {{-- Aksi --}}
                                 <td class="py-4 px-6 text-center">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <x-util.button variant="primary" size="xs"
-                                            onclick="detail_booking_modal_{{ $booking->id }}.showModal()">
+                                    <div class="flex items-center justify-center gap-1.5 flex-wrap">
+                                        @if ($booking->status === 'pending')
+                                            <form method="POST"
+                                                action="{{ route('vendor.bookings.confirm', $booking->id) }}"
+                                                class="inline">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">
+                                                    Terima
+                                                </button>
+                                            </form>
+                                            <form method="POST"
+                                                action="{{ route('vendor.bookings.reject', $booking->id) }}"
+                                                class="inline"
+                                                onsubmit="return confirm('Tolak booking ini?')">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 transition-colors">
+                                                    Tolak
+                                                </button>
+                                            </form>
+                                        @elseif ($booking->status === 'confirmed')
+                                            @php $pendingPay = $booking->payments()->where('status', 'pending')->latest()->first(); @endphp
+                                            @if ($pendingPay)
+                                                <a href="{{ route('vendor.bookings.payment-proof', $booking->id) }}" target="_blank"
+                                                    class="px-3 py-1.5 rounded-lg text-[11px] font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+                                                    Lihat Bukti
+                                                </a>
+                                                <form method="POST"
+                                                    action="{{ route('vendor.bookings.verify-payment', $booking->id) }}"
+                                                    class="inline">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">
+                                                        Verifikasi
+                                                    </button>
+                                                </form>
+                                                <form method="POST"
+                                                    action="{{ route('vendor.bookings.reject-payment', $booking->id) }}"
+                                                    class="inline" onsubmit="return confirm('Tolak bukti bayar ini?')">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 transition-colors">
+                                                        Tolak
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form method="POST"
+                                                    action="{{ route('vendor.bookings.cancel', $booking->id) }}"
+                                                    class="inline"
+                                                    onsubmit="return confirm('Batalkan booking ini?')">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 transition-colors">
+                                                        Batalkan
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @elseif ($booking->status === 'active')
+                                            <form method="POST"
+                                                action="{{ route('vendor.bookings.complete', $booking->id) }}"
+                                                class="inline"
+                                                onsubmit="return confirm('Tandai booking ini selesai?')">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">
+                                                    Selesai
+                                                </button>
+                                            </form>
+                                        @endif
+                                        <button type="button"
+                                            onclick="Swal.fire({ title: 'Detail Booking', html: '<div style=\'text-align:left;font-size:13px\'><b>Kode:</b> {{ $booking->booking_code }}<br><b>Penyewa:</b> {{ $booking->customer_name }}<br><b>HP:</b> {{ $booking->customer_phone ?? '-' }}<br><b>Email:</b> {{ $booking->customer_email ?? '-' }}</div>', icon: 'info' });"
+                                            class="px-3 py-1.5 rounded-lg text-[11px] font-bold text-slate-600 hover:bg-slate-100 transition-colors">
                                             Detail
-                                        </x-util.button>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

@@ -31,7 +31,7 @@ class SubscriptionPurchaseController extends Controller
             return redirect()->back();
         }
 
-        $plan = SubscriptionPlan::findOrFail($request->subscription_plan_id);
+        $plan = SubscriptionPlan::where('is_active', true)->findOrFail($request->subscription_plan_id);
 
         $subscription = Subscription::firstOrCreate(
             ['vendor_profile_id' => $profile->id],
@@ -43,7 +43,7 @@ class SubscriptionPurchaseController extends Controller
 
         $proofPath = null;
         if ($request->hasFile('payment_proof')) {
-            $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
+            $proofPath = $request->file('payment_proof')->store('proofs');
         }
 
         SubscriptionPurchase::create([

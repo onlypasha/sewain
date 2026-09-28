@@ -9,6 +9,7 @@ use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use SweetAlert2\Laravel\Swal;
 
 class ItemsController extends Controller
@@ -22,7 +23,7 @@ class ItemsController extends Controller
         $maxAsset = $subscription?->subscriptionPlan?->getMaxAssets() ?? 0;
 
         $categories = ItemsCategory::where('vendor_id', $user->id)->orderBy('name')->get();
-        $items = Items::with('category')->where('vendor_id', $user->id)->latest()->get();
+        $items = Items::with('category')->where('vendor_id', $user->id)->latest()->paginate(20);
 
         return view('vendor.items', compact('items', 'categories', 'maxAsset'));
     }
@@ -31,7 +32,7 @@ class ItemsController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'items_category_id' => ['nullable', 'exists:items_categories,id'],
+            'items_category_id' => ['nullable', Rule::exists('items_categories', 'id')->where('vendor_id', Auth::id())],
             'description' => ['nullable', 'string', 'max:1000'],
             'price_per_day' => ['required', 'numeric', 'min:0'],
             'status' => ['required', 'string', 'in:available,rented,maintenance'],
@@ -40,10 +41,7 @@ class ItemsController extends Controller
 
         $photoPath = null;
         if ($request->hasFile('items_photo')) {
-            $file = $request->file('items_photo');
-            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
-            $photoPath = 'foto-aset/'.$filename;
-            Storage::disk('b2')->put($photoPath, file_get_contents($file));
+            $photoPath = $request->file('items_photo')->store('foto-aset', 'b2');
         }
 
         Items::create([
@@ -70,7 +68,7 @@ class ItemsController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'items_category_id' => ['nullable', 'exists:items_categories,id'],
+            'items_category_id' => ['nullable', Rule::exists('items_categories', 'id')->where('vendor_id', Auth::id())],
             'description' => ['nullable', 'string', 'max:1000'],
             'price_per_day' => ['required', 'numeric', 'min:0'],
             'status' => ['required', 'string', 'in:available,rented,maintenance'],
@@ -89,10 +87,7 @@ class ItemsController extends Controller
             if ($item->items_photo && Storage::disk('b2')->exists($item->items_photo)) {
                 Storage::disk('b2')->delete($item->items_photo);
             }
-            $file = $request->file('items_photo');
-            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
-            $photoPath = 'foto-aset/'.$filename;
-            Storage::disk('b2')->put($photoPath, file_get_contents($file));
+            $photoPath = $request->file('items_photo')->store('foto-aset', 'b2');
             $itemData['items_photo'] = $photoPath;
         }
 

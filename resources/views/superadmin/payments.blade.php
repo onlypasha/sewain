@@ -163,7 +163,7 @@
                                             class="group flex items-center gap-2 p-1.5 pr-3 bg-slate-100 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl transition-all text-left">
                                             <div
                                                 class="w-8 h-8 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                                                <img src="{{ Storage::url($purchase->payment_proof_path) }}"
+                                                <img src="{{ route('superadmin.payments.proof', $purchase->id) }}"
                                                     alt="Bukti Transfer"
                                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                                             </div>
@@ -263,7 +263,7 @@
                         {{-- Full Image Preview --}}
                         <div
                             class="md:col-span-2 bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex items-center justify-center p-2 min-h-[300px]">
-                            <img src="{{ Storage::url($purchase->payment_proof_path) }}" alt="Bukti Transfer Detail"
+                            <img src="{{ route('superadmin.payments.proof', $purchase->id) }}" alt="Bukti Transfer Detail"
                                 class="max-h-[450px] w-auto object-contain rounded-xl" />
                         </div>
 

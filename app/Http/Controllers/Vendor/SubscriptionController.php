@@ -13,7 +13,7 @@ class SubscriptionController extends Controller
     {
         $profile = Auth::user()->vendorProfiles;
         $subscription = $profile ? Subscription::with(['subscriptionPlan', 'purchases.subscription.subscriptionPlan'])->where('vendor_profile_id', $profile->id)->latest()->first() : null;
-        $plans = SubscriptionPlan::all();
+        $plans = SubscriptionPlan::where('is_active', true)->get();
 
         $purchases = $subscription ? $subscription->purchases()->latest()->get() : collect();
 

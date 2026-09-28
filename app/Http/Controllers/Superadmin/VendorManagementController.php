@@ -28,10 +28,11 @@ class VendorManagementController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt('p@ssword'),
+            'password' => config('services.vendor.default_password'),
             'role' => 'vendor',
             'slug' => $data['slug'],
             'phone' => $data['phone'],
+            'must_change_password' => true,
         ]);
 
         VendorProfiles::create([

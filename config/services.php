@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'vendor' => [
+        'default_password' => env('VENDOR_DEFAULT_PASSWORD') ?: 'p@ssword',
+    ],
+
+    'xendit' => [
+        'secret_key' => env('XENDIT_SECRET_KEY'),
+    ],
+
 ];

@@ -70,6 +70,14 @@ return [
             'throw' => true,
         ],
 
+        'proofs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/proofs'),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*

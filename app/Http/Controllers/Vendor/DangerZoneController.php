@@ -22,13 +22,17 @@ class DangerZoneController extends Controller
     public function updatePassword(Request $request)
     {
         $validated = $request->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
         ]);
 
         $user = Auth::user();
         $user->update([
-            'password' => bcrypt($validated['password']),
+            'password' => $validated['password'],
         ]);
+
+        Auth::logoutOtherDevices($validated['password']);
+        $request->session()->regenerate();
 
         Swal::success([
             'title' => 'Password Berhasil Diubah',

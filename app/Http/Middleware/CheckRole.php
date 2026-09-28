@@ -15,9 +15,12 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!in_array($request->user()->role, $roles)) {
+        $user = $request->user();
+
+        if (! $user || ! in_array($user->role, $roles)) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini!');
         }
+
         return $next($request);
     }
 }
