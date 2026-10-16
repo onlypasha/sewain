@@ -61,8 +61,8 @@ test('customer login bisa akses halaman booking item', function () {
 
 test('guest tidak bisa booking - redirect login', function () {
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $response->assertRedirect(route('login'));
@@ -71,8 +71,8 @@ test('guest tidak bisa booking - redirect login', function () {
 test('vendor tidak bisa booking barang sendiri', function () {
     $this->actingAs($this->vendor);
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $response->assertStatus(403);
@@ -82,8 +82,8 @@ test('booking dengan tanggal valid berhasil', function () {
     $this->actingAs($this->customer);
 
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $response->assertRedirect();
@@ -97,14 +97,14 @@ test('booking dengan tanggal valid berhasil', function () {
 test('booking tanggal overlapping ditolak', function () {
     $this->actingAs($this->customer);
     $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $this->actingAs($this->otherCustomer);
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-03',
-        'rental_end' => '2026-10-07',
+        'rental_start' => now()->addDays(3)->toDateString(),
+        'rental_end' => now()->addDays(7)->toDateString(),
     ]);
 
     $response->assertSessionHasErrors('rental_start');
@@ -114,14 +114,14 @@ test('booking tanggal overlapping ditolak', function () {
 test('booking tanggal non-overlap diterima', function () {
     $this->actingAs($this->customer);
     $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $this->actingAs($this->otherCustomer);
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-06',
-        'rental_end' => '2026-10-10',
+        'rental_start' => now()->addDays(6)->toDateString(),
+        'rental_end' => now()->addDays(10)->toDateString(),
     ]);
 
     $response->assertRedirect();
@@ -131,8 +131,8 @@ test('booking tanggal non-overlap diterima', function () {
 test('validasi: rental_start wajib & sebelum rental_end', function () {
     $this->actingAs($this->customer);
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-10',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDays(10)->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
     $response->assertSessionHasErrors();
 });
@@ -158,8 +158,8 @@ test('booking item unavailable ditolak', function () {
 
     $this->actingAs($this->customer);
     $response = $this->post("/items/{$unavailable->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $response->assertSessionHasErrors();
@@ -169,8 +169,8 @@ test('booking item unavailable ditolak', function () {
 test('setelah booking redirect ke daftar booking customer', function () {
     $this->actingAs($this->customer);
     $response = $this->post("/items/{$this->item->id}/booking", [
-        'rental_start' => '2026-10-01',
-        'rental_end' => '2026-10-05',
+        'rental_start' => now()->addDay()->toDateString(),
+        'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
     $response->assertRedirect(route('customer.bookings'));
