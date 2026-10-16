@@ -4,12 +4,12 @@
             Buka toko Anda hari ini.<br>Berhenti balas chat sepanjang hari.
         </h2>
         <p class="text-paper/70 text-base sm:text-lg mt-5 max-w-xl mx-auto">
-            Gratis 14 hari, tanpa kartu kredit.
+            Kelola katalog, booking, dan pembayaran toko sewa Anda dari satu dashboard.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-9">
             <a href="#harga" class="inline-flex items-center justify-center bg-stempel text-paper font-semibold px-7 py-3.5 rounded-md hover:bg-stempel-deep transition-all duration-200 active:scale-[0.98]">
-                Buka toko gratis
+                Lihat paket &amp; harga
             </a>
             <a href="https://wa.me/6281234567890?text=Halo%20Tim%20Sewain,%20saya%20ingin%20konsultasi%20bisnis%20rental" target="_blank" class="inline-flex items-center justify-center border border-paper/30 text-paper font-semibold px-7 py-3.5 rounded-md hover:border-paper hover:text-paper hover:bg-paper/10 transition-all duration-200 active:scale-[0.98]">
                 Konsultasi via WhatsApp
@@ -17,15 +17,11 @@
         </div>
 
         <div class="mt-8 flex items-center justify-center gap-3 text-xs font-data text-paper/60">
-            <span>Tanpa kartu kredit</span>
+            <span>Penyiapan dibantu tim Sewain</span>
             <span>·</span>
-            <span>Batalkan kapan saja</span>
+            <span>Paket bulanan atau tahunan</span>
             <span>·</span>
-            <span>Bantuan setup gratis</span>
-        </div>
-
-        <div class="stempel absolute top-8 right-4 sm:right-10 text-paper/90 text-base hidden sm:block">
-            Gratis 14 hari
+            <span>Dukungan via WhatsApp</span>
         </div>
     </div>
 </section>

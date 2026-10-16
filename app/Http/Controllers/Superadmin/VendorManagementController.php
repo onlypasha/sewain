@@ -14,8 +14,10 @@ class VendorManagementController extends Controller
 {
     public function index()
     {
-        // get senmua data vendor
-        $vendors = User::where('role', 'vendor')->get();
+        $vendors = User::where('role', 'vendor')
+            ->with(['vendorProfiles.subscriptions.subscriptionPlan'])
+            ->withCount('items')
+            ->get();
 
         return view('superadmin.tenant-management', compact('vendors'));
     }
@@ -24,27 +26,39 @@ class VendorManagementController extends Controller
     {
         $data = $request->validated();
 
-        // simpan data vendor ke database
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => config('services.vendor.default_password'),
-            'role' => 'vendor',
-            'slug' => $data['slug'],
-            'phone' => $data['phone'],
-            'must_change_password' => true,
-        ]);
+        // Password awal dibuat acak per vendor, bukan memakai password bersama,
+        // lalu wajib diganti saat login pertama.
+        $plainPassword = Str::password(config('sewain.vendor.initial_password_length', 16));
 
-        VendorProfiles::create([
-            'user_id' => $user->id,
-            'owner_name' => '',
-            'subscription' => '',
-            'status' => 'inactive',
-            'assets' => 0,
-            'address' => '',
-        ]);
+        $user = DB::transaction(function () use ($data, $plainPassword) {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $plainPassword,
+                'role' => 'vendor',
+                'slug' => $data['slug'],
+                'phone' => $data['phone'],
+                'must_change_password' => true,
+            ]);
 
-        return redirect()->route('superadmin.dashboard')->with('Warning', 'Vendor Berhasil dibuat. Silakan melengkapi profil vendor');
+            VendorProfiles::create([
+                'user_id' => $user->id,
+                'owner_name' => '',
+                'status' => 'inactive',
+                'address' => '',
+            ]);
+
+            return $user;
+        });
+
+        return redirect()
+            ->route('superadmin.dashboard')
+            ->with('Warning', 'Vendor berhasil dibuat. Sampaikan kredensial di bawah ke pemilik toko, lalu aktifkan statusnya.')
+            ->with('vendor_credentials', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'password' => $plainPassword,
+            ]);
     }
 
     public function update(Request $request, int $id)
@@ -80,7 +94,25 @@ class VendorManagementController extends Controller
     public function destroy(int $id)
     {
         $user = User::where('role', 'vendor')->findOrFail($id);
-        $user->delete();
+        $profile = $user->vendorProfiles;
+
+        // Vendor yang sudah punya riwayat transaksi diarsipkan supaya booking
+        // dan bukti pembayaran tidak ikut terhapus.
+        $hasHistory = $user->bookings()->exists()
+            || ($profile && $profile->subscriptions()->whereHas('purchases')->exists());
+
+        if ($hasHistory) {
+            $profile?->update(['status' => 'inactive']);
+
+            return redirect()
+                ->route('superadmin-vendor-management.index')
+                ->with('Warning', 'Vendor memiliki riwayat transaksi sehingga diarsipkan (dinonaktifkan), bukan dihapus.');
+        }
+
+        DB::transaction(function () use ($user) {
+            $user->vendorProfiles()->delete();
+            $user->delete();
+        });
 
         return redirect()->route('superadmin-vendor-management.index')->with('Warning', 'Tenant berhasil dihapus');
     }

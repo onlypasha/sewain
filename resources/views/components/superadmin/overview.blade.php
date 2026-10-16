@@ -36,8 +36,8 @@
                 <div class="text-2xl font-extrabold text-slate-900 font-heading">
                     {{ User::where('role', 'vendor')->count() }} Tenant</div>
                 <div class="flex items-center gap-1.5 text-xs text-indigo-600 font-semibold mt-1">
-                    <span>{{ User::where('role', 'vendor')->get()->where('status', 'active')->count() }} tenan
-                        aktif</span>
+                    <span>{{ User::where('role', 'vendor')->whereHas('vendorProfiles', fn ($q) => $q->where('status', 'active'))->count() }}
+                        tenant aktif</span>
                 </div>
             </div>
         </div>

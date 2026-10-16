@@ -28,6 +28,15 @@ class Subscription extends Model
         return (int) now()->startOfDay()->diffInDays($this->end_date);
     }
 
+    /**
+     * Langganan aktif dan masa aktifnya belum lewat.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === 'active'
+            && (is_null($this->end_date) || $this->end_date->gte(today()));
+    }
+
     public function vendorProfile()
     {
         return $this->belongsTo(VendorProfiles::class, 'vendor_profile_id');

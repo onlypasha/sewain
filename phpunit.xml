@@ -34,5 +34,11 @@
         <env name="NIGHTWATCH_ENABLED" value="false"/>
         <!-- Paksa auth API pakai Bearer token, bukan session cookie SPA -->
         <env name="SANCTUM_STATEFUL_DOMAINS" value=""/>
+        <!-- Modul customer/API tetap aktif saat pengujian supaya test lama tetap
+             berjalan; test khusus rilis mematikan modul ini untuk memastikan
+             route benar-benar tertutup. -->
+        <env name="SEWAIN_API_ENABLED" value="true"/>
+        <env name="SEWAIN_CUSTOMER_ENABLED" value="true"/>
+        <env name="SEWAIN_KTP_VERIFICATION_ENABLED" value="true"/>
     </php>
 </phpunit>

@@ -19,7 +19,7 @@
                     class="text-sm text-ink-soft hover:text-ink px-3 py-2 transition-colors duration-200">Masuk</a>
                 <a href="#harga"
                     class="inline-flex items-center justify-center bg-stempel text-paper text-sm font-semibold px-4 py-2 rounded-md hover:bg-stempel-deep transition-all duration-200 active:scale-[0.98]">
-                    Buka toko
+                    Lihat paket
                 </a>
             </div>
 
@@ -59,7 +59,7 @@
             <a href="#harga"
                 class="inline-flex items-center justify-center bg-stempel text-paper text-sm font-semibold px-4 py-2.5 rounded-md hover:bg-stempel-deep transition-all duration-200 active:scale-[0.98]"
                 onclick="toggleMobileMenu()">
-                Buka toko
+                Lihat paket
             </a>
         </div>
     </div>

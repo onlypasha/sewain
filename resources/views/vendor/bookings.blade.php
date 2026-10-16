@@ -35,7 +35,7 @@
                     <span class="text-[10px] text-slate-400 font-mono uppercase tracking-wider block mb-1">Total
                         Booking</span>
                     <span
-                        class="text-3xl font-extrabold text-slate-900 font-heading leading-none">{{ $bookings->count() }}</span>
+                        class="text-3xl font-extrabold text-slate-900 font-heading leading-none">{{ $stats['total'] }}</span>
                     <span class="text-xs text-slate-500 block mt-1">Seluruh pesanan</span>
                 </div>
                 <div
@@ -54,7 +54,7 @@
                         class="text-[10px] text-amber-600 font-mono font-bold uppercase tracking-wider block mb-1">Menunggu
                         Konfirmasi</span>
                     <span
-                        class="text-3xl font-extrabold text-amber-600 font-heading leading-none">{{ $bookings->where('status', 'pending')->count() }}</span>
+                        class="text-3xl font-extrabold text-amber-600 font-heading leading-none">{{ $stats['pending'] }}</span>
                     <span class="text-xs text-slate-500 block mt-1">Perlu ditindaklanjuti</span>
                 </div>
                 <div
@@ -73,7 +73,7 @@
                         class="text-[10px] text-indigo-600 font-mono font-bold uppercase tracking-wider block mb-1">Sedang
                         Berjalan</span>
                     <span
-                        class="text-3xl font-extrabold text-indigo-600 font-heading leading-none">{{ $bookings->where('status', 'active')->count() }}</span>
+                        class="text-3xl font-extrabold text-indigo-600 font-heading leading-none">{{ $stats['active'] }}</span>
                     <span class="text-xs text-slate-500 block mt-1">Barang sedang disewa</span>
                 </div>
                 <div
@@ -91,7 +91,7 @@
                     <span
                         class="text-[10px] text-emerald-600 font-mono font-bold uppercase tracking-wider block mb-1">Selesai</span>
                     <span
-                        class="text-3xl font-extrabold text-emerald-600 font-heading leading-none">{{ $bookings->where('status', 'completed')->count() }}</span>
+                        class="text-3xl font-extrabold text-emerald-600 font-heading leading-none">{{ $stats['completed'] }}</span>
                     <span class="text-xs text-slate-500 block mt-1">Transaksi sukses</span>
                 </div>
                 <div
@@ -319,7 +319,7 @@
                                             </form>
                                         @endif
                                         <button type="button"
-                                            onclick="Swal.fire({ title: 'Detail Booking', html: '<div style=\'text-align:left;font-size:13px\'><b>Kode:</b> {{ $booking->booking_code }}<br><b>Penyewa:</b> {{ $booking->customer_name }}<br><b>HP:</b> {{ $booking->customer_phone ?? '-' }}<br><b>Email:</b> {{ $booking->customer_email ?? '-' }}</div>', icon: 'info' });"
+                                            onclick="detail_booking_modal_{{ $booking->id }}.showModal()"
                                             class="px-3 py-1.5 rounded-lg text-[11px] font-bold text-slate-600 hover:bg-slate-100 transition-colors">
                                             Detail
                                         </button>

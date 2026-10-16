@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
+use App\Http\Controllers\Customer\BookingPaymentController as CustomerBookingPaymentController;
 use App\Http\Controllers\ImageProxyController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\PaymentProofController;
+use App\Http\Controllers\StorefrontController;
 use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\FeatureController;
 use App\Http\Controllers\Superadmin\PaymentsController;
@@ -20,10 +24,6 @@ use App\Http\Controllers\Vendor\SubscriptionController as VendorSubscriptionCont
 use App\Http\Controllers\Vendor\SubscriptionPurchaseController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 use App\Http\Controllers\Vendor\VerificationsController;
-use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
-use App\Http\Controllers\Customer\BookingPaymentController as CustomerBookingPaymentController;
-use App\Http\Controllers\PaymentProofController;
-use App\Http\Controllers\StorefrontController;
 
 // Route::get('/', function () {
 //     return view('landing');
@@ -37,15 +37,17 @@ Route::get('/toko/{slug}', [StorefrontController::class, 'show'])->name('storefr
 Route::get('/items/{id}', [StorefrontController::class, 'item'])->whereNumber('id')->name('storefront.item');
 
 // Area customer (penyewa)
-Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/booking-saya', [CustomerBookingController::class, 'index'])->name('customer.bookings');
-    Route::get('/items/{id}/booking', [CustomerBookingController::class, 'create'])->whereNumber('id')->name('customer.bookings.create');
-    Route::post('/items/{id}/booking', [CustomerBookingController::class, 'store'])->whereNumber('id')->name('customer.bookings.store');
+if (config('sewain.modules.customer')) {
+    Route::middleware(['auth', 'role:customer'])->group(function () {
+        Route::get('/booking-saya', [CustomerBookingController::class, 'index'])->name('customer.bookings');
+        Route::get('/items/{id}/booking', [CustomerBookingController::class, 'create'])->whereNumber('id')->name('customer.bookings.create');
+        Route::post('/items/{id}/booking', [CustomerBookingController::class, 'store'])->whereNumber('id')->name('customer.bookings.store');
 
-    // Bukti bayar sewa
-    Route::post('/booking-saya/{id}/payment', [CustomerBookingPaymentController::class, 'store'])->whereNumber('id')->name('customer.bookings.payment.store');
-    Route::get('/booking-saya/{id}/payment-proof', [CustomerBookingPaymentController::class, 'show'])->whereNumber('id')->name('customer.bookings.payment.proof');
-});
+        // Bukti bayar sewa
+        Route::post('/booking-saya/{id}/payment', [CustomerBookingPaymentController::class, 'store'])->whereNumber('id')->name('customer.bookings.payment.store');
+        Route::get('/booking-saya/{id}/payment-proof', [CustomerBookingPaymentController::class, 'show'])->whereNumber('id')->name('customer.bookings.payment.proof');
+    });
+}
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::middleware('guest')->group(function () {
@@ -87,14 +89,21 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::delete('/superadmin/features/{id}', [FeatureController::class, 'destroy'])->name('superadmin.features.destroy');
 });
 
-Route::middleware(['auth', 'role:vendor'])->group(function () {
+Route::middleware(['auth', 'role:vendor', 'vendor.active'])->group(function () {
     Route::get('/vendor/force-password', [ForcePasswordController::class, 'edit'])->name('vendor.force-password');
     Route::post('/vendor/force-password', [ForcePasswordController::class, 'update'])->name('vendor.force-password.update');
 
     Route::middleware('password.changed')->group(function () {
         Route::get('/vendor/dashboard', [VendorDashboardController::class, 'index'])->name('vendor.dashboard');
+
+        // Langganan, pembayaran, dan keamanan akun harus tetap dapat diakses
+        // oleh vendor yang belum berlangganan atau yang masa aktifnya habis.
+        Route::get('/vendor/subscription/', [VendorSubscriptionController::class, 'index'])->name('vendor.subscription');
         Route::post('/vendor/subscription-purchases', [SubscriptionPurchaseController::class, 'store'])->name('vendor.subscription-purchases.store');
         Route::get('/vendor/subscription-purchases/{id}/proof', [PaymentProofController::class, 'show'])->name('vendor.subscription-purchases.proof');
+
+        Route::get('/vendor/dangerzone', [DangerZoneController::class, 'index'])->name('vendor.dangerzone');
+        Route::post('/vendor/dangerzone/password', [DangerZoneController::class, 'updatePassword'])->name('vendor.dangerzone.password');
 
         Route::middleware(['subscription.active'])->group(function () {
             Route::get('/vendor/settings', [SettingsController::class, 'index'])->name('vendor.settings');
@@ -104,34 +113,36 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
                 ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings');
             Route::post('/vendor/bookings/{id}/confirm', [BookingsController::class, 'confirm'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.confirm');
             Route::post('/vendor/bookings/{id}/reject', [BookingsController::class, 'reject'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.reject');
             Route::post('/vendor/bookings/{id}/cancel', [BookingsController::class, 'cancel'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.cancel');
             Route::post('/vendor/bookings/{id}/complete', [BookingsController::class, 'complete'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.complete');
             Route::post('/vendor/bookings/{id}/verify-payment', [BookingsController::class, 'verifyPayment'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.verify-payment');
             Route::post('/vendor/bookings/{id}/reject-payment', [BookingsController::class, 'rejectPayment'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.reject-payment');
             Route::get('/vendor/bookings/{id}/payment-proof', [BookingsController::class, 'showPaymentProof'])
-                ->middleware(['feature.access:booking_system'])
+                ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.bookings.payment-proof');
 
             Route::get('/vendor/calendar', [CalendarController::class, 'index'])
                 ->middleware(['feature.access:booking_system', 'feature.maintenance:booking_system'])
                 ->name('vendor.calendar');
 
-            Route::get('/vendor/verifications', [VerificationsController::class, 'index'])
-                ->middleware(['feature.access:verifikasi_ktp', 'feature.maintenance:verifikasi_ktp'])
-                ->name('vendor.verifications');
+            if (config('sewain.modules.ktp_verification')) {
+                Route::get('/vendor/verifications', [VerificationsController::class, 'index'])
+                    ->middleware(['feature.access:verifikasi_ktp', 'feature.maintenance:verifikasi_ktp'])
+                    ->name('vendor.verifications');
+            }
 
             Route::middleware(['feature.access:asset_management', 'feature.maintenance:asset_management'])->group(function () {
                 Route::get('/vendor/items', [ItemsController::class, 'index'])->name('vendor.items');
@@ -146,12 +157,6 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
                 Route::put('/vendor/category/{id}', [ItemsCategoryController::class, 'update'])->name('vendor.category.update');
                 Route::delete('/vendor/category/{id}', [ItemsCategoryController::class, 'destroy'])->name('vendor.category.destroy');
             });
-
-            Route::get('/vendor/subscription/', [VendorSubscriptionController::class, 'index'])->name('vendor.subscription');
-
-            Route::get('/vendor/dangerzone', [DangerZoneController::class, 'index'])->name('vendor.dangerzone');
-            Route::post('/vendor/dangerzone/password', [DangerZoneController::class, 'updatePassword'])->name('vendor.dangerzone.password');
-            Route::post('/vendor/dangerzone/cancel-subscription', [DangerZoneController::class, 'cancelSubscription'])->name('vendor.dangerzone.cancel-subscription');
         });
     });
 });

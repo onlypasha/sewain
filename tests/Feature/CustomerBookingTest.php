@@ -101,6 +101,9 @@ test('booking tanggal overlapping ditolak', function () {
         'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
+    // Dua orang berbeda tidak boleh berbagi satu sesi: dengan pengikatan
+    // sesi ke password, identitas harus dimulai dari sesi baru.
+    $this->flushSession();
     $this->actingAs($this->otherCustomer);
     $response = $this->post("/items/{$this->item->id}/booking", [
         'rental_start' => now()->addDays(3)->toDateString(),
@@ -118,6 +121,7 @@ test('booking tanggal non-overlap diterima', function () {
         'rental_end' => now()->addDays(5)->toDateString(),
     ]);
 
+    $this->flushSession();
     $this->actingAs($this->otherCustomer);
     $response = $this->post("/items/{$this->item->id}/booking", [
         'rental_start' => now()->addDays(6)->toDateString(),

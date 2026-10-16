@@ -7,11 +7,11 @@
         <div class="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             @php
                 $faqs = [
-                    ['q' => 'Bagaimana cara kerja toko multi-tenant Sewain?', 'a' => 'Setiap toko punya data, penyimpanan, dan alamat sendiri (namatoko.sewain.id). Data toko Anda terpisah sepenuhnya dan tidak tercampur dengan toko lain.'],
+                    ['q' => 'Bagaimana cara kerja toko multi-tenant Sewain?', 'a' => 'Setiap toko punya katalog, staf, dan halaman publik sendiri. Data toko Anda terpisah sepenuhnya dan tidak tercampur dengan toko lain.'],
                     ['q' => 'Apakah ada potongan komisi dari setiap transaksi?', 'a' => 'Tidak. Sewain memakai biaya langganan tetap, bukan potongan per transaksi. Seluruh hasil sewa 100% milik toko Anda.'],
-                    ['q' => 'Bagaimana keamanan e-KTP dan kontrak digital?', 'a' => 'Foto e-KTP dicocokkan dengan swafoto penyewa secara otomatis. Kontrak digital diterbitkan sebagai PDF dengan cap waktu dan enkripsi, berstandar hukum Indonesia.'],
-                    ['q' => 'Berapa lama proses pendaftaran?', 'a' => 'Kurang dari lima menit. Anda bisa mencoba 14 hari gratis tanpa kartu kredit, lalu berhenti kapan saja.'],
-                    ['q' => 'Bisakah memakai domain sendiri?', 'a' => 'Bisa. Anda bebas memakai subdomain sewain.id atau menghubungkan nama domain milik Anda sendiri.'],
+                    ['q' => 'Bagaimana verifikasi pembayaran sewa?', 'a' => 'Bukti transfer diunggah melalui halaman booking, lalu diperiksa dan diverifikasi oleh pemilik toko sebelum masa sewa dimulai.'],
+                    ['q' => 'Bagaimana cara mulai memakai Sewain?', 'a' => 'Akun toko dan paket langganan disiapkan bersama tim Sewain. Hubungi kami untuk membuka toko Anda.'],
+                    ['q' => 'Apakah saya bisa berpindah paket?', 'a' => 'Bisa. Perpanjangan paket yang sama diajukan dari dashboard vendor. Untuk berpindah paket, hubungi tim Sewain agar sisa masa aktif tetap terhitung.'],
                 ];
             @endphp
 

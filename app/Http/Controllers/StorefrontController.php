@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Items;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class StorefrontController extends Controller
 {
@@ -36,6 +35,8 @@ class StorefrontController extends Controller
     public function item(int $id)
     {
         $item = Items::query()
+            ->where('status', '!=', 'archived')
+            ->whereHas('vendor.vendorProfiles', fn ($query) => $query->where('status', 'active'))
             ->with(['vendor.vendorProfiles', 'category'])
             ->findOrFail($id);
 

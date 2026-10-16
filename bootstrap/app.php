@@ -6,6 +6,7 @@ use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\CheckStatus;
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Http\Middleware\EnsureSubscriptionActive;
+use App\Http\Middleware\EnsureVendorActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,9 +21,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Wajib aktif agar Auth::logoutOtherDevices() benar-benar
+        // memutus sesi perangkat lain setelah password diganti/direset.
+        $middleware->authenticateSessions();
+
         $middleware->alias([
             'role' => CheckRole::class,
             'status' => CheckStatus::class,
+            'vendor.active' => EnsureVendorActive::class,
             'subscription.active' => EnsureSubscriptionActive::class,
             'feature.maintenance' => CheckFeatureMaintenance::class,
             'feature.access' => CheckFeatureAccess::class,

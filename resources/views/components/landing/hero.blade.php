@@ -21,12 +21,12 @@
                 </h1>
 
                 <p class="reveal-rise text-base sm:text-lg text-ink-soft leading-relaxed mt-6 max-w-lg">
-                    Halaman toko sendiri di <span class="font-data text-ink bg-paper-deep px-1.5 py-0.5 rounded">namatoko.sewain.id</span>, kalender stok yang mengunci tanggal terpakai, verifikasi e-KTP, dan kontrak digital.
+                    Halaman toko sendiri, kelola katalog dan harga sewa, plus kalender stok yang mengunci tanggal terpakai supaya jadwal sewa tidak pernah bentrok.
                 </p>
 
                 <div class="reveal-rise flex flex-col sm:flex-row gap-3 mt-8">
                     <a href="#harga" class="inline-flex items-center justify-center gap-2 bg-stempel text-paper font-semibold px-6 py-3.5 rounded-md hover:bg-stempel-deep transition-colors active:scale-[0.98]">
-                        Buka toko gratis
+                        Lihat paket &amp; harga
                     </a>
                     <a href="#demo" class="inline-flex items-center justify-center gap-2 border border-ink/20 text-ink font-semibold px-6 py-3.5 rounded-md hover:border-ink/50 transition-colors active:scale-[0.98]">
                         Lihat demo

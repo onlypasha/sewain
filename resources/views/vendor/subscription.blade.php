@@ -97,11 +97,11 @@
             <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6">
                 <div class="text-[10px] text-slate-400 font-mono uppercase tracking-wider mb-3">Penggunaan Kuota Aset</div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-5xl font-extrabold text-slate-900 font-heading leading-none">{{ Auth::user()->vendorProfiles->assets ?? 0 }}</span>
+                    <span class="text-5xl font-extrabold text-slate-900 font-heading leading-none">{{ $usedAssets }}</span>
                     <span class="text-slate-400 font-medium text-sm">/ {{ $maxAsset ?? 0 }}</span>
                 </div>
                 <div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-indigo-500 h-full rounded-full" style="width: {{ is_numeric($maxAsset) && $maxAsset > 0 ? min(100, round(((Auth::user()->vendorProfiles->assets ?? 0) / $maxAsset) * 100)) : 0 }}%"></div>
+                    <div class="bg-indigo-500 h-full rounded-full" style="width: {{ is_numeric($maxAsset) && $maxAsset > 0 ? min(100, round(($usedAssets / $maxAsset) * 100)) : 0 }}%"></div>
                 </div>
                 <div class="text-[11px] text-slate-400 mt-1.5 font-mono">Slot Kuota: {{ $maxAsset ?? 0 }}</div>
             </div>
@@ -248,7 +248,7 @@
                                     {{ $purchase->submitted_at ? $purchase->submitted_at->format('d M Y H:i') : $purchase->created_at->format('d M Y H:i') }}
                                 </td>
                                 <td class="py-3 px-4 text-slate-900 font-medium">
-                                    {{ $purchase->subscription?->subscriptionPlan?->name ?? '-' }}
+                                    {{ $purchase->subscriptionPlan?->name ?? $purchase->subscription?->subscriptionPlan?->name ?? '-' }}
                                 </td>
                                 <td class="py-3 px-4 text-slate-500">
                                     @if ($purchase->payment_proof_path)

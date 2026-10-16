@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 use SweetAlert2\Laravel\Swal;
 
 class DangerZoneController extends Controller
@@ -14,7 +14,7 @@ class DangerZoneController extends Controller
     {
         $user = Auth::user();
         $profile = $user->vendorProfiles;
-        $subscription = $profile ? Subscription::where('vendor_profile_id', $profile->id)->latest()->first() : null;
+        $subscription = $profile?->latestSubscription();
 
         return view('vendor.dangerzone', compact('subscription'));
     }
@@ -23,7 +23,7 @@ class DangerZoneController extends Controller
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
         ]);
 
         $user = Auth::user();
@@ -36,28 +36,8 @@ class DangerZoneController extends Controller
 
         Swal::success([
             'title' => 'Password Berhasil Diubah',
-            'text' => 'Kata sandi baru akun Anda telah disimpan.',
+            'text' => 'Kata sandi baru akun Anda telah disimpan. Sesi di perangkat lain telah diakhiri.',
         ]);
-
-        return redirect()->route('vendor.dangerzone');
-    }
-
-    public function cancelSubscription(Request $request)
-    {
-        $user = Auth::user();
-        $profile = $user->vendorProfiles;
-        $subscription = $profile ? Subscription::where('vendor_profile_id', $profile->id)->latest()->first() : null;
-
-        if ($subscription && $subscription->status === 'active') {
-            $subscription->update([
-                'status' => 'canceled',
-            ]);
-
-            Swal::success([
-                'title' => 'Langganan Dibatalkan',
-                'text' => 'Perpanjangan otomatis toko Anda telah dinonaktifkan.',
-            ]);
-        }
 
         return redirect()->route('vendor.dangerzone');
     }

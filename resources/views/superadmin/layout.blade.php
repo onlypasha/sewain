@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Superadmin Master Console - Sewain Multi-Tenant OS</title>
-    <meta name="description"
-        content="Konsol kontrol utama Superadmin Platform Sewain. Kelola 1,400+ tenant, MRR billing, dan infrastruktur server.">
+    <title>Superadmin Master Console - Sewain</title>
+    <meta name="description" content="Konsol kontrol utama Superadmin platform Sewain untuk mengelola tenant, langganan, dan pembayaran.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

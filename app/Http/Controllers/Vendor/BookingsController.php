@@ -7,6 +7,10 @@ use App\Models\Booking;
 use App\Services\BookingStatusService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookingsController extends Controller
 {
@@ -31,7 +35,14 @@ class BookingsController extends Controller
 
         $bookings = $query->paginate(20);
 
-        return view('vendor.bookings', compact('bookings'));
+        $stats = [
+            'total' => Booking::where('vendor_id', Auth::id())->count(),
+            'pending' => Booking::where('vendor_id', Auth::id())->where('status', 'pending')->count(),
+            'active' => Booking::where('vendor_id', Auth::id())->where('status', 'active')->count(),
+            'completed' => Booking::where('vendor_id', Auth::id())->where('status', 'completed')->count(),
+        ];
+
+        return view('vendor.bookings', compact('bookings', 'stats'));
     }
 
     /**
@@ -43,7 +54,7 @@ class BookingsController extends Controller
 
         try {
             $this->statusService->transition($booking, 'confirmed', Auth::id());
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
 
@@ -59,7 +70,7 @@ class BookingsController extends Controller
 
         try {
             $this->statusService->transition($booking, 'cancelled', Auth::id());
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
 
@@ -75,7 +86,7 @@ class BookingsController extends Controller
 
         try {
             $this->statusService->transition($booking, 'cancelled', Auth::id());
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
 
@@ -91,7 +102,7 @@ class BookingsController extends Controller
 
         try {
             $this->statusService->transition($booking, 'completed', Auth::id());
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
 
@@ -105,23 +116,31 @@ class BookingsController extends Controller
     {
         $booking = $this->findOwnedBooking($id);
 
-        $payment = $booking->payments()->latest()->first();
-
-        if (! $payment || $payment->status !== 'pending') {
-            return back()->withErrors(['payment' => 'Tidak ada bukti pembayaran yang menunggu verifikasi.']);
-        }
-
         if ($booking->status !== 'confirmed') {
             return back()->withErrors(['status' => 'Booking belum dikonfirmasi.']);
         }
 
-        $payment->update([
-            'status' => 'verified',
-            'verified_by' => Auth::id(),
-            'verified_at' => now(),
-        ]);
+        $verified = DB::transaction(function () use ($booking) {
+            $payment = $booking->payments()->lockForUpdate()->latest()->first();
 
-        $this->statusService->transition($booking, 'active', Auth::id());
+            if (! $payment || $payment->status !== 'pending') {
+                return false;
+            }
+
+            $payment->update([
+                'status' => 'verified',
+                'verified_by' => Auth::id(),
+                'verified_at' => now(),
+            ]);
+
+            $this->statusService->transition($booking, 'active', Auth::id());
+
+            return true;
+        });
+
+        if (! $verified) {
+            return back()->withErrors(['payment' => 'Tidak ada bukti pembayaran yang menunggu verifikasi.']);
+        }
 
         return back()->with('success', 'Pembayaran diverifikasi. Booking '.$booking->booking_code.' sekarang aktif.');
     }
@@ -151,7 +170,7 @@ class BookingsController extends Controller
     /**
      * Serve bukti bayar untuk vendor pemilik booking.
      */
-    public function showPaymentProof(int $id): \Symfony\Component\HttpFoundation\Response
+    public function showPaymentProof(int $id): Response
     {
         $booking = $this->findOwnedBooking($id);
 
@@ -159,7 +178,7 @@ class BookingsController extends Controller
 
         abort_unless($payment && $payment->payment_proof_path, 404, 'Bukti pembayaran tidak ditemukan.');
 
-        $disk = \Illuminate\Support\Facades\Storage::disk('proofs');
+        $disk = Storage::disk('proofs');
         abort_unless($disk->exists($payment->payment_proof_path), 404, 'Bukti pembayaran tidak ditemukan.');
 
         return response($disk->get($payment->payment_proof_path), 200, [

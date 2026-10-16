@@ -24,11 +24,13 @@ class AuthController extends Controller
             }
 
             if ($user->role === 'vendor') {
-                if ($user->must_change_password) {
-                    return redirect()->route('vendor.force-password');
-                }
-
+                // Status diperiksa lebih dulu: vendor nonaktif tidak boleh
+                // masuk walau sudah pernah mengganti password.
                 if ($user->vendorProfiles?->status === 'active') {
+                    if ($user->must_change_password) {
+                        return redirect()->route('vendor.force-password');
+                    }
+
                     return redirect()->route('vendor.dashboard');
                 }
 
@@ -38,6 +40,13 @@ class AuthController extends Controller
 
                 return redirect()->back()->withErrors(['email' => 'Akun vendor Anda belum diaktivasi oleh admin.']);
             }
+
+            // Role yang belum dirilis (mis. customer) tidak diberi sesi.
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->back()->withErrors(['email' => 'Akun ini belum dapat digunakan untuk masuk.']);
         }
 
         return redirect()->back()->withErrors(['email' => 'Email atau password salah.']);

@@ -88,7 +88,14 @@
 
                 {{-- CTA --}}
                 <div class="mt-6">
-                    @if ($item->status === 'available')
+                    @if (! config('sewain.modules.customer'))
+                        <button type="button" disabled
+                            class="w-full inline-flex items-center justify-center bg-ink/20 text-ink-soft font-semibold px-6 py-3 rounded-xl cursor-not-allowed">
+                            Booking online belum dibuka
+                        </button>
+                        <p class="text-xs text-ink-soft text-center mt-2">Untuk sementara, hubungi toko langsung untuk
+                            menyewa.</p>
+                    @elseif ($item->status === 'available')
                         @auth
                             @if (auth()->user()->role === 'customer')
                                 <a href="{{ route('customer.bookings.create', $item->id) }}"
@@ -108,7 +115,6 @@
                                 class="w-full inline-flex items-center justify-center bg-stempel text-paper font-semibold px-6 py-3 rounded-xl hover:bg-stempel-deep transition-all active:scale-[0.99]">
                                 Masuk untuk menyewa
                             </a>
-                            <p class="text-xs text-ink-soft text-center mt-2">Belum punya akun? Daftar dulu untuk mulai menyewa.</p>
                         @endauth
                     @else
                         <button type="button" disabled

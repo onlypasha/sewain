@@ -21,7 +21,7 @@
                 <div>
                     <span class="text-[10px] text-slate-400 font-mono uppercase tracking-wider block mb-1">Total Aset</span>
                     <span
-                        class="text-3xl font-extrabold text-slate-900 font-heading leading-none">{{ count($items) }}</span>
+                        class="text-3xl font-extrabold text-slate-900 font-heading leading-none">{{ $stats['total'] }}</span>
                     <span class="text-xs text-slate-500 block mt-1">Barang terdaftar</span>
                 </div>
                 <div
@@ -57,7 +57,7 @@
                     <span class="text-[10px] text-emerald-600 font-mono font-bold uppercase tracking-wider block mb-1">Siap
                         Disewa</span>
                     <span class="text-3xl font-extrabold text-emerald-600 font-heading leading-none">
-                        {{ $items->where('status', 'available')->count() }}
+                        {{ $stats['available'] }}
                     </span>
                     <span class="text-xs text-slate-500 block mt-1">Unit ready</span>
                 </div>
@@ -76,7 +76,7 @@
                     <span class="text-[10px] text-amber-600 font-mono font-bold uppercase tracking-wider block mb-1">Disewa
                         / Maintenance</span>
                     <span class="text-3xl font-extrabold text-amber-600 font-heading leading-none">
-                        {{ $items->whereIn('status', ['rented', 'maintenance'])->count() }}
+                        {{ $stats['unavailable'] }}
                     </span>
                     <span class="text-xs text-slate-500 block mt-1">Sedang tidak aktif</span>
                 </div>
@@ -170,6 +170,10 @@
                                         <x-util.badge variant="warning" size="sm" class="font-mono">
                                             Disewa
                                         </x-util.badge>
+                                    @elseif ($item->status === 'archived')
+                                        <x-util.badge variant="neutral" size="sm" class="font-mono">
+                                            Diarsipkan
+                                        </x-util.badge>
                                     @else
                                         <x-util.badge variant="error" size="sm" class="font-mono">
                                             Maintenance
@@ -185,14 +189,19 @@
                                 {{-- Aksi --}}
                                 <td class="py-4 px-6 text-center">
                                     <div class="flex items-center justify-center gap-2">
-                                        <x-util.button variant="warning" size="xs"
-                                            onclick="edit_item_modal_{{ $item->id }}.showModal()">
-                                            Edit
-                                        </x-util.button>
-                                        <x-util.button variant="error" size="xs"
-                                            onclick="delete_item_modal_{{ $item->id }}.showModal()">
-                                            Hapus
-                                        </x-util.button>
+                                        @if ($item->status === 'archived')
+                                            <span class="text-[11px] text-slate-400 font-mono italic">Riwayat
+                                                transaksi tersimpan</span>
+                                        @else
+                                            <x-util.button variant="warning" size="xs"
+                                                onclick="edit_item_modal_{{ $item->id }}.showModal()">
+                                                Edit
+                                            </x-util.button>
+                                            <x-util.button variant="error" size="xs"
+                                                onclick="delete_item_modal_{{ $item->id }}.showModal()">
+                                                Hapus
+                                            </x-util.button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

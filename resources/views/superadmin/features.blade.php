@@ -158,7 +158,7 @@
             featureIndex++;
             renumberRows();
 
-            row.querySelector('input[name$="[name]"]').focus();
+            row.querySelector('input[name$="[text]"]').focus();
         }
 
         function removeFeatureRow(button) {

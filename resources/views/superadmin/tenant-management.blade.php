@@ -7,8 +7,8 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-900 font-heading">Direktori & Manajemen Seluruh Tenant</h1>
-                <p class="text-slate-500 text-xs mt-0.5">Kelola akses 1,428+ toko sewa terdaftar, alokasi subdomain, dan
-                    lisensi langganan.</p>
+                <p class="text-slate-500 text-xs mt-0.5">Kelola akses {{ $vendors->count() }} toko sewa terdaftar,
+                    alokasi subdomain, dan lisensi langganan.</p>
             </div>
 
             <button onclick="openCreateTenantModal()"
@@ -77,6 +77,23 @@
             </div>
         @endif
 
+        @if (Session::has('vendor_credentials'))
+            @php $vc = Session::get('vendor_credentials'); @endphp
+            <div role="alert" class="alert border border-emerald-300 bg-emerald-50 text-emerald-800 flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                    <svg class="w-6 h-6 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <div>
+                        <div class="font-bold text-sm">Vendor {{ $vc['name'] }} berhasil dibuat.</div>
+                        <div class="text-xs mt-1">Kredensial awal (tampil sekali, salin segera): <code id="vendor-cred-value" class="font-mono font-bold bg-white border border-emerald-300 rounded px-2 py-1 text-slate-900">{{ $vc['email'] }} / {{ $vc['password'] }}</code></div>
+                        <div class="text-[11px] text-emerald-700 mt-1">Vendor wajib mengganti password saat login pertama. Aktifkan status tenant setelah kredensial diserahkan.</div>
+                    </div>
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('vendor-cred-value').textContent); this.textContent='Tersalin'; setTimeout(()=>this.textContent='Salin',1500);" class="btn btn-sm bg-emerald-600 text-white border-none hover:bg-emerald-700 shrink-0">Salin</button>
+            </div>
+        @endif
+
         <!-- TENANTS MASTER TABLE -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
             <div class="overflow-x-auto">
@@ -132,7 +149,7 @@
                                 <td>
                                     {{ $vendor->vendorProfiles?->subscriptions->first()?->subscriptionPlan?->name ?? 'Tidak berlangganan' }}
                                 </td>
-                                <td class="text-center font-mono font-bold">{{ $vendor->vendorProfiles->assets }}</td>
+                                <td class="text-center font-mono font-bold">{{ $vendor->items_count }}</td>
                                 <td class="text-center">
                                     @if ($vendor->vendorProfiles->status == 'active')
                                         <span

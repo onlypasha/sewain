@@ -15,13 +15,15 @@ class VendorDashboardController extends Controller
         $hasAssetAccess = $isSubActive && $user->hasFeatureAccess('asset_management');
         $hasCategoryAccess = $isSubActive && $user->hasFeatureAccess('category_management');
         $hasBookingAccess = $isSubActive && $user->hasFeatureAccess('booking_system');
-        $hasVerifikasiAccess = $isSubActive && $user->hasFeatureAccess('verifikasi_ktp');
+        $hasVerifikasiAccess = config('sewain.modules.ktp_verification')
+            && $isSubActive
+            && $user->hasFeatureAccess('verifikasi_ktp');
 
         $stats = [
-            'totalItems' => $hasAssetAccess ? $user->items()->count() : 0,
+            'totalItems' => $hasAssetAccess ? $user->items()->where('status', '!=', 'archived')->count() : 0,
             'totalCategories' => $hasCategoryAccess ? $user->itemsCategories()->count() : 0,
-            'totalBookings' => $hasBookingAccess ? 0 : 0, // Dummy data
-            'pendingVerifications' => $hasVerifikasiAccess ? 0 : 0, // Dummy data
+            'totalBookings' => $hasBookingAccess ? $user->bookings()->count() : 0,
+            'pendingVerifications' => 0,
         ];
 
         return view('vendor.dashboard', compact(

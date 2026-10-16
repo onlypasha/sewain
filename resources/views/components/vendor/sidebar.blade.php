@@ -16,7 +16,9 @@
         ? 'Langganan Anda tidak aktif. Menu ini terkunci.'
         : 'Paket langganan Anda tidak mencakup fitur Transaksi & Booking.';
 
-    $hasVerifikasiAccess = $isSubActive && Auth::user()?->hasFeatureAccess('verifikasi_ktp');
+    $hasVerifikasiAccess = config('sewain.modules.ktp_verification')
+        && $isSubActive
+        && Auth::user()?->hasFeatureAccess('verifikasi_ktp');
     $verifikasiErrorMsg = !$isSubActive
         ? 'Langganan Anda tidak aktif. Menu ini terkunci.'
         : 'Paket langganan Anda tidak mencakup fitur Verifikasi KTP.';

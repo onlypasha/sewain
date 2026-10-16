@@ -25,4 +25,13 @@ class VendorProfiles extends Model
     {
         return $this->hasMany(Subscription::class, 'vendor_profile_id');
     }
+
+    /**
+     * Langganan terakhir milik profil ini, apa pun statusnya. Dipakai untuk
+     * tampilan dan riwayat, bukan untuk menentukan hak akses.
+     */
+    public function latestSubscription(): ?Subscription
+    {
+        return $this->subscriptions()->latest('id')->first();
+    }
 }

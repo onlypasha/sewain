@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 | Login -> dapat token -> kirim "Authorization: Bearer <token>".
 */
 
+if (! config('sewain.modules.api')) {
+    // API Android belum dirilis. Route tidak didaftarkan sama sekali supaya
+    // tidak bisa dipanggil walaupun URL-nya diketahui.
+    return;
+}
+
 Route::prefix('v1')->group(function () {
 
     // --- Publik (tanpa login) ---

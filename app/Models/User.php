@@ -62,16 +62,31 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'customer_id');
     }
 
-    public function isSubscriptionActive(): bool
+    /**
+     * Langganan yang benar-benar berlaku saat ini: status aktif dan masa
+     * aktifnya belum berakhir. Menjadi sumber tunggal untuk pemeriksaan hak
+     * akses vendor.
+     */
+    public function activeSubscription(): ?Subscription
     {
         $profile = $this->vendorProfiles;
+
         if (! $profile) {
-            return false;
+            return null;
         }
 
-        $subscription = $profile->subscriptions()->latest()->first();
+        return $profile->subscriptions()
+            ->where('status', 'active')
+            ->where(function ($query) {
+                $query->whereNull('end_date')->orWhereDate('end_date', '>=', today());
+            })
+            ->latest('id')
+            ->first();
+    }
 
-        return $subscription && $subscription->status === 'active';
+    public function isSubscriptionActive(): bool
+    {
+        return $this->activeSubscription() !== null;
     }
 
     public function hasFeatureAccess(string $featureKey): bool
@@ -80,13 +95,9 @@ class User extends Authenticatable
             return true; // Superadmins might not need this check, but just in case
         }
 
-        $profile = $this->vendorProfiles;
-        if (! $profile) {
-            return false;
-        }
+        $subscription = $this->activeSubscription();
 
-        $subscription = $profile->subscriptions()->latest()->first();
-        if (! $subscription || $subscription->status !== 'active') {
+        if (! $subscription) {
             return false;
         }
 
