@@ -95,10 +95,10 @@
                                         {{ $vendor->vendorProfiles?->subscriptions->first()?->subscriptionPlan?->name ?? 'tidak berlangganan' }}</span>
                                 </div>
                                 <div class="text-xs text-slate-500 mt-0.5">Subdomain: <code
-                                        class="text-emerald-700 font-mono font-bold">{{ $vendor->slug }}.sewain.id</code>
+                                        class="text-emerald-700 font-mono font-bold">{{ $vendor->slug ? $vendor->slug.'.sewain.id' : 'Belum ada subdomain' }}</code>
                                     •
                                     Pemilik:
-                                    <strong>{{ $vendor->vendorProfiles->owner_name }}</strong>
+                                    <strong>{{ $vendor->vendorProfiles?->owner_name ?: 'Belum diisi' }}</strong>
                                 </div>
                             </div>
                         </div>

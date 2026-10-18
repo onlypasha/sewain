@@ -7,6 +7,9 @@
     <title>@yield('title', 'Sewain')</title>
     <meta name="description" content="@yield('description', 'Sewa barang dari vendor terpercaya di Sewain.')">
 
+    <link rel="icon" type="image/png" href="{{ asset('image/sewain_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('image/sewain_logo.png') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -22,8 +25,8 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <a href="{{ route('landing') }}" class="flex items-center gap-2.5">
-                    <img src="{{ asset('image/sewain_logo.jpg') }}" alt="Sewain"
-                        class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-300 to-brand-500 shadow-lg shadow-brand-500/20">
+                    <img src="{{ asset('image/sewain_logo.png') }}" alt="Sewain"
+                        class="w-10 h-10 rounded-lg object-contain">
                     <span class="font-display font-bold text-xl tracking-tight leading-none">Sewain</span>
                 </a>
                 <div class="flex items-center gap-3">

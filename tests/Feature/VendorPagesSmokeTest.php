@@ -31,8 +31,50 @@ test('halaman superadmin merender tanpa error', function () {
         'superadmin.subscription-plan',
         'superadmin.features.index',
     ] as $routeName) {
-        $this->get(route($routeName))->assertOk();
+        $this->get(route($routeName))
+            ->assertOk()
+            ->assertSee('image/sewain_logo.png', false);
     }
+});
+
+test('halaman superadmin tetap merender walau ada vendor tanpa profil', function () {
+    $admin = User::factory()->create(['role' => 'superadmin']);
+    // Vendor lama yang belum punya baris vendor_profiles.
+    User::factory()->create(['role' => 'vendor', 'slug' => 'toko-tanpa-profil']);
+
+    $this->actingAs($admin);
+
+    $this->get(route('superadmin.dashboard'))
+        ->assertOk()
+        ->assertSee('Belum diisi');
+
+    $this->get(route('superadmin-vendor-management.index'))
+        ->assertOk()
+        ->assertSee('Belum ada profil');
+});
+
+test('menyimpan vendor tanpa profil akan membuatkan profilnya', function () {
+    $admin = User::factory()->create(['role' => 'superadmin']);
+    $vendor = User::factory()->create([
+        'role' => 'vendor', 'slug' => 'toko-tanpa-profil',
+    ]);
+
+    $this->actingAs($admin);
+
+    $this->put(route('superadmin-vendor-management.update', $vendor->id), [
+        'name' => $vendor->name,
+        'email' => $vendor->email,
+        'slug' => $vendor->slug,
+        'phone' => '0812345',
+        'owner_name' => 'Pemilik Baru',
+        'status' => 'active',
+    ])->assertRedirect(route('superadmin-vendor-management.index'));
+
+    $profile = $vendor->fresh()->vendorProfiles;
+
+    expect($profile)->not->toBeNull()
+        ->and($profile->owner_name)->toBe('Pemilik Baru')
+        ->and($profile->status)->toBe('active');
 });
 
 test('halaman vendor merender tanpa error', function () {

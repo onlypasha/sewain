@@ -1,6 +1,11 @@
 <!-- RIGHT PANEL: LOGIN FORM (7 COLS) -->
 <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between bg-white">
     <div>
+        <a href="{{ route('landing') }}" class="inline-flex items-center gap-2.5 mb-8">
+            <img src="{{ asset('image/sewain_logo.png') }}" alt="Logo Sewain" class="w-9 h-9 rounded-md object-contain">
+            <span class="font-extrabold text-lg tracking-tight text-slate-900 font-heading">Sewain</span>
+        </a>
+
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <div role="alert" class="alert alert-error">

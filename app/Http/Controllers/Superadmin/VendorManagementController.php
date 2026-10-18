@@ -86,6 +86,16 @@ class VendorManagementController extends Controller
                 'owner_name' => $validated['owner_name'] ?? '',
                 'status' => $validated['status'],
             ]);
+        } else {
+            // Vendor lama bisa saja belum punya profil (mis. dibuat sebelum
+            // alur ini ada), jadi profilnya dibuatkan saat disimpan supaya
+            // perubahan status dari form edit tidak hilang tanpa jejak.
+            VendorProfiles::create([
+                'user_id' => $user->id,
+                'owner_name' => $validated['owner_name'] ?? '',
+                'status' => $validated['status'],
+                'address' => '',
+            ]);
         }
 
         return redirect()->route('superadmin-vendor-management.index')->with('Warning', 'Tenant berhasil diperbarui');

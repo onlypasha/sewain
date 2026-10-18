@@ -2,8 +2,8 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <a href="#" class="flex items-center gap-2.5 group" aria-label="Beranda Sewain">
-                <img src="{{ asset('image/sewain_logo.jpg') }}" alt="" srcset=""
-                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-300 to-brand-500 shadow-lg shadow-brand-500/20 flex items-center justify-center">
+                <img src="{{ asset('image/sewain_logo.png') }}" alt="Logo Sewain"
+                    class="w-10 h-10 rounded-lg object-contain">
                 <span class="font-display font-bold text-xl tracking-tight leading-none">Sewain</span>
             </a>
 

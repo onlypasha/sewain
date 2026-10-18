@@ -8,6 +8,9 @@
     <title>Superadmin Master Console - Sewain</title>
     <meta name="description" content="Konsol kontrol utama Superadmin platform Sewain untuk mengelola tenant, langganan, dan pembayaran.">
 
+    <link rel="icon" type="image/png" href="{{ asset('image/sewain_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('image/sewain_logo.png') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

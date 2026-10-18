@@ -9,6 +9,9 @@
     <meta name="description"
         content="Dashboard Operator Vendor Sewain untuk manajemen stok rental, kalender booking, dan verifikasi e-KTP penyewa.">
 
+    <link rel="icon" type="image/png" href="{{ asset('image/sewain_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('image/sewain_logo.png') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

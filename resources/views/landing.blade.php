@@ -8,6 +8,9 @@
     <title>Sewain | Toko sewa online dengan kalender stok anti-bentrok</title>
     <meta name="description"
         content="Sewain memberi toko rental Anda halaman sendiri (namatoko.sewain.id), kalender stok yang mengunci tanggal terpakai, verifikasi e-KTP, dan kontrak digital.">
+
+    <link rel="icon" type="image/png" href="{{ asset('image/sewain_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('image/sewain_logo.png') }}">
     <script>
         document.documentElement.classList.add('js')
     </script>

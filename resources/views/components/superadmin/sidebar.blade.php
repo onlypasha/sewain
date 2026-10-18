@@ -13,8 +13,8 @@
         <div class="p-6 border-b border-brand-500/20 space-y-4">
             <a href="{{ route('superadmin.dashboard') }}"
                 class="flex items-center gap-3 active:scale-95 transition-transform">
-                <img src="{{ asset('image/sewain_logo.jpg') }}" alt="" srcset=""
-                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-300 to-brand-500 shadow-lg shadow-brand-500/20 flex items-center justify-center">
+                <img src="{{ asset('image/sewain_logo.png') }}" alt="Sewain"
+                    class="w-10 h-10 rounded-lg object-contain">
                 <div>
                     <span
                         class="font-extrabold text-xl tracking-tight text-white font-heading block leading-none">Sewain</span>
@@ -106,8 +106,8 @@
     <div class="p-4 border-t border-brand-500/20 bg-brand-900">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <img src="{{ asset('image/sewain_logo.jpg') }}" alt="" srcset=""
-                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-300 to-brand-500 shadow-lg shadow-brand-500/20 flex items-center justify-center">
+                <img src="{{ asset('image/sewain_logo.png') }}" alt="Sewain"
+                    class="w-10 h-10 rounded-lg object-contain">
                 <div>
                     <div class="text-xs font-bold text-white leading-tight">{{ Auth::user()->name }}</div>
                     <div class="text-[10px] text-brand-300 font-mono">{{ Auth::user()->role }}</div>

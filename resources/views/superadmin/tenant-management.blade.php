@@ -140,23 +140,28 @@
                                 <td>
                                     <div class="font-bold text-slate-900 text-sm">{{ $vendor->name }}</div>
                                     <div class="text-[11px] text-slate-500">
-                                        {{ $vendor->vendorProfiles->owner_name == '' ? 'Tidak ada nama' : $vendor->vendorProfiles->owner_name }}
+                                        {{ $vendor->vendorProfiles?->owner_name ?: 'Belum ada nama' }}
                                         •
                                         <code class="text-slate-700">{{ $vendor->email }}</code>
                                     </div>
                                 </td>
-                                <td class="font-mono text-emerald-700 font-bold">{{ $vendor->slug }}.sewain.id</td>
+                                <td class="font-mono text-emerald-700 font-bold">
+                                    {{ $vendor->slug ? $vendor->slug.'.sewain.id' : 'Belum ada subdomain' }}
+                                </td>
                                 <td>
                                     {{ $vendor->vendorProfiles?->subscriptions->first()?->subscriptionPlan?->name ?? 'Tidak berlangganan' }}
                                 </td>
                                 <td class="text-center font-mono font-bold">{{ $vendor->items_count }}</td>
                                 <td class="text-center">
-                                    @if ($vendor->vendorProfiles->status == 'active')
+                                    @if ($vendor->vendorProfiles?->status === 'active')
                                         <span
                                             class="badge badge-sm badge-emerald text-emerald-800 bg-emerald-100 font-bold">Active</span>
-                                    @else
+                                    @elseif ($vendor->vendorProfiles?->status === 'inactive')
                                         <span
                                             class="badge badge-sm badge-red text-red-800 bg-red-100 font-bold">InActive</span>
+                                    @else
+                                        <span
+                                            class="badge badge-sm badge-ghost text-slate-600 bg-slate-100 font-bold">Belum ada profil</span>
                                     @endif
 
                                 </td>
@@ -242,10 +247,11 @@
                             class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Status Akun</label>
                         <select id="status_{{ $vendor->id }}" name="status" required
                             class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-600 font-bold text-sm">
-                            <option value="active" {{ $vendor->vendorProfiles->status === 'active' ? 'selected' : '' }}>
+                            <option value="active"
+                                {{ $vendor->vendorProfiles?->status === 'active' ? 'selected' : '' }}>
                                 Active</option>
                             <option value="inactive"
-                                {{ $vendor->vendorProfiles->status === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                {{ $vendor->vendorProfiles?->status === 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
 

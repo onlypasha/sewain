@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
             <div>
                 <div class="flex items-center gap-2.5">
-                    <span class="w-8 h-8 rounded bg-stempel text-paper flex items-center justify-center font-data font-semibold text-sm">S</span>
+                    <img src="{{ asset('image/sewain_logo.png') }}" alt="Logo Sewain" class="w-8 h-8 rounded-md object-contain">
                     <span class="font-display font-bold text-xl tracking-tight">Sewain</span>
                 </div>
                 <p class="text-ink-soft text-sm leading-relaxed mt-4 max-w-xs">
